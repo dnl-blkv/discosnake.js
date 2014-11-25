@@ -1,0 +1,11 @@
+html, body {
+	margin: 0;
+	padding: 0;
+}
+
+#gameGraphics {
+	position: absolute;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
