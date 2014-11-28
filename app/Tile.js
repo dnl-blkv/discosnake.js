@@ -1,75 +1,62 @@
 define([
-	], 
-function() {
-	function Tile (position, size, graphics) {
-		// Set properties from arguments
-		this.position = position;
-		this.size = size;
-		this.graphics = graphics;
-	}
+		'./Tile'
+	],
+	function (
+		Tile
+		) {
 
-	// Position accessors
-	Tile.prototype.setPosition = function (position) {
-		this.position = position;
-	}
+		function Tile(size, cellX, cellY, fillStyle, lineStyle) {
+			// Modify the input parameters
+			this.size = size;
+			this.cellX = cellX;
+			this.cellY = cellY;
+			this.fillStyle = fillStyle;
+			this.lineStyle = lineStyle;
+		}
 
-	Tile.prototype.getPosition = function () {
-		return this.position;
-	}
+		Tile.prototype.getSize = function () {
+			return this.size;
+		}
 
-	// X coordinate accessors
-	Tile.prototype.setX = function (x) {
-		this.position.width = x;
-	}
+		Tile.prototype.getX = function () {
+			return this.cellX * this.size;
+		}
 
-	Tile.prototype.getX = function () {
-		return this.position.width;
-	}
+		Tile.prototype.getY = function () {
+			return this.cellY * this.size;
+		}
 
-	// Y coordinate accessors
-	Tile.prototype.setY = function (y) {
-		this.position.height = y;
-	}
+		Tile.prototype.getCellX = function () {
+			return this.cellX;
+		}
 
-	Tile.prototype.getY = function () {
-		return this.position.height;
-	}
+		Tile.prototype.setCellX = function (cellX) {
+			this.cellX = cellX;
+		}
 
-	// Size acccessors
-	Tile.prototype.setSize = function (size) {
-		this.size = size;
-	}
+		Tile.prototype.getCellY = function () {
+			return this.cellY;
+		}
 
-	Tile.prototype.getSize = function () {
-		return this.size;
-	}
+		Tile.prototype.setCellY = function (cellY) {
+			this.cellY = cellY;
+		}
 
-	// Height accessors
-	Tile.prototype.setHeight = function (height) {
-		this.size.height = height;
-	}
+		Tile.prototype.setFillStyle = function (fillStyle) {
+			this.fillStyle = fillStyle;
+		}
 
-	Tile.prototype.getHeight = function () {
-		return this.size.height;
-	}
+		Tile.prototype.getFillStyle = function () {
+			return this.fillStyle;
+		}
 
-	// Width accessors
-	Tile.prototype.setWidth = function (width) {
-		this.size.width = width;
-	}
+		Tile.prototype.setLineStyle = function (lineStyle) {
+			this.lineStyle = lineStyle;
+		}
 
-	Tile.prototype.getWidth = function () {
-		return this.size.width;
-	}
+		Tile.prototype.getLineStyle = function () {
+			return this.lineStyle;
+		}
 
-	// Graphics accessors
-	Tile.prototype.setGraphiccs = function (graphics) {
-		this.graphics = graphics;
-	}
-
-	Tile.prototype.getGraphiccs = function () {
-		return this.graphics;
-	}
-
-	return Tile;
-});
+		return Tile;
+	});

@@ -1,16 +1,16 @@
 define([
 	],
-	function() {
-		function GameGraphics () {
+	function () {
+		function GameGraphics(width, height) {
 			this.canvas = document.createElement('canvas');
 
 			// Set default width
 			this.width;
-			this.setWidth(800);
+			this.setWidth(width);
 
 			// Set default height
 			this.height;
-			this.setHeight(600);
+			this.setHeight(height);
 
 			// Set up the default properties
 			this.canvas.id = "gameGraphics";
@@ -30,17 +30,18 @@ define([
 			body.appendChild(this.canvas);
 		}
 
-		GameGraphics.prototype.reset = function() {
+		GameGraphics.prototype.reset = function () {
+			var context = this.getContext();
 			// Clear the canvas content
-				// Store the current transformation matrix
-			this.getContext().save();
+			// Store the current transformation matrix
+			context.save();
 
 			// Use the identity matrix while clearing the canvas
-			this.getContext().setTransform(1, 0, 0, 1, 0, 0);
-			this.getContext().clearRect(0, 0, this.canvas.width, this.canvas.height);
+			context.setTransform(1, 0, 0, 1, 0, 0);
+			context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
 			// Restore the transform
-			this.getContext().restore();
+			context.restore();
 		}
 
 		GameGraphics.prototype.setWidth = function (width) {
@@ -69,26 +70,25 @@ define([
 			return context;
 		}
 
-		GameGraphics.prototype.drawRect = function (x, y, width, height, tileGraphics) {
+		GameGraphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
 
 			var context = this.getContext();
 
-			context.fillStyle = tileGraphics.fillStyle;
-
-			context.strokeStyle = tileGraphics.lineStyle;
+			context.beginPath();
 
 			context.rect(x, y, width, height);
+
+			context.fillStyle = fillStyle;
+
+			context.fill();
+
+			context.strokeStyle = lineStyle;
+
+			context.stroke();
 		}
 
 		GameGraphics.prototype.drawTile = function (tile) {
-			this.drawRect(tile.getX(), tile.getY(), tile.getWidth(), tile.getHeight(), tile.getGraphiccs());
-		}
-
-		GameGraphics.prototype.update = function () {
-			var context = this.getContext();
-
-			context.fill();
-			context.stroke();
+			this.drawRect(tile.getX(), tile.getY(), tile.getSize(), tile.getSize(), tile.getFillStyle(), tile.getLineStyle());
 		}
 
 		return GameGraphics;
