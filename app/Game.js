@@ -1,11 +1,15 @@
 define([
+		'./Direction',
 		'./GameGraphics',
+		'./KeyCode',
 		'./Manipulator',
 		'./SnakePart',
 		'./timeUtils'
 	],
 	function (
+		Direction,
 		GameGraphics,
+		KeyCode,
 		Manipulator,
 		SnakePart,
 		timeUtils
@@ -13,6 +17,8 @@ define([
 
 		// Get the required method
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;
+		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
+
 		var timeNow = timeUtils.timeNow;
 
 		function Game(cellSize, cellsWidth, cellsHeight) {
@@ -21,23 +27,19 @@ define([
 			this.cellSize = cellSize;
 			this.cellsWidth = cellsWidth;
 			this.cellsHeight = cellsHeight;
-			this.timeThen = timeNow();
+			this.stopped = true;
+			this.lastRequestId = 0;
 
 			// Initialize the graphics
 			var width = cellsWidth * cellSize;
 			var height = cellsHeight * cellSize;
 			this.graphics = new GameGraphics(width, height);
 
-			this.DIRECTIONS = {
-				LEFT: 0,
-				UP: 1,
-				RIGHT: 2,
-				DOWN: 3
-			}
-
-			this.currentDirection = this.DIRECTIONS.LEFT;
+			this.currentDirection = Direction.LEFT;
 
 			this.manipulator = new Manipulator();
+
+			this.manipulator.setKeyDownListener(applyControl, this);
 
 			// Initialize the snake
 			this.snake = [];
@@ -70,8 +72,6 @@ define([
 				currentPart.setCellX(nextPart.getCellX());
 				currentPart.setCellY(nextPart.getCellY());
 			}
-
-			applyControl(game);
 			
 			moveHead(game);
 		}
@@ -81,43 +81,58 @@ define([
 			var head = getSnakeHead(game);
 
 			switch (game.currentDirection) {
-				case game.DIRECTIONS.LEFT:
+				case Direction.LEFT:
 					head.decrementCellX(game.cellsWidth);
 					break;
-				case game.DIRECTIONS.UP:
+				case Direction.UP:
 					head.decrementCellY(game.cellsHeight);
 					break;
-				case game.DIRECTIONS.RIGHT:
+				case Direction.RIGHT:
 					head.incrementCellX(game.cellsWidth);
 					break;
-				case game.DIRECTIONS.DOWN:
+				case Direction.DOWN:
 					head.incrementCellY(game.cellsHeight);
 					break;
 				default: break;
 			}
 		}
 
-		function applyControl (game) {
-			var lastKeyPressed = game.manipulator.getLastKeyPressed();
+		function applyControl (game, event) {
 
-			var KEY_CODE = game.manipulator.KEY_CODE;
+			var keyPressed = event.keyCode;
 
-			switch (lastKeyPressed) {
-				case KEY_CODE.LEFT:
-					game.currentDirection = game.DIRECTIONS.LEFT;
-					break;
-				case KEY_CODE.UP:
-					game.currentDirection = game.DIRECTIONS.UP;
-					break;
-				case KEY_CODE.RIGHT:
-					game.currentDirection = game.DIRECTIONS.RIGHT;
-					break;
-				case KEY_CODE.DOWN:
-					game.currentDirection = game.DIRECTIONS.DOWN;
+			// Non-pause keys
+			if(!game.isStopped()) {
+				switch (keyPressed) {
+					case KeyCode.LEFT:
+						game.currentDirection = Direction.LEFT;
+						break;
+					case KeyCode.UP:
+						game.currentDirection = Direction.UP;
+						break;
+					case KeyCode.RIGHT:
+						game.currentDirection = Direction.RIGHT;
+						break;
+					case KeyCode.DOWN:
+						game.currentDirection = Direction.DOWN;
+						break;
+					default:
+						break;
+				}
+			}
+
+			// Pause keys
+			switch (keyPressed) {
+				case KeyCode.SPACE:
+					if(game.isStopped()) {
+						game.start();
+					} else {
+						game.pause();
+					}
 					break;
 				default: break;
 			}
-			
+
 		}
 		
 		function render (game) {
@@ -130,15 +145,38 @@ define([
 
 		}
 
+		Game.prototype.pause = function () {
+			var requestId = this.lastRequestId;
+
+			if (requestId) {
+				cancelAnimationFrame(requestId);
+			}
+
+			this.stopped = true;
+		}
+
+		Game.prototype.isStopped = function () {
+			return this.stopped;
+		}
+
+		Game.prototype.start = function () {
+			this.stopped = false;
+			this.run();
+		}
+
+		// TODO: RUN THE FUCKING GAME
 		Game.prototype.run = function () {
+
 			var run = this.run.bind(this);
-			var delay = timeNow() - this.timeThen;
 			var game = this;
-			setTimeout(function() {
-				requestAnimationFrame(run);
-				update(game);
-				render(game);
-			}, 1000 / 20);
+
+			if (!game.isStopped()) {
+				setTimeout(function () {
+					game.lastRequestId = requestAnimationFrame(run);
+					update(game);
+					render(game);
+				}, 1000 / 20);
+			}
 		}
 
 		Game.prototype.addSnakePart = function () {

@@ -7,36 +7,55 @@ define([
 		var timeNow = timeUtils.timeNow;
 
 		function Manipulator() {
-			this.keysPressed = {};
-			this.lastKeyPressed = 0;
-			this.KEY_CODE = {
-				LEFT: 37,
-				UP: 38,
-				RIGHT: 39,
-				DOWN: 40
-			}
 
-			var manipulator = this;
-			window.addEventListener('keyup', function(event) { manipulator.onKeyUp(event); }, false);
-			window.addEventListener('keydown', function(event) { manipulator.onKeyDown(event); }, false);
+			this.keyDownListener = null;
+			this.keyDownListenerArguments = null;
+			this.keyUpListener = null;
+			this.keyUpListenerArguments = null;
+			this.keysPressed = {};
 		}
 
 		Manipulator.prototype.isKeyDown = function (keyCode) {
 			return this.keysPressed[keyCode];
 		}
 
-		Manipulator.prototype.onKeyDown = function (event) {
-			this.keysPressed[event.keyCode] = timeNow();
-			this.lastKeyPressed = event.keyCode;
-			console.log(event.keyCode);
+		Manipulator.prototype.setKeyDownListener = function () {
+			var args = Array.prototype.slice.call(arguments);
+
+			this.keyDownListener = args[0];
+			this.keyDownListenerArguments = args.slice(1, args.length);
+
+			var manipulator = this;
+			window.addEventListener('keydown', function(event) { manipulator.onKeyDown(event); }, false);
+
 		}
 
-		Manipulator.prototype.getLastKeyPressed = function () {
-			return this.lastKeyPressed;
+		Manipulator.prototype.onKeyDown = function (event) {
+			this.keysPressed[event.keyCode] = timeNow();
+
+			var keyDownListenerArguments = Array.prototype.slice.call(this.keyDownListenerArguments);
+			keyDownListenerArguments.push(event);
+
+			this.keyDownListener.apply(null, keyDownListenerArguments);
+		}
+
+		Manipulator.prototype.setKeyUpListener = function () {
+			var args = Array.prototype.slice.call(arguments);
+
+			this.keyUpListener = args[0];
+			this.keyUpListenerArguments = args.slice(1, args.length);
+
+			var manipulator = this;
+			window.addEventListener('keyup', function(event) { manipulator.onKeyUp(event); }, false);
 		}
 
 		Manipulator.prototype.onKeyUp = function (event) {
 			delete this.keysPressed[event.keyCode];
+
+			var keyUpListenerArguments = Array.prototype.slice.call(this.keyUpListenerArguments);
+			keyUpListenerArguments.push(event);
+
+			this.keyUpListener.apply(keyUpListenerArguments);
 		}
 
 		return Manipulator;
