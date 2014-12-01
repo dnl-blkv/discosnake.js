@@ -1,4 +1,5 @@
 define([
+		'./CommandCode',
 		'./Direction',
 		'./GameGraphics',
 		'./KeyCode',
@@ -7,6 +8,7 @@ define([
 		'./timeUtils'
 	],
 	function (
+		CommandCode,
 		Direction,
 		GameGraphics,
 		KeyCode,
@@ -37,9 +39,18 @@ define([
 
 			this.currentDirection = Direction.LEFT;
 
+			// Create the control module
 			this.manipulator = new Manipulator();
 
-			this.manipulator.setKeyDownListener(applyControl, this);
+			// Set the command listener
+			this.manipulator.setCommandListener(executeCommand, this);
+
+			// Set up the controls
+			this.manipulator.bindKeyDown(KeyCode.LEFT, CommandCode.TURN_SNAKE_LEFT);
+			this.manipulator.bindKeyDown(KeyCode.UP, CommandCode.TURN_SNAKE_UP);
+			this.manipulator.bindKeyDown(KeyCode.RIGHT, CommandCode.TURN_SNAKE_RIGHT);
+			this.manipulator.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_DOWN);
+			this.manipulator.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
 
 			// Initialize the snake
 			this.snake = [];
@@ -97,33 +108,11 @@ define([
 			}
 		}
 
-		function applyControl (game, event) {
-
-			var keyPressed = event.keyCode;
-
-			// Non-pause keys
-			if(!game.isStopped()) {
-				switch (keyPressed) {
-					case KeyCode.LEFT:
-						game.currentDirection = Direction.LEFT;
-						break;
-					case KeyCode.UP:
-						game.currentDirection = Direction.UP;
-						break;
-					case KeyCode.RIGHT:
-						game.currentDirection = Direction.RIGHT;
-						break;
-					case KeyCode.DOWN:
-						game.currentDirection = Direction.DOWN;
-						break;
-					default:
-						break;
-				}
-			}
+		function executeCommand (game, commandCode) {
 
 			// Pause keys
-			switch (keyPressed) {
-				case KeyCode.SPACE:
+			switch (commandCode) {
+				case CommandCode.TOGGLE_PAUSE:
 					if(game.isStopped()) {
 						game.start();
 					} else {
@@ -133,6 +122,25 @@ define([
 				default: break;
 			}
 
+			// Non-pause keys
+			if(!game.isStopped()) {
+				switch (commandCode) {
+					case CommandCode.TURN_SNAKE_LEFT:
+						game.currentDirection = Direction.LEFT;
+						break;
+					case CommandCode.TURN_SNAKE_UP:
+						game.currentDirection = Direction.UP;
+						break;
+					case CommandCode.TURN_SNAKE_RIGHT:
+						game.currentDirection = Direction.RIGHT;
+						break;
+					case CommandCode.TURN_SNAKE_DOWN:
+						game.currentDirection = Direction.DOWN;
+						break;
+					default:
+						break;
+				}
+			}
 		}
 		
 		function render (game) {

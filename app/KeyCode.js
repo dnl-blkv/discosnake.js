@@ -1,6 +1,7 @@
 define([],
 	function () {
 		return {
+			NULL_KEY: 0,
 			LEFT: 37,
 			UP: 38,
 			RIGHT: 39,
