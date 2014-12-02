@@ -58,7 +58,13 @@ define([
 			this.addSnakePart();
 			this.addSnakePart();
 			this.addSnakePart();
-			this.addSnakePart();
+
+			// Initialize an apple
+
+		}
+
+		function dropApple (game) {
+
 		}
 
 		function getSnakePart (game, snakePartIndex) {
@@ -80,8 +86,8 @@ define([
 				var currentPart = getSnakePart(game, i);
 				var nextPart = getSnakePart(game, i - 1);
 
-				currentPart.setCellX(nextPart.getCellX());
-				currentPart.setCellY(nextPart.getCellY());
+				// Drug current snake part to the next one
+				currentPart.dragTo(nextPart);
 			}
 			
 			moveHead(game);
@@ -147,8 +153,7 @@ define([
 			game.graphics.reset();
 
 			for (var i = 0; i < game.snake.length; i ++) {
-				game.snake[i].fillRandomly();
-				game.graphics.drawTile(game.snake[i]);
+				game.snake[i].draw(game.graphics);
 			}
 
 		}

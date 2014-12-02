@@ -14,6 +14,17 @@ define([
 			this.lineStyle = lineStyle;
 		}
 
+		Tile.prototype.draw = function (gameGraphics) {
+
+			var xPosition = this.getX();
+			var yPosition = this.getY();
+			var size = this.getSize();
+			var fillStyle = this.getFillStyle();
+			var lineStyle = this.getLineStyle();
+
+			gameGraphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
+		}
+
 		Tile.prototype.getSize = function () {
 			return this.size;
 		}

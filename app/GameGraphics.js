@@ -87,9 +87,5 @@ define([
 			context.stroke();
 		}
 
-		GameGraphics.prototype.drawTile = function (tile) {
-			this.drawRect(tile.getX(), tile.getY(), tile.getSize(), tile.getSize(), tile.getFillStyle(), tile.getLineStyle());
-		}
-
 		return GameGraphics;
 	});

@@ -37,10 +37,17 @@ define([
 			this.cellY = (this.cellY - 1 + cellsHeight) % cellsHeight;
 		}
 
-		SnakePart.prototype.fillRandomly = function () {
+		SnakePart.prototype.dragTo = function (otherSnakePart) {
+			this.setCellX(otherSnakePart.getCellX());
+			this.setCellY(otherSnakePart.getCellY());
+		}
+
+		SnakePart.prototype.draw = function (gameGraphics) {
 			// Convert the basic properties
 			var randomColor = getRandomColor();
 			this.setFillStyle(randomColor);
+
+			Tile.prototype.draw.call(this, gameGraphics);
 		}
 
 		return SnakePart;
