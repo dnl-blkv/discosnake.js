@@ -91,7 +91,7 @@ define([
 				var nextPart = getSnakePart(game, i - 1);
 
 				// Drug current snake part to the next one
-				currentPart.dragTo(nextPart);
+				currentPart.dragTo(game, nextPart);
 			}
 			
 			moveHead(game);

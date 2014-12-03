@@ -22,32 +22,24 @@ define([
 		SnakePart.prototype.constructor = SnakePart;
 
 		SnakePart.prototype.incrementCellX = function (game) {
-			var cellsWidth = game.getCellsWidth();
-
-			this.cellX = (this.cellX + 1 + cellsWidth) % cellsWidth;
+			this.setCellX(game, this.cellX + 1);
 		}
 
 		SnakePart.prototype.decrementCellX = function (game) {
-			var cellsWidth = game.getCellsWidth();
-
-			this.cellX = (this.cellX - 1 + cellsWidth) % cellsWidth;
+			this.setCellX(game, this.cellX - 1);
 		}
 
 		SnakePart.prototype.incrementCellY = function (game) {
-			var cellsHeight = game.getCellsHeight();
-
-			this.cellY = (this.cellY + 1 + cellsHeight) % cellsHeight;
+			this.setCellY(game, this.cellY + 1);
 		}
 
 		SnakePart.prototype.decrementCellY = function (game) {
-			var cellsHeight = game.getCellsHeight();
-
-			this.cellY = (this.cellY - 1 + cellsHeight) % cellsHeight;
+			this.setCellY(game, this.cellY - 1);
 		}
 
-		SnakePart.prototype.dragTo = function (otherSnakePart) {
-			this.setCellX(otherSnakePart.getCellX());
-			this.setCellY(otherSnakePart.getCellY());
+		SnakePart.prototype.dragTo = function (game, otherSnakePart) {
+			this.setCellX(game, otherSnakePart.getCellX());
+			this.setCellY(game, otherSnakePart.getCellY());
 		}
 
 		SnakePart.prototype.draw = function (gameGraphics) {

@@ -41,16 +41,20 @@ define([
 			return this.cellX;
 		}
 
-		Tile.prototype.setCellX = function (cellX) {
-			this.cellX = cellX;
+		Tile.prototype.setCellX = function (game, cellX) {
+			var cellsWidth = game.getCellsWidth();
+
+			this.cellX = (cellX + cellsWidth) % cellsWidth;
 		}
 
 		Tile.prototype.getCellY = function () {
 			return this.cellY;
 		}
 
-		Tile.prototype.setCellY = function (cellY) {
-			this.cellY = cellY;
+		Tile.prototype.setCellY = function (game, cellY) {
+			var cellsHeight = game.getCellsHeight();
+
+			this.cellY = (cellY + cellsHeight) % cellsHeight;
 		}
 
 		Tile.prototype.setFillStyle = function (fillStyle) {
