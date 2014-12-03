@@ -1,5 +1,5 @@
 ({
 	baseUrl: ".",
-	name: "app",
-	out: "release/discosnake.js"
+	name: "app-test",
+	out: "release/js/discosnake.js"
 })

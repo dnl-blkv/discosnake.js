@@ -3,7 +3,11 @@ html, body {
 	padding: 0;
 }
 
-#gameGraphics {
+body {
+	background-color: #000000;
+}
+
+.gameGraphics {
 	position: absolute;
 	margin: 0;
 	padding: 0;

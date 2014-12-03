@@ -1,6 +1,13 @@
 define([
+		'./htmlUtils',
+		'./InputEvent'
 	],
-	function () {
+	function (
+		htmlUtils,
+		InputEvent
+		) {
+		var centreElement = htmlUtils.centreElement;
+
 		function GameGraphics(width, height) {
 			this.canvas = document.createElement('canvas');
 
@@ -13,7 +20,7 @@ define([
 			this.setHeight(height);
 
 			// Set up the default properties
-			this.canvas.id = "gameGraphics";
+			this.canvas.class = "gameGraphics";
 			this.canvas.style.backgroundColor = '#333333';
 
 			// Make z-index variable
@@ -28,6 +35,20 @@ define([
 			// Append the canvas to body
 			var body = document.getElementsByTagName("body")[0];
 			body.appendChild(this.canvas);
+
+			// TODO: Cleanup the centering code
+			// Centering
+			var gameGraphics = this;
+
+			window.addEventListener(InputEvent.RESIZE, function() {
+				centreCanvas(gameGraphics);
+			});
+
+			centreCanvas(gameGraphics);
+		}
+
+		function centreCanvas (gameGraphics) {
+			centreElement(gameGraphics.canvas);
 		}
 
 		GameGraphics.prototype.reset = function () {
