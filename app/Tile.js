@@ -69,5 +69,12 @@ define([
 			return this.lineStyle;
 		}
 
+		Tile.prototype.doesCollideWith = function (anotherTile) {
+			var xPositionMatches = (this.cellX === anotherTile.cellX);
+			var yPositionMatches = (this.cellY === anotherTile.cellY);
+
+			return (xPositionMatches && yPositionMatches);
+		}
+
 		return Tile;
 	});

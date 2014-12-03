@@ -1,9 +1,12 @@
 define([
+		'./numberUtils',
 		'./Tile'
 	],
 	function (
+		numberUtils,
 		Tile
 		) {
+		var getRandomInteger = numberUtils.getRandomInteger;
 
 		function Apple(size, cellX, cellY) {
 			// Convert the basic properties
@@ -16,6 +19,14 @@ define([
 
 		Apple.prototype = Object.create(Tile.prototype);
 		Apple.prototype.constructor = Apple;
+
+		Apple.prototype.placeRandomly = function (game) {
+			var cellsWidth = game.getCellsWidth();
+			var cellsHeight = game.getCellsHeight();
+
+			this.setCellX(getRandomInteger(0, cellsWidth));
+			this.setCellY(getRandomInteger(0, cellsHeight));
+		}
 
 		return Apple;
 	});

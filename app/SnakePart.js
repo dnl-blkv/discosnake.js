@@ -21,19 +21,27 @@ define([
 		SnakePart.prototype = Object.create(Tile.prototype);
 		SnakePart.prototype.constructor = SnakePart;
 
-		SnakePart.prototype.incrementCellX = function (cellsWidth) {
+		SnakePart.prototype.incrementCellX = function (game) {
+			var cellsWidth = game.getCellsWidth();
+
 			this.cellX = (this.cellX + 1 + cellsWidth) % cellsWidth;
 		}
 
-		SnakePart.prototype.decrementCellX = function (cellsWidth) {
+		SnakePart.prototype.decrementCellX = function (game) {
+			var cellsWidth = game.getCellsWidth();
+
 			this.cellX = (this.cellX - 1 + cellsWidth) % cellsWidth;
 		}
 
-		SnakePart.prototype.incrementCellY = function (cellsHeight) {
+		SnakePart.prototype.incrementCellY = function (game) {
+			var cellsHeight = game.getCellsHeight();
+
 			this.cellY = (this.cellY + 1 + cellsHeight) % cellsHeight;
 		}
 
-		SnakePart.prototype.decrementCellY = function (cellsHeight) {
+		SnakePart.prototype.decrementCellY = function (game) {
+			var cellsHeight = game.getCellsHeight();
+
 			this.cellY = (this.cellY - 1 + cellsHeight) % cellsHeight;
 		}
 

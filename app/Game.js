@@ -1,4 +1,5 @@
 define([
+		'./Apple',
 		'./CommandCode',
 		'./Direction',
 		'./GameGraphics',
@@ -8,6 +9,7 @@ define([
 		'./timeUtils'
 	],
 	function (
+		Apple,
 		CommandCode,
 		Direction,
 		GameGraphics,
@@ -54,17 +56,19 @@ define([
 
 			// Initialize the snake
 			this.snake = [];
-			this.addSnakePart();
-			this.addSnakePart();
-			this.addSnakePart();
-			this.addSnakePart();
+			addSnakePart(this);
+			addSnakePart(this);
+			addSnakePart(this);
+			addSnakePart(this);
 
 			// Initialize an apple
-
+			this.apple = null;
+			dropApple(this);
 		}
 
 		function dropApple (game) {
-
+			game.apple = new Apple(game.cellSize, -1, -1);
+			game.apple.placeRandomly(game);
 		}
 
 		function getSnakePart (game, snakePartIndex) {
@@ -93,24 +97,47 @@ define([
 			moveHead(game);
 		}
 
+		function render (game) {
+			// Start from the clean sheet
+			game.graphics.reset();
+
+			// Draw an apple
+			game.apple.draw(game.graphics);
+
+			// Draw the snake
+			for (var i = 0; i < game.snake.length; i ++) {
+				var currentSnakePart = game.snake[i];
+
+				currentSnakePart.draw(game.graphics);
+			}
+		}
+
 		function moveHead (game) {
 			// Move the head in the required direction
 			var head = getSnakeHead(game);
 
 			switch (game.currentDirection) {
 				case Direction.LEFT:
-					head.decrementCellX(game.cellsWidth);
+					head.decrementCellX(game);
 					break;
 				case Direction.UP:
-					head.decrementCellY(game.cellsHeight);
+					head.decrementCellY(game);
 					break;
 				case Direction.RIGHT:
-					head.incrementCellX(game.cellsWidth);
+					head.incrementCellX(game);
 					break;
 				case Direction.DOWN:
-					head.incrementCellY(game.cellsHeight);
+					head.incrementCellY(game);
 					break;
 				default: break;
+			}
+
+			// Check if an apple was eaten
+			var appleEaten = head.doesCollideWith(game.apple);
+
+			if (appleEaten) {
+				addSnakePart(game);
+				dropApple(game);
 			}
 		}
 
@@ -148,15 +175,6 @@ define([
 				}
 			}
 		}
-		
-		function render (game) {
-			game.graphics.reset();
-
-			for (var i = 0; i < game.snake.length; i ++) {
-				game.snake[i].draw(game.graphics);
-			}
-
-		}
 
 		Game.prototype.pause = function () {
 			var requestId = this.lastRequestId;
@@ -192,21 +210,29 @@ define([
 			}
 		}
 
-		Game.prototype.addSnakePart = function () {
+		function addSnakePart (game) {
 
 			var newSnakePart;
 
-			if (this.snake.length > 0) {
-				var lastSnakePart = getSnakeTail(this);
+			if (game.snake.length > 0) {
+				var lastSnakePart = getSnakeTail(game);
 
-				newSnakePart = new SnakePart(this.cellSize, lastSnakePart.getCellX(), lastSnakePart.getCellY());
+				newSnakePart = new SnakePart(game.cellSize, lastSnakePart.getCellX(), lastSnakePart.getCellY());
 			} else {
-				var midWidthPosition = Math.round(this.cellsWidth / 2);
-				var midHeightPosition = Math.round(this.cellsHeight / 2);
-				newSnakePart = new SnakePart(this.cellSize, midWidthPosition, midHeightPosition);
+				var midWidthPosition = Math.round(game.cellsWidth / 2);
+				var midHeightPosition = Math.round(game.cellsHeight / 2);
+				newSnakePart = new SnakePart(game.cellSize, midWidthPosition, midHeightPosition);
 			}
 
-			this.snake.push(newSnakePart);
+			game.snake.push(newSnakePart);
+		}
+
+		Game.prototype.getCellsWidth = function () {
+			return this.cellsWidth;
+		}
+
+		Game.prototype.getCellsHeight = function () {
+			return this.cellsHeight;
 		}
 
 		return Game;
