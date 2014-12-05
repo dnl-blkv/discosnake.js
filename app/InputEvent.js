@@ -4,6 +4,7 @@ define([],
 			KEY_DOWN: 'keydown',
 			KEY_UP: 'keyup',
 			RESIZE: 'resize',
-			CLICK: 'click'
+			CLICK: 'click',
+			TOUCH_START: 'touchstart'
 		}
 	});

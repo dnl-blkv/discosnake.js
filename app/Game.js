@@ -77,8 +77,8 @@ define([
 			// TODO: Dirty, DIRTY solution; Fix
 			var game = this;
 
-			this.graphics.canvas.addEventListener(InputEvent.CLICK, function (event) {
-				processClick(game, event);
+			this.graphics.canvas.addEventListener(InputEvent.TOUCH_START, function (event) {
+				processTouch(game, event);
 			});
 
 			// Initialize the snake
@@ -93,7 +93,24 @@ define([
 			dropApple(this);
 		}
 
-		function relMouseCoords(element, event){
+		// TODO: Move to a helper
+		function relTouchCoords (element, event) {
+			var absoluteX = event.touches[0].clientX;
+			var absoluteY = event.touches[0].clientY;
+
+			return relCoords(element, absoluteX, absoluteY);
+		}
+
+		// TODO: Move to a helper
+		function relMouseCoords (element, event) {
+			var absoluteX = event.pageX;
+			var absoluteY = event.pageY;
+
+			return relCoords(element, absoluteX, absoluteY);
+		}
+
+		// TODO: Move to a helper
+		function relCoords(element, absoluteX, absoluteY){
 			var totalOffsetX = 0;
 			var totalOffsetY = 0;
 			var canvasX = 0;
@@ -106,17 +123,17 @@ define([
 			}
 			while(currentElement = currentElement.offsetParent)
 
-			canvasX = event.pageX - totalOffsetX;
-			canvasY = event.pageY - totalOffsetY;
+			canvasX = absoluteX - totalOffsetX;
+			canvasY = absoluteY - totalOffsetY;
 
 			return {
-				x:canvasX,
-				y:canvasY
+				x: canvasX,
+				y: canvasY
 			}
 		}
 
-		function processClick (game, event) {
-			var coordinates = relMouseCoords(game.graphics.canvas, event);
+		function processTouch (game, event) {
+			var coordinates = relTouchCoords(game.graphics.canvas, event);
 			var canvasHalfWidth = game.graphics.width / 2;
 			var canvasHalfHeight = game.graphics.height / 2;
 			var relX = coordinates.x - canvasHalfWidth;
@@ -132,7 +149,6 @@ define([
 			} else {
 				game.currentDirection = Direction.LEFT;
 			}
-
 		}
 
 		function incrementScore (game) {
