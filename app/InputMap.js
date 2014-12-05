@@ -5,7 +5,7 @@ define([
 		KeyCode
 		) {
 
-		function InputMap() {
+		function InputMap () {
 			this.keyDownCommandMap = {};
 			this.keyUpCommandMap = {};
 		}

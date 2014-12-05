@@ -8,7 +8,7 @@ define([],
 		 * @param to
 		 * @returns {number}
 		 */
-		function getRandomInteger(from, to) {
+		function getRandomInteger (from, to) {
 
 			var range = to - from;
 

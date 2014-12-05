@@ -9,7 +9,7 @@ define([
 		// Access the required methods
 		var getRandomColor = graphicUtils.getRandomColor;
 
-		function SnakePart(size, cellX, cellY) {
+		function SnakePart (size, cellX, cellY) {
 			// Convert the basic properties
 			var fillStyle = getRandomColor();
 			var lineStyle = '#fff';

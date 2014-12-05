@@ -8,7 +8,7 @@ define([
 		) {
 		var getRandomInteger = numberUtils.getRandomInteger;
 
-		function Apple(size, cellX, cellY) {
+		function Apple (size, cellX, cellY) {
 			// Convert the basic properties
 			var fillStyle = '#8f0';
 			var lineStyle = '#fff';

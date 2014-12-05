@@ -6,7 +6,9 @@ define([
 		'./KeyCode',
 		'./Manipulator',
 		'./SnakePart',
-		'./timeUtils'
+		'./TextObject',
+		'./timeUtils',
+		'font!custom,families:[Wendy],urls:[style/style.css]'
 	],
 	function (
 		Apple,
@@ -16,6 +18,7 @@ define([
 		KeyCode,
 		Manipulator,
 		SnakePart,
+		TextObject,
 		timeUtils
 		) {
 
@@ -25,19 +28,34 @@ define([
 
 		var timeNow = timeUtils.timeNow;
 
-		function Game(cellSize, cellsWidth, cellsHeight) {
+		function Game (cellSize, cellsWidth, cellsHeight) {
 
-			// Set the default parameters
+			// Set the size parameters
 			this.cellSize = cellSize;
 			this.cellsWidth = cellsWidth;
 			this.cellsHeight = cellsHeight;
+
+			// Set the default properties
 			this.stopped = true;
 			this.lastRequestId = 0;
+			this.then = timeNow();
 
 			// Initialize the graphics
 			var width = cellsWidth * cellSize;
 			var height = cellsHeight * cellSize;
 			this.graphics = new GameGraphics(width, height);
+
+			// TODO: Create a separate class
+			this.score = 0;
+
+			var scoreFontSize = 72;
+			var scoreX = 20;
+			var scoreY = scoreFontSize / 2 + 20;
+			var scoreText = '' + this.score;
+			var scoreColor = '#999999';
+			var scoreFontFamily = 'Wendy';
+
+			this.scoreScreen = new TextObject(scoreX, scoreY, scoreText, scoreFontSize, scoreFontFamily, scoreColor);
 
 			this.currentDirection = Direction.LEFT;
 
@@ -64,6 +82,11 @@ define([
 			// Initialize an apple
 			this.apple = null;
 			dropApple(this);
+		}
+
+		function incrementScore (game) {
+			game.score ++;
+			game.scoreScreen.text = '' + game.score;
 		}
 
 		function dropApple (game) {
@@ -100,6 +123,9 @@ define([
 		function render (game) {
 			// Start from the clean sheet
 			game.graphics.reset();
+
+			// Render the score
+			game.scoreScreen.draw(game.graphics);
 
 			// Draw an apple
 			game.apple.draw(game.graphics);
@@ -138,6 +164,7 @@ define([
 			if (appleEaten) {
 				addSnakePart(game);
 				dropApple(game);
+				incrementScore(game);
 			}
 		}
 
@@ -192,6 +219,7 @@ define([
 
 		Game.prototype.start = function () {
 			this.stopped = false;
+			this.then = timeNow();
 			this.run();
 		}
 
@@ -200,13 +228,15 @@ define([
 
 			var run = this.run.bind(this);
 			var game = this;
+			var delay = timeNow() - game.then;
 
 			if (!game.isStopped()) {
 				setTimeout(function () {
+					game.then = timeNow();
 					game.lastRequestId = requestAnimationFrame(run);
 					update(game);
 					render(game);
-				}, 1000 / 20);
+				}, ((1000 / 20) - delay));
 			}
 		}
 

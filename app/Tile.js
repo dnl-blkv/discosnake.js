@@ -5,9 +5,9 @@ define([
 		Tile
 		) {
 
-		function Tile(size, cellX, cellY, fillStyle, lineStyle) {
+		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
 			// Modify the input parameters
-			this.size = size;
+			this.fontSize = size;
 			this.cellX = cellX;
 			this.cellY = cellY;
 			this.fillStyle = fillStyle;
@@ -26,15 +26,15 @@ define([
 		}
 
 		Tile.prototype.getSize = function () {
-			return this.size;
+			return this.fontSize;
 		}
 
 		Tile.prototype.getX = function () {
-			return this.cellX * this.size;
+			return this.cellX * this.fontSize;
 		}
 
 		Tile.prototype.getY = function () {
-			return this.cellY * this.size;
+			return this.cellY * this.fontSize;
 		}
 
 		Tile.prototype.getCellX = function () {

@@ -10,8 +10,11 @@ define([],
 
 		// MIT license
 
-		if (!Date.now)
-			Date.now = function() { return new Date().getTime(); };
+		if (!Date.now) {
+			Date.now = function () {
+				(new Date()).getTime();
+			};
+		}
 
 		function timeNow () {
 			var currentTimestamp = window.performance.now ?
@@ -21,7 +24,7 @@ define([],
 			return currentTimestamp;
 		}
 
-		(function() {
+		(function () {
 			'use strict';
 
 			var vendors = ['webkit', 'moz'];
@@ -34,11 +37,13 @@ define([],
 			if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
 				|| !window.requestAnimationFrame || !window.cancelAnimationFrame) {
 				var lastTime = 0;
-				window.requestAnimationFrame = function(callback) {
+				window.requestAnimationFrame = function (callback) {
 					var now = timeNow();
 					var nextTime = Math.max(lastTime + 16, now);
-					return setTimeout(function() { callback(lastTime = nextTime); },
-							nextTime - now);
+					return setTimeout(	function () {
+											callback(lastTime = nextTime);
+										},
+										nextTime - now	);
 				};
 				window.cancelAnimationFrame = clearTimeout;
 			}

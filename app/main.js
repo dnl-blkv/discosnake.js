@@ -1,6 +1,8 @@
 define([
+	'domReady',
 	'./Game'
 ], function (
+	domReady,
 	Game
 	) {
 
@@ -8,11 +10,18 @@ define([
 	var cellSize = 20;
 	var fieldWidth = 40;
 	var fieldHeight = 30;
+	var game;
 
-	// Create the new Game Instance
-	var game = new Game(20, 40, 30);
+	var ready = {
+		dom: false,
+		fonts: false
+	}
 
-	// Start the game
-	game.start();
+	domReady(runGame);
+
+	function runGame () {
+		game = new Game(cellSize, fieldWidth, fieldHeight);
+		game.start();
+	}
 
 });

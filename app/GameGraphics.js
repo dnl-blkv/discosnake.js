@@ -8,7 +8,7 @@ define([
 		) {
 		var centreElement = htmlUtils.centreElement;
 
-		function GameGraphics(width, height) {
+		function GameGraphics (width, height) {
 			this.canvas = document.createElement('canvas');
 
 			// Set default width
@@ -40,7 +40,7 @@ define([
 			// Centering
 			var gameGraphics = this;
 
-			window.addEventListener(InputEvent.RESIZE, function() {
+			window.addEventListener (InputEvent.RESIZE, function () {
 				centreCanvas(gameGraphics);
 			});
 
@@ -72,13 +72,13 @@ define([
 		}
 
 		GameGraphics.prototype.getWidth = function () {
-			return this.canvas.width;
+			return this.width;
 		}
 
 		GameGraphics.prototype.setHeight = function (height) {
 			this.height = height;
 			this.canvas.height = 2 * height;
-			this.canvas.style.heigth = height + "px";
+			this.canvas.style.height = height + "px";
 		}
 
 		GameGraphics.prototype.getHeight = function () {
@@ -106,6 +106,28 @@ define([
 			context.strokeStyle = lineStyle;
 
 			context.stroke();
+		}
+
+		// TODO: Move to utils
+		GameGraphics.prototype.buildFontString = function (fontSize, fontName) {
+			var fontString = '' + fontSize + 'px ' + fontName;
+
+			return fontString;
+		}
+
+		GameGraphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
+			var context = this.getContext();
+
+			context.beginPath();
+
+			context.font = this.buildFontString(fontSize, fontName);
+
+			// TODO: Dirty Magic String, generalize
+			context.textAlign = 'left';
+
+			context.fillStyle = fontColor;
+
+			context.fillText(text, x, y, maxWidth);
 		}
 
 		return GameGraphics;

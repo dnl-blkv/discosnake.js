@@ -1,5 +1,9 @@
 ({
-	baseUrl: ".",
-	name: "app-test",
-	out: "release/js/discosnake.js"
+	baseUrl: "lib",
+	name: "apptest",
+	out: "release/js/discosnake.js",
+	paths: {
+		app: '../app',
+		apptest: "../app-test"
+	}
 })
