@@ -3,6 +3,7 @@ define([],
 		return {
 			KEY_DOWN: 'keydown',
 			KEY_UP: 'keyup',
-			RESIZE: 'resize'
+			RESIZE: 'resize',
+			CLICK: 'click'
 		}
 	});

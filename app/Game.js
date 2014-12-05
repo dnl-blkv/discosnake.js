@@ -3,6 +3,7 @@ define([
 		'./CommandCode',
 		'./Direction',
 		'./GameGraphics',
+		'./InputEvent',
 		'./KeyCode',
 		'./Manipulator',
 		'./SnakePart',
@@ -15,6 +16,7 @@ define([
 		CommandCode,
 		Direction,
 		GameGraphics,
+		InputEvent,
 		KeyCode,
 		Manipulator,
 		SnakePart,
@@ -72,6 +74,13 @@ define([
 			this.manipulator.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_DOWN);
 			this.manipulator.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
 
+			// TODO: Dirty, DIRTY solution; Fix
+			var game = this;
+
+			this.graphics.canvas.addEventListener(InputEvent.CLICK, function (event) {
+				processClick(game, event);
+			});
+
 			// Initialize the snake
 			this.snake = [];
 			addSnakePart(this);
@@ -82,6 +91,48 @@ define([
 			// Initialize an apple
 			this.apple = null;
 			dropApple(this);
+		}
+
+		function relMouseCoords(element, event){
+			var totalOffsetX = 0;
+			var totalOffsetY = 0;
+			var canvasX = 0;
+			var canvasY = 0;
+			var currentElement = element;
+
+			do{
+				totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+				totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+			}
+			while(currentElement = currentElement.offsetParent)
+
+			canvasX = event.pageX - totalOffsetX;
+			canvasY = event.pageY - totalOffsetY;
+
+			return {
+				x:canvasX,
+				y:canvasY
+			}
+		}
+
+		function processClick (game, event) {
+			var coordinates = relMouseCoords(game.graphics.canvas, event);
+			var canvasHalfWidth = game.graphics.width / 2;
+			var canvasHalfHeight = game.graphics.height / 2;
+			var relX = coordinates.x - canvasHalfWidth;
+			var relY = - coordinates.y + canvasHalfHeight;
+
+			// Turn snake in the required direction
+			if ((- relX <= relY) && (relX <= relY)) {
+				game.currentDirection = Direction.UP;
+			} else if ((- relX < relY) && (relX > relY)) {
+				game.currentDirection = Direction.RIGHT;
+			} else if ((- relX >= relY) && (relX >= relY)) {
+				game.currentDirection = Direction.DOWN;
+			} else {
+				game.currentDirection = Direction.LEFT;
+			}
+
 		}
 
 		function incrementScore (game) {
