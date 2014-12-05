@@ -5,12 +5,8 @@ define([
 	domReady,
 	Game
 	) {
-
 	// Save the game properties
-	var cellSize = 20;
-	var fieldWidth = 40;
-	var fieldHeight = 30;
-	var game;
+
 
 	var ready = {
 		dom: false,
@@ -20,7 +16,14 @@ define([
 	domReady(runGame);
 
 	function runGame () {
-		game = new Game(cellSize, fieldWidth, fieldHeight);
+
+		var cellSize = 20;
+
+
+		var fieldWidth = 48;
+		var fieldHeight = 30;
+
+		var game = new Game(cellSize, fieldWidth, fieldHeight);
 		game.start();
 	}
 

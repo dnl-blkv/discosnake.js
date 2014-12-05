@@ -17,7 +17,15 @@ define([
 			return color;
 		}
 
+		function getWindowSize () {
+			return {
+				width: window.innerWidth || document.body.clientWidth,
+				height: window.innerHeight || document.body.clientHeight
+			}
+		}
+
 		return {
-			getRandomColor: getRandomColor
+			getRandomColor: getRandomColor,
+			getWindowsSize: getWindowSize
 		};
 	});

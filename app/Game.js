@@ -134,13 +134,18 @@ define([
 
 		function processTouch (game, event) {
 			var coordinates = relTouchCoords(game.graphics.canvas, event);
-			var canvasHalfWidth = game.graphics.width / 2;
-			var canvasHalfHeight = game.graphics.height / 2;
+			var width = game.graphics.width;
+			var height = game.graphics.height;
+			var canvasHalfWidth =  width / 2;
+			var canvasHalfHeight =  height / 2;
+			var ratioWH = width / height;
 			var relX = coordinates.x - canvasHalfWidth;
-			var relY = - coordinates.y + canvasHalfHeight;
+			var relY = (- coordinates.y + canvasHalfHeight) * ratioWH;
 
 			// Turn snake in the required direction
-			if ((- relX <= relY) && (relX <= relY)) {
+			if (event.touches.length > 1) {
+				togglePause(game);
+			} else if ((- relX <= relY) && (relX <= relY)) {
 				game.currentDirection = Direction.UP;
 			} else if ((- relX < relY) && (relX > relY)) {
 				game.currentDirection = Direction.RIGHT;
@@ -235,16 +240,20 @@ define([
 			}
 		}
 
+		function togglePause (game) {
+			if(game.isStopped()) {
+				game.start();
+			} else {
+				game.pause();
+			}
+		}
+
 		function executeCommand (game, commandCode) {
 
 			// Pause keys
 			switch (commandCode) {
 				case CommandCode.TOGGLE_PAUSE:
-					if(game.isStopped()) {
-						game.start();
-					} else {
-						game.pause();
-					}
+					togglePause(game);
 					break;
 				default: break;
 			}
