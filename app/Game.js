@@ -41,8 +41,8 @@ define([
 			this.then = timeNow();
 
 			// Initialize the graphics
-			var width = cellsWidth * cellSize;
-			var height = cellsHeight * cellSize;
+			var width = cellsWidth * cellSize + 1;
+			var height = cellsHeight * cellSize + 1;
 			this.graphics = new GameGraphics(width, height);
 
 			// TODO: Create a separate class
