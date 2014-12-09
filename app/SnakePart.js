@@ -7,11 +7,11 @@ define([
 		Tile
 		) {
 		// Access the required methods
-		var getRandomColor = graphicUtils.getRandomColor;
+		var getRandomPsychedelicCssColor = graphicUtils.getRandomPsychedelicCssColor;
 
 		function SnakePart (size, cellX, cellY) {
 			// Convert the basic properties
-			var fillStyle = getRandomColor();
+			var fillStyle = getRandomPsychedelicCssColor();
 			var lineStyle = '#fff';
 
 			// Call the super constructor
@@ -44,7 +44,7 @@ define([
 
 		SnakePart.prototype.draw = function (gameGraphics) {
 			// Convert the basic properties
-			var randomColor = getRandomColor();
+			var randomColor = getRandomPsychedelicCssColor();
 			this.setFillStyle(randomColor);
 
 			Tile.prototype.draw.call(this, gameGraphics);

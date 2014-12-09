@@ -1,20 +1,20 @@
 define([
-		'./numberUtils'
+		'./Color'
 	],
 	function (
-		numberUtils
+		Color
 		) {
-		var getRandomInteger = numberUtils.getRandomInteger;
 
-		function getRandomColor () {
-			var letters = '0123456789ABCDEF'.split('');
-			var color = '#';
-			for (var i = 0; i < 6; i++) {
-				var randomLetterIndex = getRandomInteger(0, 16);
+		function getRandomCssColor () {
+			var color = Color.getRandomColor();
 
-				color += letters[randomLetterIndex];
-			}
-			return color;
+			return color.getHexString();
+		}
+
+		function getRandomPsychedelicCssColor () {
+			var color = Color.getRandomPsychedelicColor();
+
+			return color.getHexString();
 		}
 
 		function getWindowSize () {
@@ -25,7 +25,8 @@ define([
 		}
 
 		return {
-			getRandomColor: getRandomColor,
+			getRandomCssColor: getRandomCssColor,
+			getRandomPsychedelicCssColor: getRandomPsychedelicCssColor,
 			getWindowsSize: getWindowSize
 		};
 	});

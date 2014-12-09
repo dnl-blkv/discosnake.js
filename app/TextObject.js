@@ -58,16 +58,6 @@ define([
 			return this.maxWidth;
 		}
 
-		TextObject.prototype.updateWidth = function (gameGraphics) {
-			var context = gameGraphics.getContext();
-
-			// TODO: DIRTY code, Make cleaner
-			context.font = gameGraphics.buildFontString(this.fontSize, this.fontFamily);
-
-			// Update the width parameter
-			this.width = context.measureText(this.text).width;
-		}
-
 		TextObject.prototype.getWidth = function () {
 			return this.width;
 		}

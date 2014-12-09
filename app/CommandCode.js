@@ -1,6 +1,7 @@
 define([],
 	function () {
 		return {
+			RESET_GAME: 'resetGame',
 			TURN_SNAKE_LEFT: 'turnSnakeLeft',
 			TURN_SNAKE_UP: 'turnSnakeUp',
 			TURN_SNAKE_RIGHT: 'turnSnakeRight',

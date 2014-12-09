@@ -2,10 +2,11 @@ define([
 		'./Apple',
 		'./CommandCode',
 		'./Direction',
-		'./GameGraphics',
+		'./Graphics',
 		'./InputEvent',
 		'./KeyCode',
 		'./Manipulator',
+		'./ScoreBoard',
 		'./SnakePart',
 		'./TextObject',
 		'./timeUtils',
@@ -15,51 +16,49 @@ define([
 		Apple,
 		CommandCode,
 		Direction,
-		GameGraphics,
+		Graphics,
 		InputEvent,
 		KeyCode,
 		Manipulator,
+		ScoreBoard,
 		SnakePart,
 		TextObject,
 		timeUtils
 		) {
 
-		// Get the required method
+		// Get the animation methods
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;
 		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
 
+		// Get the current time utility
 		var timeNow = timeUtils.timeNow;
 
 		function Game (cellSize, cellsWidth, cellsHeight) {
+
+			this.then = timeNow();
 
 			// Set the size parameters
 			this.cellSize = cellSize;
 			this.cellsWidth = cellsWidth;
 			this.cellsHeight = cellsHeight;
 
-			// Set the default properties
-			this.stopped = true;
+			// Set the FPS rate
+			this.fps = 20;
+			this.defaultSnakeLength = 4;
 			this.lastRequestId = 0;
-			this.then = timeNow();
+
+			// Set the default properties
+			this.stopped = false;
+			this.lastRequestId = 0;
+			this.scoreBoard = new ScoreBoard();
+
+			// Initialize an apple
+			this.apple = null;
 
 			// Initialize the graphics
 			var width = cellsWidth * cellSize + 1;
 			var height = cellsHeight * cellSize + 1;
-			this.graphics = new GameGraphics(width, height);
-
-			// TODO: Create a separate class
-			this.score = 0;
-
-			var scoreFontSize = 72;
-			var scoreX = 20;
-			var scoreY = scoreFontSize / 2 + 20;
-			var scoreText = '' + this.score;
-			var scoreColor = '#999999';
-			var scoreFontFamily = 'Wendy';
-
-			this.scoreScreen = new TextObject(scoreX, scoreY, scoreText, scoreFontSize, scoreFontFamily, scoreColor);
-
-			this.currentDirection = Direction.LEFT;
+			this.graphics = new Graphics(width, height);
 
 			// Create the control module
 			this.manipulator = new Manipulator();
@@ -67,12 +66,7 @@ define([
 			// Set the command listener
 			this.manipulator.setCommandListener(executeCommand, this);
 
-			// Set up the controls
-			this.manipulator.bindKeyDown(KeyCode.LEFT, CommandCode.TURN_SNAKE_LEFT);
-			this.manipulator.bindKeyDown(KeyCode.UP, CommandCode.TURN_SNAKE_UP);
-			this.manipulator.bindKeyDown(KeyCode.RIGHT, CommandCode.TURN_SNAKE_RIGHT);
-			this.manipulator.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_DOWN);
-			this.manipulator.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
+			setUpGameControls(this);
 
 			// TODO: Dirty, DIRTY solution; Fix
 			var game = this;
@@ -81,16 +75,67 @@ define([
 				processTouch(game, event);
 			});
 
-			// Initialize the snake
-			this.snake = [];
-			addSnakePart(this);
-			addSnakePart(this);
-			addSnakePart(this);
-			addSnakePart(this);
+			reset(this);
+		}
 
-			// Initialize an apple
-			this.apple = null;
-			dropApple(this);
+		function setUpGameControls (game) {
+			// Set up the controls
+			game.manipulator.bindKeyDown(KeyCode.LEFT, CommandCode.TURN_SNAKE_LEFT);
+			game.manipulator.bindKeyDown(KeyCode.UP, CommandCode.TURN_SNAKE_UP);
+			game.manipulator.bindKeyDown(KeyCode.RIGHT, CommandCode.TURN_SNAKE_RIGHT);
+			game.manipulator.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_DOWN);
+			game.manipulator.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
+			game.manipulator.bindKeyDown(KeyCode.R, CommandCode.RESET_GAME);
+		}
+
+		function reset (game) {
+			game.then = timeNow();
+
+			game.currentDirection = Direction.RIGHT;
+
+			// Initialize the snake
+			game.snake = [];
+			addSnakeParts(game, game.defaultSnakeLength);
+
+			dropApple(game);
+
+			render(game);
+		}
+
+		function executeCommand (game, commandCode) {
+
+			// Pause keys
+			switch (commandCode) {
+				case CommandCode.TOGGLE_PAUSE:
+					togglePause(game);
+					break;
+
+				case CommandCode.RESET_GAME:
+					reset(game);
+					break;
+
+				default: break;
+			}
+
+			// Non-pause keys
+			if(!game.isStopped()) {
+				switch (commandCode) {
+					case CommandCode.TURN_SNAKE_LEFT:
+						game.currentDirection = Direction.LEFT;
+						break;
+					case CommandCode.TURN_SNAKE_UP:
+						game.currentDirection = Direction.UP;
+						break;
+					case CommandCode.TURN_SNAKE_RIGHT:
+						game.currentDirection = Direction.RIGHT;
+						break;
+					case CommandCode.TURN_SNAKE_DOWN:
+						game.currentDirection = Direction.DOWN;
+						break;
+					default:
+						break;
+				}
+			}
 		}
 
 		// TODO: Move to a helper
@@ -156,11 +201,6 @@ define([
 			}
 		}
 
-		function incrementScore (game) {
-			game.score ++;
-			game.scoreScreen.text = '' + game.score;
-		}
-
 		function dropApple (game) {
 			game.apple = new Apple(game.cellSize, -1, -1);
 			game.apple.placeRandomly(game);
@@ -197,7 +237,7 @@ define([
 			game.graphics.reset();
 
 			// Render the score
-			game.scoreScreen.draw(game.graphics);
+			game.scoreBoard.draw(game.graphics);
 
 			// Draw an apple
 			game.apple.draw(game.graphics);
@@ -236,7 +276,7 @@ define([
 			if (appleEaten) {
 				addSnakePart(game);
 				dropApple(game);
-				incrementScore(game);
+				game.scoreBoard.incrementScore();
 			}
 		}
 
@@ -248,43 +288,14 @@ define([
 			}
 		}
 
-		function executeCommand (game, commandCode) {
-
-			// Pause keys
-			switch (commandCode) {
-				case CommandCode.TOGGLE_PAUSE:
-					togglePause(game);
-					break;
-				default: break;
-			}
-
-			// Non-pause keys
-			if(!game.isStopped()) {
-				switch (commandCode) {
-					case CommandCode.TURN_SNAKE_LEFT:
-						game.currentDirection = Direction.LEFT;
-						break;
-					case CommandCode.TURN_SNAKE_UP:
-						game.currentDirection = Direction.UP;
-						break;
-					case CommandCode.TURN_SNAKE_RIGHT:
-						game.currentDirection = Direction.RIGHT;
-						break;
-					case CommandCode.TURN_SNAKE_DOWN:
-						game.currentDirection = Direction.DOWN;
-						break;
-					default:
-						break;
-				}
-			}
-		}
-
 		Game.prototype.pause = function () {
 			var requestId = this.lastRequestId;
 
 			if (requestId) {
 				cancelAnimationFrame(requestId);
 			}
+
+			this.lastRequestId = 0;
 
 			this.stopped = true;
 		}
@@ -304,7 +315,7 @@ define([
 
 			var run = this.run.bind(this);
 			var game = this;
-			var delay = timeNow() - game.then;
+			var delay = Math.abs(timeNow() - game.then) % this.fps;
 
 			if (!game.isStopped()) {
 				setTimeout(function () {
@@ -312,7 +323,13 @@ define([
 					game.lastRequestId = requestAnimationFrame(run);
 					update(game);
 					render(game);
-				}, ((1000 / 20) - delay));
+				}, ((1000 / this.fps) - delay));
+			}
+		}
+
+		function addSnakeParts (game, partsCount) {
+			for (var i = 0; i < partsCount; i ++) {
+				addSnakePart(game);
 			}
 		}
 

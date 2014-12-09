@@ -21,7 +21,7 @@ define([
 
 			// Set up the default properties
 			this.canvas.class = "gameGraphics";
-			this.canvas.style.backgroundColor = '#333333';
+			this.canvas.style.backgroundColor = '#000000';
 
 			// Make z-index variable
 			this.canvas.style.zIndex = 8;
