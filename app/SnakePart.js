@@ -16,7 +16,7 @@ define([
 			this.nextPart = null;
 
 			var fillStyle = this.color.getHexString();
-			var lineStyle = '#fff';
+			var lineStyle = '#ffffff';
 
 			// Call the super constructor
 			Tile.call(this, size, cellX, cellY, fillStyle, lineStyle);

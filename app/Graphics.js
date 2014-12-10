@@ -28,8 +28,7 @@ define([
 
 			// Set up the context
 			var context = this.getContext();
-			context.translate(1, 1);
-			context.scale(2, 2);
+			context.translate(0.5, 0.5);
 			context.lineWidth = 0.75;
 
 			// Append the canvas to body
@@ -67,7 +66,7 @@ define([
 
 		GameGraphics.prototype.setWidth = function (width) {
 			this.width = width;
-			this.canvas.width = 2 * width;
+			this.canvas.width = width;
 			this.canvas.style.width = width + "px";
 		}
 
@@ -77,7 +76,7 @@ define([
 
 		GameGraphics.prototype.setHeight = function (height) {
 			this.height = height;
-			this.canvas.height = 2 * height;
+			this.canvas.height = height;
 			this.canvas.style.height = height + "px";
 		}
 
