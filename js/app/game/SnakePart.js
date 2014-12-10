@@ -1,10 +1,10 @@
 define([
-		'./graphicUtils',
-		'./Tile'
+		'./Tile',
+		'utils/graphicUtils'
 	],
 	function (
-		graphicUtils,
-		Tile
+		Tile,
+		graphicUtils
 		) {
 		// Access the required methods
 		var getRandomPsychedelicColor = graphicUtils.getRandomPsychedelicColor;

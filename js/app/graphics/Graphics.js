@@ -1,10 +1,10 @@
 define([
-		'./htmlUtils',
-		'./InputEvent'
+		'input/InputEvent',
+		'utils/htmlUtils'
 	],
 	function (
-		htmlUtils,
-		InputEvent
+		InputEvent,
+		htmlUtils
 		) {
 		var centreElement = htmlUtils.centreElement;
 

@@ -1,10 +1,10 @@
 define([
-		'./numberUtils'
+		'utils/numberUtils'
 	],
 	function (
 		numberUtils
 		) {
-		var getRandomInteger = numberUtils.getRandomInteger;
+		var getRandomNumber = numberUtils.getRandomNumber;
 
 		function Color (red, green, blue) {
 			this.red = red;
@@ -142,20 +142,21 @@ define([
 			return (new Color(red, green, blue));
 		}
 
-		Color.getRandomColor = function (h, s, v) {
-			if (h == 1) {
-				h = Math.random();
-			}
+		Color.getRandomColor = function (limits) {
+			// Generate the random dimensions
+			var hLimits = limits.h;
+			var h = getRandomNumber(hLimits.from, hLimits.to);
 
-			if (s == 1) {
-				s = Math.random();
-			}
+			var sLimits = limits.s;
+			var s = getRandomNumber(sLimits.from, sLimits.to);
 
-			if (v == 1) {
-				v = Math.random();
-			}
+			var vLimits = limits.v;
+			var v = getRandomNumber(vLimits.from, vLimits.to);
 
-			return (Color.fromHSV(h, s, v));
+			// Create the new color from random dimensions
+			var randomColor = Color.fromHSV(h, s, v);
+
+			return randomColor;
 		}
 
 		Color.toHexChannel = function (decChannel) {
@@ -163,7 +164,23 @@ define([
 		}
 
 		Color.getRandomPsychedelicColor = function () {
-			var color = Color.getRandomColor(1, 0.99, 0.99);
+
+			var dimensionLimits = {
+				'h': {
+					'from': 0,
+					'to': 0.99
+				},
+				's': {
+					'from': 0.90,
+					'to': 0.99
+				},
+				'v': {
+					'from': 0.99,
+					'to': 0.99
+				}
+			};
+
+			var color = Color.getRandomColor(dimensionLimits);
 
 			return color;
 		}

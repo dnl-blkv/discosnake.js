@@ -1,10 +1,10 @@
 define([
-		'./numberUtils',
-		'./Tile'
+		'./Tile',
+		'utils/numberUtils'
 	],
 	function (
-		numberUtils,
-		Tile
+		Tile,
+		numberUtils
 		) {
 		var getRandomInteger = numberUtils.getRandomInteger;
 

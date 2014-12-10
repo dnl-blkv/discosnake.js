@@ -1,9 +1,6 @@
 ({
-	baseUrl: "lib",
-	name: "apptest",
-	out: "release/js/discosnake.js",
-	paths: {
-		app: '../app',
-		apptest: "../app-test"
-	}
+	baseUrl: "js/lib",
+	mainConfigFile: "js/app.js",
+	name: "app",
+	out: "release/js/discosnake.js"
 })

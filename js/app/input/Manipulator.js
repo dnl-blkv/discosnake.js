@@ -2,7 +2,7 @@ define([
 		'./InputEvent',
 		'./InputMap',
 		'./KeyCode',
-		'./timeUtils'
+		'utils/timeUtils'
 	],
 	function (
 		InputEvent,

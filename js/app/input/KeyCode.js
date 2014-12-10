@@ -4,9 +4,9 @@ define([],
 			NULL_KEY: 0,
 			LEFT: 37,
 			UP: 38,
-			R: 82,
 			RIGHT: 39,
 			DOWN: 40,
+			R: 82,
 			SPACE: 32
 		}
 	});

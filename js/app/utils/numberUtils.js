@@ -21,7 +21,20 @@ define([],
 			return randomInteger;
 		}
 
+		function getRandomNumber (from, to) {
+			var range = to - from;
+
+			var randomPart = Math.random() * range;
+
+			var base = from;
+
+			var randomNumber = base + randomPart;
+
+			return randomNumber;
+		}
+
 		return {
-			getRandomInteger: getRandomInteger
+			getRandomInteger: getRandomInteger,
+			getRandomNumber: getRandomNumber
 		};
 	});
