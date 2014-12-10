@@ -302,12 +302,14 @@ define([
 			};
 
 			// Calculate the delay for previous frame processing
-			var delay = timeNow() - this.then;
-			var currentFrameDuration = (1000 / this.fps) - delay;
+			var delay = 0;
+			var currentFrameDuration = (1000 / this.fps);
 
 			// If the game is running, process frame
 			var gameStopped = this.isStopped();
 			if (!gameStopped) {
+				delay = timeNow() - this.then;
+				currentFrameDuration -= delay;
 				setTimeout(processFrame, currentFrameDuration);
 			}
 		}
