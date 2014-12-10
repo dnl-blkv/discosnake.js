@@ -11,10 +11,10 @@ define([
 			return color.getHexString();
 		}
 
-		function getRandomPsychedelicCssColor () {
+		function getRandomPsychedelicColor () {
 			var color = Color.getRandomPsychedelicColor();
 
-			return color.getHexString();
+			return color;
 		}
 
 		function getWindowSize () {
@@ -26,7 +26,7 @@ define([
 
 		return {
 			getRandomCssColor: getRandomCssColor,
-			getRandomPsychedelicCssColor: getRandomPsychedelicCssColor,
+			getRandomPsychedelicColor: getRandomPsychedelicColor,
 			getWindowsSize: getWindowSize
 		};
 	});

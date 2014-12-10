@@ -12,54 +12,6 @@ define([
 			this.blue = blue;
 		}
 
-		function getRandomColorWithLimits (redFrom, redTo, greenFrom, greenTo, blueFrom, blueTo) {
-			var red = getRandomInteger(redFrom, redTo);
-			var green = getRandomInteger(greenFrom, greenTo);
-			var blue = getRandomInteger(blueFrom, blueTo);
-
-			return (new Color(red, green, blue));
-		}
-
-		function getRandomColorWith3MLimits () {
-			var fromToLimits = [
-				{
-					'from': 0,
-					'to': 64
-				},
-				{
-					'from': 0,
-					'to': 256
-				},
-				{
-					'from': 192,
-					'to': 256
-				}
-			];
-
-			var fromToLimitsCount = fromToLimits.length;
-			var channels = {
-				'R': 0,
-				'G': 0,
-				'B': 0
-			};
-			var channelString = 'RGB';
-
-			for (var i = 0; i < fromToLimitsCount; i ++) {
-
-				var fromTo = fromToLimits[i];
-				var channelsLeft = channelString.length;
-
-				var channelNumber = getRandomInteger(0, channelsLeft);
-
-				var channelToSet = channelString[channelNumber];
-				channels[channelToSet] = getRandomInteger(fromTo.from, fromTo.to);
-
-				channelString = channelString.replace(channelToSet, '');
-			}
-
-			return (new Color(channels.R, channels.G, channels.B));
-		}
-
 		Color.prototype.getHexString = function () {
 			var hexString = '#';
 			hexString += this.getHexRed();
@@ -111,6 +63,73 @@ define([
 			this.blue = blue;
 		}
 
+		Color.prototype.copy = function () {
+			return (new Color(this.getRed(), this.getGreen(), this.getBlue()));
+		}
+
+		Color.prototype.blend = function (anotherColor, ratio) {
+			var newColor = this.copy();
+
+			if (ratio === undefined) {
+				ratio = 0.5;
+			}
+
+			newColor.setRed(Math.floor((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
+			newColor.setGreen(Math.floor((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
+			newColor.setBlue(Math.floor((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
+
+			console.log(ratio, newColor);
+
+			return newColor;
+		}
+
+		/**
+		 * HSV values in [0..1[
+		 * returns [r, g, b] values from 0 to 255
+		 */
+		Color.fromHSV = function (h, s, v) {
+
+			var coefficients = [0, 0, 0];
+
+			var h_i = Math.floor(h * 6);
+			var f = h * 6 - h_i;
+			var p = v * (1 - s);
+			var q = v * (1 - f * s);
+			var t = v * (1 - (1 - f) * s);
+
+			switch (h_i) {
+				case 0:
+					coefficients = [v, t, p];
+					break;
+				case 1:
+					coefficients = [q, v, p];
+					break;
+				case 2:
+					coefficients = [p, v, t];
+					break;
+				case 3:
+					coefficients = [p, q, v];
+					break;
+				case 4:
+					coefficients = [t, p, v];
+					break;
+				case 5:
+					coefficients = [v, p, q];
+					break;
+				default:
+					break;
+			}
+
+
+			var r = Math.round(256 * coefficients[0]);
+			var g = Math.round(256 * coefficients[1]);
+			var b = Math.round(256 * coefficients[2]);
+
+			var newColor =  new Color(r, g ,b);
+
+			return newColor;
+		}
+
 		Color.fromHexString = function (hexString) {
 			var colorCode = hexString.substring(1);
 
@@ -123,8 +142,20 @@ define([
 			return (new Color(red, green, blue));
 		}
 
-		Color.getRandomColor = function () {
-			return getRandomColorWithLimits(0, 256, 0, 256, 0, 256);
+		Color.getRandomColor = function (h, s, v) {
+			if (h == 1) {
+				h = Math.random();
+			}
+
+			if (s == 1) {
+				s = Math.random();
+			}
+
+			if (v == 1) {
+				v = Math.random();
+			}
+
+			return (Color.fromHSV(h, s, v));
 		}
 
 		Color.toHexChannel = function (decChannel) {
@@ -132,7 +163,7 @@ define([
 		}
 
 		Color.getRandomPsychedelicColor = function () {
-			var color = getRandomColorWith3MLimits();
+			var color = Color.getRandomColor(1, 0.99, 0.99);
 
 			return color;
 		}

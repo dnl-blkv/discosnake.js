@@ -10,8 +10,8 @@ define([
 
 		function Apple (size, cellX, cellY) {
 			// Convert the basic properties
-			var fillStyle = '#8f0';
-			var lineStyle = '#fff';
+			var fillStyle = '#20ff00';
+			var lineStyle = '#1de600';
 
 			// Call the super constructor
 			Tile.call(this, size, cellX, cellY, fillStyle, lineStyle);

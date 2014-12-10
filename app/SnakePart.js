@@ -7,11 +7,15 @@ define([
 		Tile
 		) {
 		// Access the required methods
-		var getRandomPsychedelicCssColor = graphicUtils.getRandomPsychedelicCssColor;
+		var getRandomPsychedelicColor = graphicUtils.getRandomPsychedelicColor;
 
 		function SnakePart (size, cellX, cellY) {
 			// Convert the basic properties
-			var fillStyle = getRandomPsychedelicCssColor();
+			this.color = getRandomPsychedelicColor();
+			this.previousPart = null;
+			this.nextPart = null;
+
+			var fillStyle = this.color.getHexString();
 			var lineStyle = '#fff';
 
 			// Call the super constructor
@@ -21,19 +25,35 @@ define([
 		SnakePart.prototype = Object.create(Tile.prototype);
 		SnakePart.prototype.constructor = SnakePart;
 
-		SnakePart.prototype.incrementCellX = function (game) {
+		SnakePart.prototype.setPreviousPart = function (previousPart) {
+			this.previousPart = previousPart;
+		}
+
+		SnakePart.prototype.getPreviousPart = function () {
+			return this.previousPart;
+		}
+
+		SnakePart.prototype.setNextPart = function (nextPart) {
+			this.nextPart = nextPart;
+		}
+
+		SnakePart.prototype.getNextPart = function () {
+			return this.nextPart;
+		}
+
+		SnakePart.prototype.moveRight = function (game) {
 			this.setCellX(game, this.cellX + 1);
 		}
 
-		SnakePart.prototype.decrementCellX = function (game) {
+		SnakePart.prototype.moveLeft = function (game) {
 			this.setCellX(game, this.cellX - 1);
 		}
 
-		SnakePart.prototype.incrementCellY = function (game) {
+		SnakePart.prototype.moveDown = function (game) {
 			this.setCellY(game, this.cellY + 1);
 		}
 
-		SnakePart.prototype.decrementCellY = function (game) {
+		SnakePart.prototype.moveUp = function (game) {
 			this.setCellY(game, this.cellY - 1);
 		}
 
@@ -44,8 +64,9 @@ define([
 
 		SnakePart.prototype.draw = function (gameGraphics) {
 			// Convert the basic properties
-			var randomColor = getRandomPsychedelicCssColor();
-			this.setFillStyle(randomColor);
+			var randomColor = getRandomPsychedelicColor();
+
+			this.setFillStyle(randomColor.getHexString());
 
 			Tile.prototype.draw.call(this, gameGraphics);
 		}

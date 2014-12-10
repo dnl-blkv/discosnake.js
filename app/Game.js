@@ -7,7 +7,7 @@ define([
 		'./KeyCode',
 		'./Manipulator',
 		'./ScoreBoard',
-		'./SnakePart',
+		'./Snake',
 		'./TextObject',
 		'./timeUtils',
 		'font!custom,families:[Wendy],urls:[style/style.css]'
@@ -21,7 +21,7 @@ define([
 		KeyCode,
 		Manipulator,
 		ScoreBoard,
-		SnakePart,
+		Snake,
 		TextObject,
 		timeUtils
 		) {
@@ -93,9 +93,11 @@ define([
 
 			game.currentDirection = Direction.RIGHT;
 
+			var midWidthPosition = Math.round(game.cellsWidth / 2);
+			var midHeightPosition = Math.round(game.cellsHeight / 2);
+
 			// Initialize the snake
-			game.snake = [];
-			addSnakeParts(game, game.defaultSnakeLength);
+			game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition, game.defaultSnakeLength);
 
 			dropApple(game);
 
@@ -206,30 +208,8 @@ define([
 			game.apple.placeRandomly(game);
 		}
 
-		function getSnakePart (game, snakePartIndex) {
-			return game.snake[snakePartIndex];
-		}
-
-		function getSnakeHead (game) {
-			return game.snake[0];
-		}
-
-		function getSnakeTail (game) {
-			return game.snake[game.snake.length - 1];
-		}
-
 		function update (game) {
-
-			// Loop around the snake array from tail to head excluding it
-			for (var i = game.snake.length - 1; i > 0; i --) {
-				var currentPart = getSnakePart(game, i);
-				var nextPart = getSnakePart(game, i - 1);
-
-				// Drug current snake part to the next one
-				currentPart.dragTo(game, nextPart);
-			}
-			
-			moveHead(game);
+			moveSnake(game);
 		}
 
 		function render (game) {
@@ -243,38 +223,34 @@ define([
 			game.apple.draw(game.graphics);
 
 			// Draw the snake
-			for (var i = 0; i < game.snake.length; i ++) {
-				var currentSnakePart = game.snake[i];
-
-				currentSnakePart.draw(game.graphics);
-			}
+			game.snake.draw(game.graphics);
 		}
 
-		function moveHead (game) {
-			// Move the head in the required direction
-			var head = getSnakeHead(game);
+		function moveSnake (game) {
+			var snake = game.snake;
 
 			switch (game.currentDirection) {
 				case Direction.LEFT:
-					head.decrementCellX(game);
+					snake.moveLeft(game);
 					break;
 				case Direction.UP:
-					head.decrementCellY(game);
+					snake.moveUp(game);
 					break;
 				case Direction.RIGHT:
-					head.incrementCellX(game);
+					snake.moveRight(game);
 					break;
 				case Direction.DOWN:
-					head.incrementCellY(game);
+					snake.moveDown(game);
 					break;
 				default: break;
 			}
 
 			// Check if an apple was eaten
-			var appleEaten = head.doesCollideWith(game.apple);
+			var apple = game.apple;
+			var appleEaten = snake.isAppleEaten(apple);
 
 			if (appleEaten) {
-				addSnakePart(game);
+				snake.addPart();
 				dropApple(game);
 				game.scoreBoard.incrementScore();
 			}
@@ -313,41 +289,27 @@ define([
 		// TODO: RUN THE FUCKING GAME
 		Game.prototype.run = function () {
 
+			// Bind this
 			var run = this.run.bind(this);
+
+			// Prepare the frame processing method
 			var game = this;
-			var delay = Math.abs(timeNow() - game.then) % this.fps;
+			var processFrame = function () {
+				game.then = timeNow();
+				game.lastRequestId = requestAnimationFrame(run);
+				update(game);
+				render(game);
+			};
 
-			if (!game.isStopped()) {
-				setTimeout(function () {
-					game.then = timeNow();
-					game.lastRequestId = requestAnimationFrame(run);
-					update(game);
-					render(game);
-				}, ((1000 / this.fps) - delay));
+			// Calculate the delay for previous frame processing
+			var delay = timeNow() - this.then;
+			var currentFrameDuration = (1000 / this.fps) - delay;
+
+			// If the game is running, process frame
+			var gameStopped = this.isStopped();
+			if (!gameStopped) {
+				setTimeout(processFrame, currentFrameDuration);
 			}
-		}
-
-		function addSnakeParts (game, partsCount) {
-			for (var i = 0; i < partsCount; i ++) {
-				addSnakePart(game);
-			}
-		}
-
-		function addSnakePart (game) {
-
-			var newSnakePart;
-
-			if (game.snake.length > 0) {
-				var lastSnakePart = getSnakeTail(game);
-
-				newSnakePart = new SnakePart(game.cellSize, lastSnakePart.getCellX(), lastSnakePart.getCellY());
-			} else {
-				var midWidthPosition = Math.round(game.cellsWidth / 2);
-				var midHeightPosition = Math.round(game.cellsHeight / 2);
-				newSnakePart = new SnakePart(game.cellSize, midWidthPosition, midHeightPosition);
-			}
-
-			game.snake.push(newSnakePart);
 		}
 
 		Game.prototype.getCellsWidth = function () {
