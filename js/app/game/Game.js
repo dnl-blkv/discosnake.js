@@ -2,6 +2,7 @@ define([
 		'./Apple',
 		'./CommandCode',
 		'./Direction',
+		'./defaultControls',
 		'graphics/Graphics',
 		'input/InputEvent',
 		'input/KeyCode',
@@ -16,6 +17,7 @@ define([
 		Apple,
 		CommandCode,
 		Direction,
+		defaultControls,
 		Graphics,
 		InputEvent,
 		KeyCode,
@@ -79,13 +81,7 @@ define([
 		}
 
 		function setUpGameControls (game) {
-			// Set up the controls
-			game.manipulator.bindKeyDown(KeyCode.LEFT, CommandCode.TURN_SNAKE_LEFT);
-			game.manipulator.bindKeyDown(KeyCode.UP, CommandCode.TURN_SNAKE_UP);
-			game.manipulator.bindKeyDown(KeyCode.RIGHT, CommandCode.TURN_SNAKE_RIGHT);
-			game.manipulator.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_DOWN);
-			game.manipulator.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
-			game.manipulator.bindKeyDown(KeyCode.R, CommandCode.RESET_GAME);
+			game.manipulator.setControls(defaultControls);
 		}
 
 		function reset (game) {

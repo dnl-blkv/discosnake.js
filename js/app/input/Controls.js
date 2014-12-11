@@ -5,34 +5,34 @@ define([
 		KeyCode
 		) {
 
-		function InputMap () {
+		function Controls () {
 			this.keyDownCommandMap = {};
 			this.keyUpCommandMap = {};
 		}
 
-		InputMap.prototype.bindKeyDown = function (keyCode, commandCode) {
+		Controls.prototype.bindKeyDown = function (keyCode, commandCode) {
 			this.keyDownCommandMap[keyCode] = commandCode;
 		}
 
-		InputMap.prototype.getKeyDownBinding = function (keyCode) {
+		Controls.prototype.getKeyDownBinding = function (keyCode) {
 			return this.keyDownCommandMap[keyCode];
 		}
 
-		InputMap.prototype.unbindKeyDown = function (keyCode) {
+		Controls.prototype.unbindKeyDown = function (keyCode) {
 			this.keyDownCommandMap[keyCode] = KeyCode.NULL_KEY;
 		}
 
-		InputMap.prototype.bindKeyUp = function (keyCode, commandCode) {
+		Controls.prototype.bindKeyUp = function (keyCode, commandCode) {
 			this.keyUpCommandMap[keyCode] = commandCode;
 		}
 
-		InputMap.prototype.getKeyUpBinding = function (keyCode) {
+		Controls.prototype.getKeyUpBinding = function (keyCode) {
 			return this.keyUpCommandMap[keyCode];
 		}
 
-		InputMap.prototype.unbindKeyUp = function (keyCode) {
+		Controls.prototype.unbindKeyUp = function (keyCode) {
 			this.keyUpCommandMap[keyCode] = KeyCode.NULL_KEY;
 		}
 
-		return InputMap;
+		return Controls;
 	});

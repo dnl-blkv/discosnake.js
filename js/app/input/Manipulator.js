@@ -1,12 +1,12 @@
 define([
 		'./InputEvent',
-		'./InputMap',
+		'./Controls',
 		'./KeyCode',
 		'utils/timeUtils'
 	],
 	function (
 		InputEvent,
-		InputMap,
+		Controls,
 		KeyCode,
 		timeUtils
 		) {
@@ -16,7 +16,7 @@ define([
 			this.nullCommandCode = 'nullCommand';
 			this.commandListener = null;
 			this.commandListenerArguments = null;
-			this.inputMap = new InputMap();
+			this.controls = new Controls();
 			this.keysPressed = {};
 
 			var manipulator = this;
@@ -29,6 +29,14 @@ define([
 		 * @param keyCode
 		 * @returns {*}
 		 */
+		Manipulator.prototype.setControls = function (controls) {
+			this.controls = controls;
+		}
+
+		Manipulator.prototype.getControls = function () {
+			return this.controls;
+		}
+
 		Manipulator.prototype.isKeyDown = function (keyCode) {
 			return this.keysPressed[keyCode];
 		}
@@ -53,19 +61,19 @@ define([
 		}
 
 		Manipulator.prototype.bindKeyDown = function (keyCode, commandCode) {
-			this.inputMap.bindKeyDown(keyCode, commandCode);
+			this.controls.bindKeyDown(keyCode, commandCode);
 		}
 
 		Manipulator.prototype.unbindKeyDown = function (keyCode) {
-			this.inputMap.unbindKeyDown(keyCode);
+			this.controls.unbindKeyDown(keyCode);
 		}
 
 		Manipulator.prototype.bindKeyUp = function (keyCode, commandCode) {
-			this.inputMap.bindKeyUp(keyCode, commandCode);
+			this.controls.bindKeyUp(keyCode, commandCode);
 		}
 
 		Manipulator.prototype.unbindKeyUp = function (keyCode) {
-			this.inputMap.unbindKeyUp(keyCode);
+			this.controls.unbindKeyUp(keyCode);
 		}
 
 		Manipulator.prototype.setNullCommandCode = function (nullCommandCode) {
@@ -76,14 +84,14 @@ define([
 			var keyCode = event.keyCode;
 			var type = event.type;
 			var commandCode = manipulator.nullCommandCode;
-			var inputMap = manipulator.inputMap;
+			var controls = manipulator.controls;
 
 			switch(type) {
 				case InputEvent.KEY_DOWN:
-					commandCode = inputMap.getKeyDownBinding(keyCode);
+					commandCode = controls.getKeyDownBinding(keyCode);
 					break;
 				case InputEvent.KEY_UP:
-					commandCode = inputMap.getKeyUpBinding(keyCode);
+					commandCode = controls.getKeyUpBinding(keyCode);
 					break;
 				default:
 					break;
