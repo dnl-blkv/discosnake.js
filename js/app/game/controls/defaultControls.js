@@ -1,7 +1,7 @@
 define([
 		'game/CommandCode',
 		'input/Controls',
-		'input/KeyCode'
+		'../../input/KeyCode'
 	],
 	function (
 		CommandCode,

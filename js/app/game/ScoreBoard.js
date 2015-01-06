@@ -1,14 +1,9 @@
 define([
-		'./TextObject',
-		'utils/graphicUtils'
+		'./TextObject'
 	],
 	function (
-		TextObject,
-		graphicUtils
+		TextObject
 		) {
-		// Access the required methods
-		var getRandomPsychedelicCssColor = graphicUtils.getRandomPsychedelicCssColor;
-
 		function ScoreBoard() {
 			this.score = 0;
 
@@ -19,13 +14,21 @@ define([
 			var scoreColor = '#999999';
 			var scoreFontFamily = 'Wendy';
 
-			this.scoreScreen = new TextObject(scoreX, scoreY, scoreText, scoreFontSize, scoreFontFamily, scoreColor);
+			var scoreScreen = new TextObject(scoreText, scoreFontSize, scoreFontFamily, scoreColor);
+			scoreScreen.setX(scoreX);
+			scoreScreen.setY(scoreY);
+
+			this.scoreScreen = scoreScreen;
 		}
 
 		function updateScore(scoreBoard) {
 			var scoreScreen = scoreBoard.scoreScreen;
 
 			scoreScreen.text = '' + scoreBoard.score;
+		}
+
+		ScoreBoard.prototype.getScore = function () {
+			return this.score;
 		}
 		
 		ScoreBoard.prototype.incrementScore = function () {

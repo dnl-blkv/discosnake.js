@@ -1,7 +1,9 @@
 define([
+		'./Direction',
 		'./SnakePart'
 	],
 	function (
+		Direction,
 		SnakePart
 		) {
 
@@ -14,6 +16,10 @@ define([
 			this.head = new SnakePart(cellSize, defaultCellX, defaultCellY);
 
 			this.addParts(defaultLength - 1);
+
+			this.direction = Direction.RIGHT;
+
+			this.appleEatenListener = null;
 
 		}
 
@@ -89,6 +95,18 @@ define([
 			return this.length;
 		}
 
+		Snake.prototype.setDirection = function (direction) {
+			this.direction = direction;
+		}
+
+		Snake.prototype.getDirection = function () {
+			return this.direction;
+		}
+
+		Snake.prototype.setAppleEatenListener = function (appleEatenListener) {
+			this.appleEatenListener = appleEatenListener;
+		}
+
 		// [Next][Current][Previous][Head] ->
 		Snake.prototype.addPart = function () {
 
@@ -106,6 +124,36 @@ define([
 		Snake.prototype.addParts = function (partsCount) {
 			for (var i = 0; i < partsCount; i ++) {
 				this.addPart();
+			}
+		}
+
+		Snake.prototype.move = function (game) {
+			var snake = game.snake;
+			var direction = snake.getDirection();
+
+			switch (direction) {
+				case Direction.LEFT:
+					snake.moveLeft(game);
+					break;
+				case Direction.UP:
+					snake.moveUp(game);
+					break;
+				case Direction.RIGHT:
+					snake.moveRight(game);
+					break;
+				case Direction.DOWN:
+					snake.moveDown(game);
+					break;
+				default: break;
+			}
+
+			var apple = game.apple;
+			var appleEaten = snake.isAppleEaten(apple);
+			var appleEatenListener = this.appleEatenListener;
+
+			if (appleEaten) {
+				snake.addPart();
+				appleEatenListener.call(appleEatenListener, game);
 			}
 		}
 

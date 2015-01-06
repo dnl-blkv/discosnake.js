@@ -1,11 +1,13 @@
 define([
+		'graphics/DisplayObject'
 	],
 	function (
+		DisplayObject
 		) {
 
-		function TextObject (x, y, text, fontSize, fontFamily, fontColor, maxWidth) {
-			this.x = x;
-			this.y = y;
+		function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
+			this.x = 0;
+			this.y = 0;
 
 			this.text = text;
 
@@ -17,6 +19,9 @@ define([
 
 			this.width = 0;
 		}
+
+		TextObject.prototype = Object.create(DisplayObject.prototype);
+		TextObject.prototype.constructor = TextObject;
 
 		TextObject.prototype.setText = function (text) {
 			this.text = text;
@@ -66,8 +71,8 @@ define([
 			return this.fontSize;
 		}
 
-		TextObject.prototype.draw = function (gameGraphics) {
-			gameGraphics.drawText(this.x, this.y, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
+		TextObject.prototype.draw = function (graphics) {
+			graphics.drawText(this.getX(), this.getY(), this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
 		}
 
 		return TextObject;

@@ -1,18 +1,21 @@
 define([
-		'./Tile'
+		'graphics/DisplayObject'
 	],
 	function (
-		Tile
+		DisplayObject
 		) {
 
 		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
 			// Modify the input parameters
-			this.fontSize = size;
+			this.cellSize = size;
 			this.cellX = cellX;
 			this.cellY = cellY;
 			this.fillStyle = fillStyle;
 			this.lineStyle = lineStyle;
 		}
+
+		Tile.prototype = Object.create(DisplayObject.prototype);
+		Tile.prototype.constructor = Tile;
 
 		Tile.prototype.draw = function (gameGraphics) {
 
@@ -26,15 +29,7 @@ define([
 		}
 
 		Tile.prototype.getSize = function () {
-			return this.fontSize;
-		}
-
-		Tile.prototype.getX = function () {
-			return this.cellX * this.fontSize;
-		}
-
-		Tile.prototype.getY = function () {
-			return this.cellY * this.fontSize;
+			return this.cellSize;
 		}
 
 		Tile.prototype.getCellX = function () {
@@ -45,6 +40,8 @@ define([
 			var cellsWidth = game.getCellsWidth();
 
 			this.cellX = (cellX + cellsWidth) % cellsWidth;
+
+			this.setX(this.cellX * this.cellSize);
 		}
 
 		Tile.prototype.getCellY = function () {
@@ -55,6 +52,8 @@ define([
 			var cellsHeight = game.getCellsHeight();
 
 			this.cellY = (cellY + cellsHeight) % cellsHeight;
+
+			this.setY(this.cellY * this.cellSize);
 		}
 
 		Tile.prototype.setFillStyle = function (fillStyle) {

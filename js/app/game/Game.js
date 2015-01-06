@@ -2,11 +2,12 @@ define([
 		'./Apple',
 		'./CommandCode',
 		'./Direction',
-		'./defaultControls',
+		'./controls/defaultControls',
 		'graphics/Graphics',
 		'input/InputEvent',
 		'input/KeyCode',
 		'input/Manipulator',
+		'./controls/invertedControls',
 		'./ScoreBoard',
 		'./Snake',
 		'./TextObject',
@@ -22,6 +23,7 @@ define([
 		InputEvent,
 		KeyCode,
 		Manipulator,
+		invertedControls,
 		ScoreBoard,
 		Snake,
 		TextObject,
@@ -87,13 +89,12 @@ define([
 		function reset (game) {
 			game.then = timeNow();
 
-			game.currentDirection = Direction.RIGHT;
-
 			var midWidthPosition = Math.round(game.cellsWidth / 2);
 			var midHeightPosition = Math.round(game.cellsHeight / 2);
 
 			// Initialize the snake
 			game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition, game.defaultSnakeLength);
+			game.snake.setAppleEatenListener(appleEatenListener);
 
 			dropApple(game);
 
@@ -115,20 +116,22 @@ define([
 				default: break;
 			}
 
+			var snake = game.snake;
+
 			// Non-pause keys
 			if(!game.isStopped()) {
 				switch (commandCode) {
 					case CommandCode.TURN_SNAKE_LEFT:
-						game.currentDirection = Direction.LEFT;
+						snake.setDirection(Direction.LEFT);
 						break;
 					case CommandCode.TURN_SNAKE_UP:
-						game.currentDirection = Direction.UP;
+						snake.setDirection(Direction.UP);
 						break;
 					case CommandCode.TURN_SNAKE_RIGHT:
-						game.currentDirection = Direction.RIGHT;
+						snake.setDirection(Direction.RIGHT);
 						break;
 					case CommandCode.TURN_SNAKE_DOWN:
-						game.currentDirection = Direction.DOWN;
+						snake.setDirection(Direction.DOWN);
 						break;
 					default:
 						break;
@@ -137,11 +140,18 @@ define([
 		}
 
 		// TODO: Move to a helper
-		function relTouchCoords (element, event) {
-			var absoluteX = event.touches[0].clientX;
-			var absoluteY = event.touches[0].clientY;
+		function relTouchCoords (element, touch) {
+			var absoluteX = touch.clientX;
+			var absoluteY = touch.clientY;
 
 			return relCoords(element, absoluteX, absoluteY);
+		}
+
+		// TODO: Move to a helper
+		function relLastTouchCoords (element, touchEvent) {
+			var lastTouchId = touchEvent.touches.length - 1;
+
+			return relTouchCoords(element, touchEvent.touches[lastTouchId]);
 		}
 
 		// TODO: Move to a helper
@@ -164,7 +174,7 @@ define([
 				totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
 				totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
 			}
-			while(currentElement = currentElement.offsetParent)
+			while(currentElement = currentElement.offsetParent);
 
 			canvasX = absoluteX - totalOffsetX;
 			canvasY = absoluteY - totalOffsetY;
@@ -175,36 +185,72 @@ define([
 			}
 		}
 
-		function processTouch (game, event) {
-			var coordinates = relTouchCoords(game.graphics.canvas, event);
-			var width = game.graphics.width;
-			var height = game.graphics.height;
-			var canvasHalfWidth =  width / 2;
-			var canvasHalfHeight =  height / 2;
-			var ratioWH = width / height;
-			var relX = coordinates.x - canvasHalfWidth;
-			var relY = (- coordinates.y + canvasHalfHeight) * ratioWH;
-
-			// Turn snake in the required direction
-			if (event.touches.length > 1) {
-				togglePause(game);
-			} else if ((- relX <= relY) && (relX <= relY)) {
-				game.currentDirection = Direction.UP;
-			} else if ((- relX < relY) && (relX > relY)) {
-				game.currentDirection = Direction.RIGHT;
-			} else if ((- relX >= relY) && (relX >= relY)) {
-				game.currentDirection = Direction.DOWN;
-			} else {
-				game.currentDirection = Direction.LEFT;
-			}
+		function appleEatenListener (game) {
+			dropApple(game);
+			game.scoreBoard.incrementScore();
 		}
 
 		function dropApple (game) {
-			game.apple = new Apple(game.cellSize, -1, -1);
+			game.apple = new Apple (game.cellSize, -1, -1);
 			game.apple.placeRandomly(game);
 		}
 
+		function moveSnake (game) {
+			// Check if an apple was eaten
+			var snake = game.snake;
+			snake.move(game);
+		}
+
+		function processTouch (game, event) {
+			var width = game.graphics.width;
+			var canvasHalfWidth =  width / 2;
+			var snake = game.snake;
+
+			// Turn snake in the required direction
+			if (event.touches.length === 1) {
+				var coordinates = relTouchCoords(game.graphics.canvas, event.touches[0]);
+
+				if (coordinates.x < canvasHalfWidth) {
+					snake.setDirection(Direction.LEFT);
+				} else {
+					snake.setDirection(Direction.RIGHT);
+				}
+			} else if (event.touches.length === 2) {
+				snake.setDirection(Direction.DOWN);
+			} else if (event.touches.length > 2) {
+				togglePause(game);
+			}
+
+		}
+
+//		// Cross-screened version
+//		function processTouch (game, event) {
+//			var coordinates = relLastTouchCoords(game.graphics.canvas, event);
+//			var width = game.graphics.width;
+//			var height = game.graphics.height;
+//			var canvasHalfWidth =  width / 2;
+//			var canvasHalfHeight =  height / 2;
+//			var ratioWH = width / height;
+//			var relX = coordinates.x - canvasHalfWidth;
+//			var relY = (- coordinates.y + canvasHalfHeight) * ratioWH;
+//
+//			// Turn snake in the required direction
+//			if (event.touches.length > 1) {
+//				togglePause(game);
+//			} else if ((- relX <= relY) && (relX <= relY)) {
+//				game.currentDirection = Direction.UP;
+//			} else if ((- relX < relY) && (relX > relY)) {
+//				game.currentDirection = Direction.RIGHT;
+//			} else if ((- relX >= relY) && (relX >= relY)) {
+//				game.currentDirection = Direction.DOWN;
+//			} else {
+//				game.currentDirection = Direction.LEFT;
+//			}
+//		}
+
 		function update (game) {
+			var snake = game.snake;
+
 			moveSnake(game);
 		}
 
@@ -220,36 +266,6 @@ define([
 
 			// Draw the snake
 			game.snake.draw(game.graphics);
-		}
-
-		function moveSnake (game) {
-			var snake = game.snake;
-
-			switch (game.currentDirection) {
-				case Direction.LEFT:
-					snake.moveLeft(game);
-					break;
-				case Direction.UP:
-					snake.moveUp(game);
-					break;
-				case Direction.RIGHT:
-					snake.moveRight(game);
-					break;
-				case Direction.DOWN:
-					snake.moveDown(game);
-					break;
-				default: break;
-			}
-
-			// Check if an apple was eaten
-			var apple = game.apple;
-			var appleEaten = snake.isAppleEaten(apple);
-
-			if (appleEaten) {
-				snake.addPart();
-				dropApple(game);
-				game.scoreBoard.incrementScore();
-			}
 		}
 
 		function togglePause (game) {
