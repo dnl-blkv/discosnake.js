@@ -1,5 +1,5 @@
 define([
-		'graphics/DisplayObject'
+		'engine/graphics/DisplayObject'
 	],
 	function (
 		DisplayObject

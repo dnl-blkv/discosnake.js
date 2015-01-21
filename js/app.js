@@ -16,16 +16,8 @@ requirejs.config({
 			location: '../app/game'
 		},
 		{
-			name: 'graphics',
-			location: '../app/graphics'
-		},
-		{
-			name: 'input',
-			location: '../app/input'
-		},
-		{
-			name: 'utils',
-			location: '../app/utils'
+			name: 'engine',
+			location: '../app/engine'
 		}
 	]
 });

@@ -1,5 +1,5 @@
 define([
-		'utils/numberUtils'
+		'engine/utils/numberUtils'
 	],
 	function (
 		numberUtils

@@ -1,5 +1,5 @@
 define([
-		'graphics/Color'
+		'engine/graphics/Color'
 	],
 	function (
 		Color

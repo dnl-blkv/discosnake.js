@@ -1,6 +1,6 @@
 define([
-		'graphics/Tile',
-		'utils/numberUtils'
+		'engine/graphics/Tile',
+		'engine/utils/numberUtils'
 	],
 	function (
 		Tile,

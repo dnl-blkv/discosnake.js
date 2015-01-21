@@ -1,5 +1,5 @@
 define([
-		'graphics/TextObject'
+		'engine/graphics/TextObject'
 	],
 	function (
 		TextObject
