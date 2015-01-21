@@ -10,6 +10,8 @@ define([
 		KeyCode,
 		timeUtils
 		) {
+		'use strict';
+
 		var timeNow = timeUtils.timeNow;
 
 		function Manipulator() {
@@ -107,7 +109,7 @@ define([
 			// Add the command code to the command listener arguments
 			var commandCode = getCommandCode(manipulator, event);
 
-			if (commandCode !== this.nullCommandCode) {
+			if (commandCode !== manipulator.nullCommandCode) {
 				var commandListenerArguments = Array.prototype.slice.call(manipulator.commandListenerArguments);
 				commandListenerArguments.push(commandCode);
 				commandListener.apply(commandListener, commandListenerArguments);

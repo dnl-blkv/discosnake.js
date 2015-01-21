@@ -4,6 +4,7 @@ define([
 	function (
 		DisplayObject
 		) {
+		'use strict';
 
 		// TODO: Add some random element to the menu
 		function Menu () {

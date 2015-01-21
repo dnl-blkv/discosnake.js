@@ -6,6 +6,7 @@ define([
 		Direction,
 		SnakePart
 		) {
+		'use strict';
 
 		function Snake (cellSize, defaultCellX, defaultCellY, defaultLength) {
 

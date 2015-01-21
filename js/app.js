@@ -24,10 +24,6 @@ requirejs.config({
 			location: '../app/input'
 		},
 		{
-			name: 'style',
-			location: '../app/style'
-		},
-		{
 			name: 'utils',
 			location: '../app/utils'
 		}

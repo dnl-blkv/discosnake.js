@@ -1,5 +1,7 @@
 define([],
 	function () {
+		'use strict';
+
 		return {
 			LEFT: 0,
 			UP: 1,

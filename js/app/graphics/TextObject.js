@@ -4,6 +4,7 @@ define([
 	function (
 		DisplayObject
 		) {
+		'use strict';
 
 		function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
 			this.x = 0;

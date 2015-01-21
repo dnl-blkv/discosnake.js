@@ -1,9 +1,10 @@
 define([
-		'./TextObject'
+		'graphics/TextObject'
 	],
 	function (
 		TextObject
 		) {
+		'use strict';
 
 		function MenuItem (text, fontSize, fontFamily, defaultColor, selectedColor, maxWidth) {
 			// Save the colors

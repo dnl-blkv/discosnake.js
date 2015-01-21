@@ -6,6 +6,8 @@ define([
 		InputEvent,
 		htmlUtils
 		) {
+		'use strict';
+
 		var centreElement = htmlUtils.centreElement;
 
 		function GameGraphics (width, height) {

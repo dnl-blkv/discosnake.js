@@ -2,6 +2,7 @@ define([
 	],
 	function (
 		) {
+		'use strict';
 
 		function DisplayObject() {
 			this.x = 0;

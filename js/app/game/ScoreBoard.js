@@ -1,9 +1,11 @@
 define([
-		'./TextObject'
+		'graphics/TextObject'
 	],
 	function (
 		TextObject
 		) {
+		'use strict';
+
 		function ScoreBoard() {
 			this.score = 0;
 

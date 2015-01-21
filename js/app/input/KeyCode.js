@@ -1,5 +1,7 @@
 define([],
 	function () {
+		'use strict';
+
 		return {
 			NULL_KEY: 0,
 			LEFT: 37,

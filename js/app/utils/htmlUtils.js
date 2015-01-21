@@ -1,5 +1,7 @@
 define([],
 	function () {
+		'use strict';
+
 		function centreElement (element) {
 			var width = document.documentElement.clientWidth;
 			var height = document.documentElement.clientHeight;

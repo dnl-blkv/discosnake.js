@@ -4,6 +4,7 @@ define([
 	function (
 		Color
 		) {
+		'use strict';
 
 		function getRandomCssColor () {
 			var color = Color.getRandomColor();

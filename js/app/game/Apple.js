@@ -1,11 +1,13 @@
 define([
-		'./Tile',
+		'graphics/Tile',
 		'utils/numberUtils'
 	],
 	function (
 		Tile,
 		numberUtils
 		) {
+		'use strict';
+
 		var getRandomInteger = numberUtils.getRandomInteger;
 
 		function Apple (size, cellX, cellY) {

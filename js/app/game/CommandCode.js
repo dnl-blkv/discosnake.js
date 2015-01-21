@@ -1,5 +1,7 @@
 define([],
 	function () {
+		'use strict';
+
 		return {
 			NULL_COMMAND: 'nullCommand',
 			RESET_GAME: 'resetGame',

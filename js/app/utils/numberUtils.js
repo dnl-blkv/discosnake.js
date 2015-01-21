@@ -1,5 +1,6 @@
 define([],
 	function () {
+		'use strict';
 
 		/**
 		 * Returns a random integer from 'from' to 'to' excluding the latter one.

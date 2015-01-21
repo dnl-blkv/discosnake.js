@@ -4,6 +4,7 @@ define([
 	function (
 		DisplayObject
 		) {
+		'use strict';
 
 		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
 			// Modify the input parameters

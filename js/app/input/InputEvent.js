@@ -1,5 +1,7 @@
 define([],
 	function () {
+		'use strict';
+
 		return {
 			CLICK: 'click',
 			KEY_DOWN: 'keydown',

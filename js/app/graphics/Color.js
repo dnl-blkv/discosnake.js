@@ -4,6 +4,8 @@ define([
 	function (
 		numberUtils
 		) {
+		'use strict';
+
 		var getRandomNumber = numberUtils.getRandomNumber;
 
 		function Color (red, green, blue) {

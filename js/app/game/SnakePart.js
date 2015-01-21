@@ -1,11 +1,13 @@
 define([
-		'./Tile',
+		'graphics/Tile',
 		'utils/graphicUtils'
 	],
 	function (
 		Tile,
 		graphicUtils
 		) {
+		'use strict';
+
 		// Access the required methods
 		var getRandomPsychedelicColor = graphicUtils.getRandomPsychedelicColor;
 

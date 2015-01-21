@@ -1,34 +1,35 @@
 define([
 		'./Apple',
 		'./CommandCode',
-		'./Direction',
 		'./controls/defaultControls',
+		'./controls/invertedControls',
+		'./Direction',
 		'graphics/Graphics',
+		'graphics/TextObject',
 		'input/InputEvent',
 		'input/KeyCode',
 		'input/Manipulator',
-		'./controls/invertedControls',
 		'./ScoreBoard',
 		'./Snake',
-		'./TextObject',
 		'utils/timeUtils',
 		'font!custom,families:[Wendy],urls:[style/style.css]'
 	],
 	function (
 		Apple,
 		CommandCode,
-		Direction,
 		defaultControls,
+		invertedControls,
+		Direction,
 		Graphics,
+		TextObject,
 		InputEvent,
 		KeyCode,
 		Manipulator,
-		invertedControls,
 		ScoreBoard,
 		Snake,
-		TextObject,
 		timeUtils
 		) {
+		'use strict';
 
 		// Get the animation methods
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;

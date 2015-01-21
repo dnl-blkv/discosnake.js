@@ -4,6 +4,7 @@ define([
 	function (
 		KeyCode
 		) {
+		'use strict';
 
 		function Controls () {
 			this.keyDownCommandMap = {};
