@@ -1,10 +1,11 @@
 define([
-		'engine/graphics/TextObject'
+		'engine'
 	],
 	function (
-		TextObject
+		engine
 		) {
 		'use strict';
+		var TextObject = engine.graphics.TextObject;
 
 		function ScoreBoard() {
 			this.score = 0;

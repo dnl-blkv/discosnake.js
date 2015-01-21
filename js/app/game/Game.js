@@ -2,34 +2,29 @@ define([
 		'./Apple',
 		'./CommandCode',
 		'./controls/defaultControls',
+		'engine',
 		'./controls/invertedControls',
 		'./Direction',
-		'engine/graphics/Graphics',
-		'engine/graphics/TextObject',
-		'engine/input/InputEvent',
-		'engine/input/KeyCode',
-		'engine/input/Manipulator',
 		'./ScoreBoard',
 		'./Snake',
-		'engine/utils/timeUtils',
 		'font!custom,families:[Wendy],urls:[style/style.css]'
 	],
 	function (
 		Apple,
 		CommandCode,
 		defaultControls,
+		engine,
 		invertedControls,
 		Direction,
-		Graphics,
-		TextObject,
-		InputEvent,
-		KeyCode,
-		Manipulator,
 		ScoreBoard,
-		Snake,
-		timeUtils
+		Snake
 		) {
 		'use strict';
+
+		var Graphics = engine.graphics.Graphics;
+		var InputEvent = engine.input.InputEvent;
+		var Manipulator = engine.input.Manipulator;
+		var timeUtils = engine.utils.timeUtils;
 
 		// Get the animation methods
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;
@@ -167,8 +162,7 @@ define([
 		function relCoords(element, absoluteX, absoluteY){
 			var totalOffsetX = 0;
 			var totalOffsetY = 0;
-			var canvasX = 0;
-			var canvasY = 0;
+			var canvasX, canvasY;
 			var currentElement = element;
 
 			do{

@@ -1,12 +1,13 @@
 define([
-		'engine/graphics/Tile',
-		'engine/utils/numberUtils'
+		'engine'
 	],
 	function (
-		Tile,
-		numberUtils
+		engine
 		) {
 		'use strict';
+
+		var Tile = engine.graphics.Tile;
+		var numberUtils = engine.utils.numberUtils;
 
 		var getRandomInteger = numberUtils.getRandomInteger;
 

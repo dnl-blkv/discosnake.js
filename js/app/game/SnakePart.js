@@ -1,12 +1,13 @@
 define([
-		'engine/graphics/Tile',
-		'engine/utils/graphicUtils'
+		'engine'
 	],
 	function (
-		Tile,
-		graphicUtils
+		engine
 		) {
 		'use strict';
+
+		var Tile = engine.graphics.Tile;
+		var graphicUtils = engine.utils.graphicUtils;
 
 		// Access the required methods
 		var getRandomPsychedelicColor = graphicUtils.getRandomPsychedelicColor;

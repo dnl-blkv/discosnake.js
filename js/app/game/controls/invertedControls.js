@@ -1,13 +1,14 @@
 define([
 		'game/CommandCode',
-		'engine/input/Controls',
-		'engine/input/KeyCode'
+		'engine'
 	],
 	function (
 		CommandCode,
-		Controls,
-		KeyCode
+		engine
 		) {
+
+		var Controls = engine.input.Controls;
+		var KeyCode = engine.input.KeyCode;
 
 		function createInvertedControls () {
 			var invertedControls = new Controls();
