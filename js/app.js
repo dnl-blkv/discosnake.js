@@ -18,6 +18,10 @@ requirejs.config({
 		{
 			name: 'engine',
 			location: '../app/engine'
+		},
+		{
+			name: 'engine/graphics',
+			location: '../app/engine/graphics'
 		}
 	]
 });

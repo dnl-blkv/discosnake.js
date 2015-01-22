@@ -1,12 +1,12 @@
 define([
-		'engine'
+		'engine/graphics'
 	],
 	function (
-		engine
+		graphics
 		) {
 		'use strict';
 
-		var TextObject = engine.graphics.TextObject;
+		var TextObject = graphics.TextObject;
 
 		function MenuItem (text, fontSize, fontFamily, defaultColor, selectedColor, maxWidth) {
 			// Save the colors

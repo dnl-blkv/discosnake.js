@@ -1,17 +1,20 @@
 define([
 	'./graphics/main',
 	'./input/main',
-	'./utils/main'
+	'./utils/main',
+	'./ui/main'
 ], function (
 		graphics,
 		input,
-		utils
+		utils,
+		ui
 	) {
 	'use strict';
 
 	return {
 		graphics: graphics,
 		input: input,
-		utils: utils
+		utils: utils,
+		ui: ui
 	}
 });

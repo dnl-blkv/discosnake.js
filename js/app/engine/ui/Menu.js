@@ -1,11 +1,11 @@
 define([
-		'engine'
+		'engine/graphics'
 	],
 	function (
-			engine
+			graphics
 		) {
 		'use strict';
-		var DisplayObject = engine.graphics.DisplayObject;
+		var DisplayObject = graphics.DisplayObject;
 
 		// TODO: Add some random element to the menu
 		function Menu () {
