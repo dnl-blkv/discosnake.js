@@ -18,14 +18,11 @@ requirejs.config({
 		{
 			name: 'engine',
 			location: '../app/engine'
-		},
-		{
-			name: 'engine/graphics',
-			location: '../app/engine/graphics'
 		}
 	]
 });
 
 // Start loading the main app file. Put all of
 // your application logic in there.
+// Don't forget to load all the module configurations
 requirejs(['app/main']);
