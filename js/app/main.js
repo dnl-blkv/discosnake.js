@@ -1,6 +1,6 @@
 define([
 	'domReady',
-	'game/Game'
+	'game'
 ], function (
 	domReady,
 	Game

@@ -13,11 +13,13 @@ requirejs.config({
 	packages: [
 		{
 			name: 'game',
-			location: '../app/game'
+			location: '../app/game',
+			main: 'Game'
 		},
 		{
 			name: 'engine',
-			location: '../app/engine'
+			location: '../app/engine',
+			main: 'main'
 		}
 	]
 });
