@@ -7,18 +7,17 @@ define([
 		'use strict';
 
 		function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
-			this.x = 0;
-			this.y = 0;
+			DisplayObject.call(this, 0, 0, 0, 0);
 
+			// TextObject Specifics
 			this.text = text;
 
-			this.fontSize = fontSize || 12;
+			this.setFontSize(fontSize || 12);
+			
 			this.fontFamily = fontFamily || 'Arial';
 			this.fontColor = fontColor || 'black';
-
 			this.maxWidth = maxWidth || (5 * fontSize);
 
-			this.width = 0;
 		}
 
 		TextObject.prototype = Object.create(DisplayObject.prototype);
@@ -34,6 +33,8 @@ define([
 
 		TextObject.prototype.setFontSize = function (fontSize) {
 			this.fontSize = fontSize;
+
+			this.setHeight(fontSize);
 		}
 
 		TextObject.prototype.getFontSize = function () {
@@ -62,14 +63,6 @@ define([
 
 		TextObject.prototype.getMaxWidth = function () {
 			return this.maxWidth;
-		}
-
-		TextObject.prototype.getWidth = function () {
-			return this.width;
-		}
-
-		TextObject.prototype.getHeight = function () {
-			return this.fontSize;
 		}
 
 		TextObject.prototype.draw = function (graphics) {
