@@ -13,7 +13,7 @@ define([
 			this.text = text;
 
 			this.setFontSize(fontSize || 12);
-			
+
 			this.fontFamily = fontFamily || 'Arial';
 			this.fontColor = fontColor || 'black';
 			this.maxWidth = maxWidth || (5 * fontSize);

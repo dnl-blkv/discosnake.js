@@ -23,6 +23,10 @@ define([
 			return hexString;
 		}
 
+		Color.prototype.setRed = function (red) {
+			this.red = red;
+		}
+
 		Color.prototype.getRed = function () {
 			return this.red;
 		}
@@ -33,8 +37,8 @@ define([
 			return Color.toHexChannel(red);
 		}
 
-		Color.prototype.setRed = function (red) {
-			this.red = red;
+		Color.prototype.setGreen = function (green) {
+			this.green = green;
 		}
 
 		Color.prototype.getGreen = function () {
@@ -47,8 +51,8 @@ define([
 			return Color.toHexChannel(green);
 		}
 
-		Color.prototype.setGreen = function (green) {
-			this.green = green;
+		Color.prototype.setBlue = function (blue) {
+			this.blue = blue;
 		}
 
 		Color.prototype.getBlue = function () {
@@ -59,10 +63,6 @@ define([
 			var blue = this.getBlue();
 
 			return Color.toHexChannel(blue);
-		}
-
-		Color.prototype.setBlue = function (blue) {
-			this.blue = blue;
 		}
 
 		Color.prototype.copy = function () {
