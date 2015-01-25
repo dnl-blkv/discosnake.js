@@ -10,7 +10,7 @@ define([
 
 		var centreElement = htmlUtils.centreElement;
 
-		function GameGraphics (width, height) {
+		function Graphics (width, height) {
 			this.canvas = document.createElement('canvas');
 
 			// Set default width
@@ -22,7 +22,7 @@ define([
 			this.setHeight(height);
 
 			// Set up the default properties
-			this.canvas.class = "gameGraphics";
+			this.canvas.class = "graphics";
 			this.canvas.style.backgroundColor = '#000000';
 
 			// Make z-index variable
@@ -39,20 +39,20 @@ define([
 
 			// TODO: Cleanup the centering code
 			// Centering
-			var gameGraphics = this;
+			var graphics = this;
 
 			window.addEventListener (InputEvent.RESIZE, function () {
-				centreCanvas(gameGraphics);
+				centreCanvas(graphics);
 			});
 
-			centreCanvas(gameGraphics);
+			centreCanvas(graphics);
 		}
 
-		function centreCanvas (gameGraphics) {
-			centreElement(gameGraphics.canvas);
+		function centreCanvas (graphics) {
+			centreElement(graphics.canvas);
 		}
 
-		GameGraphics.prototype.reset = function () {
+		Graphics.prototype.reset = function () {
 			var context = this.getContext();
 			// Clear the canvas content
 			// Store the current transformation matrix
@@ -66,33 +66,33 @@ define([
 			context.restore();
 		}
 
-		GameGraphics.prototype.setWidth = function (width) {
+		Graphics.prototype.setWidth = function (width) {
 			this.width = width;
 			this.canvas.width = width;
 			this.canvas.style.width = width + "px";
 		}
 
-		GameGraphics.prototype.getWidth = function () {
+		Graphics.prototype.getWidth = function () {
 			return this.width;
 		}
 
-		GameGraphics.prototype.setHeight = function (height) {
+		Graphics.prototype.setHeight = function (height) {
 			this.height = height;
 			this.canvas.height = height;
 			this.canvas.style.height = height + "px";
 		}
 
-		GameGraphics.prototype.getHeight = function () {
+		Graphics.prototype.getHeight = function () {
 			return this.canvas.height;
 		}
 
-		GameGraphics.prototype.getContext = function () {
+		Graphics.prototype.getContext = function () {
 			var context = this.canvas.getContext("2d");
 
 			return context;
 		}
 
-		GameGraphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
+		Graphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
 
 			var context = this.getContext();
 
@@ -110,13 +110,13 @@ define([
 		}
 
 		// TODO: Move to utils
-		GameGraphics.prototype.buildFontString = function (fontSize, fontName) {
+		Graphics.prototype.buildFontString = function (fontSize, fontName) {
 			var fontString = '' + fontSize + 'px ' + fontName;
 
 			return fontString;
 		}
 
-		GameGraphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
+		Graphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
 			var context = this.getContext();
 
 			context.beginPath();
@@ -131,5 +131,5 @@ define([
 			context.fillText(text, x, y, maxWidth);
 		}
 
-		return GameGraphics;
+		return Graphics;
 	});

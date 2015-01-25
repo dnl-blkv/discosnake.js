@@ -2,20 +2,19 @@ define([
 		'./Apple',
 		'./CommandCode',
 		'./controls/defaultControls',
-		'engine',
 		'./controls/invertedControls',
 		'./Direction',
+		'engine',
 		'./ScoreBoard',
-		'./Snake',
-		'font!custom,families:[Wendy],urls:[style/style.css]'
+		'./Snake'
 	],
 	function (
 		Apple,
 		CommandCode,
 		defaultControls,
-		engine,
 		invertedControls,
 		Direction,
+		engine,
 		ScoreBoard,
 		Snake
 		) {

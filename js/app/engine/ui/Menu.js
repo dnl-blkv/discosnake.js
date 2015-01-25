@@ -6,7 +6,6 @@ define([
 		) {
 		'use strict';
 
-		// TODO: Add some random element to the menu
 		function Menu () {
 			this.x = 0;
 			this.y = 0;

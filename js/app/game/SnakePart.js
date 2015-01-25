@@ -45,24 +45,24 @@ define([
 		}
 
 		SnakePart.prototype.moveRight = function (game) {
-			this.setCellX(game, this.cellX + 1);
+			this.setCellX(this.cellX + 1);
 		}
 
 		SnakePart.prototype.moveLeft = function (game) {
-			this.setCellX(game, this.cellX - 1);
+			this.setCellX(this.cellX - 1);
 		}
 
 		SnakePart.prototype.moveDown = function (game) {
-			this.setCellY(game, this.cellY + 1);
+			this.setCellY(this.cellY + 1);
 		}
 
 		SnakePart.prototype.moveUp = function (game) {
-			this.setCellY(game, this.cellY - 1);
+			this.setCellY(this.cellY - 1);
 		}
 
 		SnakePart.prototype.dragTo = function (game, otherSnakePart) {
-			this.setCellX(game, otherSnakePart.getCellX());
-			this.setCellY(game, otherSnakePart.getCellY());
+			this.setCellX(otherSnakePart.getCellX());
+			this.setCellY(otherSnakePart.getCellY());
 		}
 
 		SnakePart.prototype.draw = function (gameGraphics) {

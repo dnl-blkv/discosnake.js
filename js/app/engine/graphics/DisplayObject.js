@@ -7,6 +7,8 @@ define([
 		function DisplayObject() {
 			this.x = 0;
 			this.y = 0;
+			this.width = 0;
+			this.height = 0;
 		}
 
 		DisplayObject.prototype.setX = function (x) {
@@ -23,6 +25,22 @@ define([
 
 		DisplayObject.prototype.getY = function () {
 			return this.y;
+		}
+
+		DisplayObject.prototype.setWidth = function (width) {
+			this.width = width;
+		}
+
+		DisplayObject.prototype.getWidth = function () {
+			return this.width;
+		}
+
+		DisplayObject.prototype.setHeight = function (height) {
+			this.height = height;
+		}
+
+		DisplayObject.prototype.getHeight = function () {
+			return this.height;
 		}
 
 		return DisplayObject;

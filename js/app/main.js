@@ -1,6 +1,7 @@
 define([
 	'domReady',
-	'game'
+	'game',
+	'font!custom,families:[Wendy],urls:[style/style.css]'
 ], function (
 	domReady,
 	Game

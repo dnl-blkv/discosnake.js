@@ -8,17 +8,19 @@ define([
 
 		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
 			// Modify the input parameters
-			this.cellSize = size;
-			this.cellX = cellX;
-			this.cellY = cellY;
+			this.setSize(size);
+			this.setCellX(cellX);
+			this.setCellY(cellY);
 			this.fillStyle = fillStyle;
 			this.lineStyle = lineStyle;
 		}
 
+		// Derive from the DisplayObject
 		Tile.prototype = Object.create(DisplayObject.prototype);
 		Tile.prototype.constructor = Tile;
 
-		Tile.prototype.draw = function (gameGraphics) {
+		/** Draw the a tile on a graphics */
+		Tile.prototype.draw = function (graphics) {
 
 			var xPosition = this.getX();
 			var yPosition = this.getY();
@@ -26,35 +28,40 @@ define([
 			var fillStyle = this.getFillStyle();
 			var lineStyle = this.getLineStyle();
 
-			gameGraphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
+			graphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
+		}
+
+		/** Set tile's size */
+		Tile.prototype.setSize = function (size) {
+			this.size = size;
+
+			// Set the basic parameters
+			this.setWidth(size);
+			this.setHeight(size);
 		}
 
 		Tile.prototype.getSize = function () {
-			return this.cellSize;
+			return this.size;
+		}
+
+		Tile.prototype.setCellX = function (cellX) {
+			this.cellX = cellX;
+
+			this.setX(this.cellX * this.size);
 		}
 
 		Tile.prototype.getCellX = function () {
 			return this.cellX;
 		}
 
-		Tile.prototype.setCellX = function (game, cellX) {
-			var cellsWidth = game.getCellsWidth();
+		Tile.prototype.setCellY = function (cellY) {
+			this.cellY = cellY;
 
-			this.cellX = (cellX + cellsWidth) % cellsWidth;
-
-			this.setX(this.cellX * this.cellSize);
+			this.setY(this.cellY * this.size);
 		}
 
 		Tile.prototype.getCellY = function () {
 			return this.cellY;
-		}
-
-		Tile.prototype.setCellY = function (game, cellY) {
-			var cellsHeight = game.getCellsHeight();
-
-			this.cellY = (cellY + cellsHeight) % cellsHeight;
-
-			this.setY(this.cellY * this.cellSize);
 		}
 
 		Tile.prototype.setFillStyle = function (fillStyle) {
