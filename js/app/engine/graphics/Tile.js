@@ -44,8 +44,14 @@ define([
 			return this.size;
 		}
 
-		Tile.prototype.setCellX = function (cellX) {
-			this.cellX = cellX;
+		Tile.prototype.setCellX = function (cellX, gridWidth) {
+			// If grid width is defined, control overflow
+			// Otherwise, assume the grid is unlimited
+			if (gridWidth !== undefined) {
+				this.cellX = (cellX + gridWidth) % gridWidth;
+			} else {
+				this.cellX = cellX;
+			}
 
 			this.setX(this.cellX * this.size);
 		}
@@ -54,8 +60,14 @@ define([
 			return this.cellX;
 		}
 
-		Tile.prototype.setCellY = function (cellY) {
-			this.cellY = cellY;
+		Tile.prototype.setCellY = function (cellY, gridHeight) {
+			// If grid height is defined, control overflow
+			// Otherwise, assume the grid is unlimited
+			if (gridHeight !== undefined) {
+				this.cellY = (cellY + gridHeight) % gridHeight;
+			} else {
+				this.cellY = cellY;
+			}
 
 			this.setY(this.cellY * this.size);
 		}
