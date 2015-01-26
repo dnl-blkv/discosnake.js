@@ -27,8 +27,8 @@ define([
 			var cellsWidth = game.getCellsWidth();
 			var cellsHeight = game.getCellsHeight();
 
-			this.setCellX(game, getRandomInteger(0, cellsWidth));
-			this.setCellY(game, getRandomInteger(0, cellsHeight));
+			this.setCellX(getRandomInteger(0, cellsWidth), game.getCellsWidth());
+			this.setCellY(getRandomInteger(0, cellsHeight), game.getCellsHeight());
 		}
 
 		return Apple;
