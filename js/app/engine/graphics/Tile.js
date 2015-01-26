@@ -7,6 +7,8 @@ define([
 		'use strict';
 
 		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
+			DisplayObject.call(this, 0, 0, 0, 0);
+
 			// Modify the input parameters
 			this.setSize(size);
 			this.setCellX(cellX);

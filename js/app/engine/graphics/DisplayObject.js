@@ -4,11 +4,11 @@ define([
 		) {
 		'use strict';
 
-		function DisplayObject() {
-			this.x = 0;
-			this.y = 0;
-			this.width = 0;
-			this.height = 0;
+		function DisplayObject(x, y, width, height) {
+			this.x = x;
+			this.y = y;
+			this.width = width;
+			this.height = height;
 		}
 
 		DisplayObject.prototype.setX = function (x) {

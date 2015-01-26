@@ -23,6 +23,8 @@ define([
 		var Graphics = engine.graphics.Graphics;
 		var InputEvent = engine.input.InputEvent;
 		var Manipulator = engine.input.Manipulator;
+		var Menu = engine.ui.Menu;
+		var MenuItem = engine.ui.MenuItem;
 		var timeUtils = engine.utils.timeUtils;
 
 		// Get the animation methods
@@ -58,6 +60,13 @@ define([
 			var width = cellsWidth * cellSize + 1;
 			var height = cellsHeight * cellSize + 1;
 			this.graphics = new Graphics(width, height);
+
+			// TODO: R U SERIOUS, DIRTY GUY?!
+			this.menu = new Menu();
+			var menuFontSize = 48;
+			this.menu.addItem(new MenuItem('Hello Snake', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			this.menu.addItem(new MenuItem('START', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			this.menu.center(this.graphics);
 
 			// Create the control module
 			this.manipulator = new Manipulator();
@@ -260,6 +269,8 @@ define([
 
 			// Draw the snake
 			game.snake.draw(game.graphics);
+
+			game.menu.draw(game.graphics);
 		}
 
 		function togglePause (game) {

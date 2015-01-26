@@ -65,7 +65,27 @@ define([
 			return this.maxWidth;
 		}
 
+		TextObject.prototype.getWidth = function (graphics) {
+			var context = graphics.getContext();
+
+			var fontString = graphics.buildFontString(this.fontSize, this.fontFamily);
+
+			context.font = fontString;
+
+			var text = this.text;
+
+			var textMetrics = context.measureText(text);
+
+			var width = textMetrics.width;
+
+			return width;
+		}
+
 		TextObject.prototype.draw = function (graphics) {
+			var width = this.getWidth(graphics);
+
+			this.setWidth(width);
+
 			graphics.drawText(this.getX(), this.getY(), this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
 		}
 

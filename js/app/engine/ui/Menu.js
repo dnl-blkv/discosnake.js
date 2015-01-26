@@ -7,8 +7,8 @@ define([
 		'use strict';
 
 		function Menu () {
-			this.x = 0;
-			this.y = 0;
+			DisplayObject.call(this, 0, 0, 0, 0);
+
 			this.items = [];
 		}
 
@@ -16,22 +16,23 @@ define([
 		Menu.prototype.constructor = Menu;
 
 		Menu.prototype.center = function (graphics) {
-			var width = this.getWidth();
+			var width = this.getWidth(graphics);
 			var graphicsWidth = graphics.getWidth();
-			this.x = (graphicsWidth - width) / 2.0;
+			var centerX = (graphicsWidth - width) / 2.0;
+			this.setX(centerX);
 
 			var height = this.getHeight();
 			var graphicsHeight = graphics.getHeight();
-			this.y = (graphicsHeight - height) / 2.0;
+			var centerY = (graphicsHeight - height) / 2.0;
+			this.setY(centerY);
 		}
 
-		Menu.prototype.getWidth = function () {
+		Menu.prototype.getWidth = function (graphics) {
 			var itemsCount = this.getItemsCount();
 			var width = 0;
-			var currentItemWidth = 0;
 
 			for (var i = 0; i < itemsCount; i ++) {
-				currentItemWidth = this.items[i].getWidth();
+				var currentItemWidth = this.items[i].getWidth(graphics);
 
 				if (width < currentItemWidth) {
 					width = currentItemWidth;
@@ -69,11 +70,16 @@ define([
 
 		Menu.prototype.draw = function (graphics) {
 			var itemsCount = this.getItemsCount();
-			var currentItem;
+			var currentX = this.getX();
+			var currentY = this.getY();
 
 			for (var i = 0; i < itemsCount; i ++) {
-				currentItem = this.items[i];
+				var currentItem = this.items[i];
+				currentItem.setX(currentX);
+				currentItem.setY(currentY);
 				currentItem.draw(graphics);
+
+				currentY += currentItem.getHeight();
 			}
 		}
 
