@@ -1,22 +1,22 @@
 define([
 		'./Apple',
 		'./CommandCode',
-		'./controls/defaultControls',
-		'./controls/invertedControls',
+		'./controls/defaultGameControls',
+		'./controls/invertedGameControls',
+		'./controls/menuControls',
 		'./Direction',
 		'engine',
-		'./MenuActionCode',
 		'./ScoreBoard',
 		'./Snake'
 	],
 	function (
 		Apple,
 		CommandCode,
-		defaultControls,
+		defaultGameControls,
 		invertedControls,
+		menuControls,
 		Direction,
 		engine,
-		MenuActionCode,
 		ScoreBoard,
 		Snake
 		) {
@@ -51,7 +51,7 @@ define([
 			this.lastRequestId = 0;
 
 			// Set the default properties
-			this.stopped = false;
+			this.stopped = true;
 			this.lastRequestId = 0;
 			this.scoreBoard = new ScoreBoard();
 
@@ -64,19 +64,16 @@ define([
 			this.graphics = new Graphics(width, height);
 
 			// TODO: R U SERIOUS, DIRTY GUY?!
-			this.menu = new Menu();
-			var menuFontSize = 48;
-			this.menu.addItem(new MenuItem(MenuActionCode.NEW_GAME, 'NEW GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
-			this.menu.addItem(new MenuItem(MenuActionCode.CONTINUE, 'CONTINUE', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
-			this.menu.setItemSelectedListener(performMenuAction, this);
+			this.menu = null;
+			this.pausedGameMenu = null;
+			buildMenus(this);
 
 			// Create the control module
 			this.manipulator = new Manipulator();
 
 			// Set the command listener
 			this.manipulator.setCommandListener(executeCommand, this);
-
-			setUpGameControls(this);
+			this.manipulator.setControls(menuControls);
 
 			// TODO: Dirty, DIRTY solution; Fix
 			var game = this;
@@ -88,23 +85,24 @@ define([
 			reset(this);
 		}
 
-		function performMenuAction (game, actionCode) {
+		function buildMenus (game) {
+			var newGameMenu = new Menu();
 
-			switch (actionCode) {
-				case MenuActionCode.NEW_GAME:
-					reset(game);
-					game.start();
-					break;
-				case MenuActionCode.CONTINUE:
-					game.start();
-					break;
-				default:
-					break;
-			}
-		}
+			var menuFontSize = 48;
 
-		function setUpGameControls (game) {
-			game.manipulator.setControls(defaultControls);
+			newGameMenu.addItem(new MenuItem(CommandCode.CONTINUE_GAME, 'START GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			newGameMenu.setItemSelectedListener(executeCommand, game);
+
+			// Set menu to the new game menu by default since no game has been started
+			game.menu = newGameMenu;
+
+			var pausedGameMenu = new Menu();
+
+			pausedGameMenu.addItem(new MenuItem(CommandCode.CONTINUE_GAME, 'CONTINUE', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			pausedGameMenu.addItem(new MenuItem(CommandCode.NEW_GAME, 'NEW GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			pausedGameMenu.setItemSelectedListener(executeCommand, game);
+
+			game.pausedGameMenu = pausedGameMenu;
 		}
 
 		function reset (game) {
@@ -112,6 +110,9 @@ define([
 
 			var midWidthPosition = Math.round(game.cellsWidth / 2);
 			var midHeightPosition = Math.round(game.cellsHeight / 2);
+
+			// Reset the scoreboard
+			game.scoreBoard.reset();
 
 			// Initialize the snake
 			game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition, game.defaultSnakeLength);
@@ -125,8 +126,8 @@ define([
 		function executeCommand (game, commandCode) {
 
 			var menu = game.menu;
+			var snake = game.snake;
 
-			// Pause keys
 			switch (commandCode) {
 				case CommandCode.TOGGLE_PAUSE:
 					togglePause(game);
@@ -136,52 +137,48 @@ define([
 					reset(game);
 					break;
 
+				case CommandCode.PREVIOUS_MENU_ITEM:
+					menu.focusPreviousItem();
+					render(game);
+					break;
+
+				case CommandCode.NEXT_MENU_ITEM:
+					menu.focusNextItem();
+					render(game);
+					break;
+
+				case CommandCode.SELECT_MENU_ITEM:
+					menu.selectCurrentItem();
+					render(game);
+					break;
+
+				case CommandCode.TURN_SNAKE_LEFT:
+					snake.setDirection(Direction.LEFT);
+					break;
+
+				case CommandCode.TURN_SNAKE_UP:
+					snake.setDirection(Direction.UP);
+					break;
+
+				case CommandCode.TURN_SNAKE_RIGHT:
+					snake.setDirection(Direction.RIGHT);
+					break;
+
+				case CommandCode.TURN_SNAKE_DOWN:
+					snake.setDirection(Direction.DOWN);
+					break;
+
+				case CommandCode.NEW_GAME:
+					reset(game);
+					game.start();
+					break;
+
+				case CommandCode.CONTINUE_GAME:
+					game.start();
+					break;
+
 				default:
 					break;
-			}
-
-			if(game.isStopped()) {
-				switch (commandCode) {
-					case CommandCode.PREVIOUS_MENU_ITEM:
-						menu.previousItem();
-						render(game);
-						break;
-
-					case CommandCode.NEXT_MENU_ITEM:
-						menu.nextItem();
-						render(game);
-						break;
-
-					case CommandCode.SELECT_MENU_ITEM:
-						menu.selectCurrentItem();
-						render(game);
-						break;
-
-					default:
-						break;
-				}
-			}
-
-			var snake = game.snake;
-
-			// Non-pause keys
-			if(!game.isStopped()) {
-				switch (commandCode) {
-					case CommandCode.TURN_SNAKE_LEFT:
-						snake.setDirection(Direction.LEFT);
-						break;
-					case CommandCode.TURN_SNAKE_UP:
-						snake.setDirection(Direction.UP);
-						break;
-					case CommandCode.TURN_SNAKE_RIGHT:
-						snake.setDirection(Direction.RIGHT);
-						break;
-					case CommandCode.TURN_SNAKE_DOWN:
-						snake.setDirection(Direction.DOWN);
-						break;
-					default:
-						break;
-				}
 			}
 		}
 
@@ -294,8 +291,6 @@ define([
 //		}
 
 		function update (game) {
-			var snake = game.snake;
-
 			moveSnake(game);
 		}
 
@@ -328,10 +323,26 @@ define([
 			}
 		}
 
+		Game.prototype.start = function () {
+			this.stopped = false;
+			this.manipulator.setControls(defaultGameControls);
+
+			// Set up the menu
+			if (this.menu !== this.pausedGameMenu) {
+				this.menu = this.pausedGameMenu;
+			}
+
+			this.menu.focusFirstItem();
+
+			this.then = timeNow();
+			this.run();
+		}
+
 		Game.prototype.pause = function () {
 			var requestId = this.lastRequestId;
 
 			if (requestId) {
+				this.manipulator.setControls(menuControls);
 				cancelAnimationFrame(requestId);
 			}
 
@@ -342,12 +353,6 @@ define([
 
 		Game.prototype.isStopped = function () {
 			return this.stopped;
-		}
-
-		Game.prototype.start = function () {
-			this.stopped = false;
-			this.then = timeNow();
-			this.run();
 		}
 
 		// TODO: RUN THE FUCKING GAME

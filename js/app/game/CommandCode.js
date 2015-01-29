@@ -3,15 +3,25 @@ define([],
 		'use strict';
 
 		return {
+			// Null command
 			NULL_COMMAND: 'nullCommand',
-			RESET_GAME: 'resetGame',
-			TURN_SNAKE_LEFT: 'turnSnakeLeft',
-			TURN_SNAKE_UP: 'turnSnakeUp',
-			TURN_SNAKE_RIGHT: 'turnSnakeRight',
+
+			// Snake control commands
 			TURN_SNAKE_DOWN: 'turnSnakeDown',
+			TURN_SNAKE_LEFT: 'turnSnakeLeft',
+			TURN_SNAKE_RIGHT: 'turnSnakeRight',
+			TURN_SNAKE_UP: 'turnSnakeUp',
+
+			// Game management commands
 			TOGGLE_PAUSE: 'togglePause',
-			PREVIOUS_MENU_ITEM: 'previousMenuItem',
+
+			// Menu navigation commands
 			NEXT_MENU_ITEM: 'nextMenuItem',
-			SELECT_MENU_ITEM: 'selectMenuItem'
+			PREVIOUS_MENU_ITEM: 'previousMenuItem',
+			SELECT_MENU_ITEM: 'selectMenuItem',
+
+			// Menu actions commands
+			CONTINUE_GAME: 'continueGame',
+			NEW_GAME: 'newGame'
 		}
 	});

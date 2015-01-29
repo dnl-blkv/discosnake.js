@@ -99,6 +99,10 @@ define([
 					break;
 			}
 
+			if (!commandCode && (commandCode !== 0)) {
+				commandCode = manipulator.nullCommandCode;
+			}
+
 			return commandCode;
 		}
 

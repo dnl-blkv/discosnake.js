@@ -19,8 +19,5 @@ define([
 
 		// Create a new game instance
 		var game = new Game(cellSize, fieldWidth, fieldHeight);
-
-		// Start the game
-		game.start();
 	}
 });

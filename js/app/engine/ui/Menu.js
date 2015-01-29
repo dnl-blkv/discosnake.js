@@ -10,7 +10,7 @@ define([
 			DisplayObject.call(this, 0, 0, 0, 0);
 
 			this.items = [];
-			this.focusedItemId = 0;
+			this.focusFirstItem();
 			this.itemSelectedListener = null;
 			this.itemSelectedListenerArguments = null;
 		}
@@ -19,7 +19,7 @@ define([
 		Menu.prototype.constructor = Menu;
 
 		// TODO: generalize next/previous items
-		Menu.prototype.nextItem = function () {
+		Menu.prototype.focusNextItem = function () {
 			var itemsCount = this.getItemsCount();
 
 			var oldFocusedItem = getFocusedItem(this);
@@ -33,7 +33,7 @@ define([
 			newFocusedItem.focus();
 		}
 
-		Menu.prototype.previousItem = function () {
+		Menu.prototype.focusPreviousItem = function () {
 			var itemsCount = this.getItemsCount();
 
 			var oldFocusedItem = getFocusedItem(this);
@@ -46,6 +46,23 @@ define([
 
 			newFocusedItem.focus();
 		}
+
+		Menu.prototype.focusFirstItem = function () {
+			var oldFocusedItem = getFocusedItem(this);
+
+			if (oldFocusedItem) {
+				oldFocusedItem.unfocus();
+			}
+
+			this.focusedItemId = 0;
+
+			var newFocusedItem = getFocusedItem(this);
+
+			if (newFocusedItem) {
+				newFocusedItem.focus();
+			}
+		}
+
 
 		function getFocusedItem (menu) {
 			var focusedItemId = menu.focusedItemId;
@@ -121,7 +138,7 @@ define([
 			var itemsCount = this.getItemsCount();
 			var focusedItemId = this.focusedItemId;
 
-			if (itemsCount  === focusedItemId) {
+			if (itemsCount === focusedItemId) {
 				item.focus();
 			}
 

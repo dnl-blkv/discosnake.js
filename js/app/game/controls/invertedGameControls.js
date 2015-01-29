@@ -19,7 +19,6 @@ define([
 			invertedControls.bindKeyDown(KeyCode.RIGHT, CommandCode.TURN_SNAKE_LEFT);
 			invertedControls.bindKeyDown(KeyCode.DOWN, CommandCode.TURN_SNAKE_UP);
 			invertedControls.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
-			invertedControls.bindKeyDown(KeyCode.R, CommandCode.RESET_GAME);
 
 			return invertedControls;
 		}

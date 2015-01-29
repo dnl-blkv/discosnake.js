@@ -30,6 +30,11 @@ define([
 			scoreScreen.text = '' + scoreBoard.score;
 		}
 
+		ScoreBoard.prototype.reset = function () {
+			this.score = 0;
+			updateScore(this);
+		}
+
 		ScoreBoard.prototype.getScore = function () {
 			return this.score;
 		}
