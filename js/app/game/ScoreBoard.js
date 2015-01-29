@@ -12,7 +12,7 @@ define([
 
 			var scoreFontSize = 72;
 			var scoreX = 20;
-			var scoreY = scoreFontSize / 2 + 20;
+			var scoreY = scoreFontSize / 2;
 			var scoreText = '' + this.score;
 			var scoreColor = '#999999';
 			var scoreFontFamily = 'Wendy';

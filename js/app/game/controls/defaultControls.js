@@ -21,6 +21,11 @@ define([
 			defaultControls.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
 			defaultControls.bindKeyDown(KeyCode.R, CommandCode.RESET_GAME);
 
+			// TODO: Separate menu actions into different control set
+			defaultControls.bindKeyDown(KeyCode.W, CommandCode.PREVIOUS_MENU_ITEM);
+			defaultControls.bindKeyDown(KeyCode.S, CommandCode.NEXT_MENU_ITEM);
+			defaultControls.bindKeyDown(KeyCode.ENTER, CommandCode.SELECT_MENU_ITEM);
+
 			return defaultControls;
 		}
 

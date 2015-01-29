@@ -123,6 +123,8 @@ define([
 
 			context.font = this.buildFontString(fontSize, fontName);
 
+			context.textBaseline = 'middle';
+
 			// TODO: Dirty Magic String, generalize
 			context.textAlign = 'left';
 

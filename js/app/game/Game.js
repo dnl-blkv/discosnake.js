@@ -5,6 +5,7 @@ define([
 		'./controls/invertedControls',
 		'./Direction',
 		'engine',
+		'./MenuActionCode',
 		'./ScoreBoard',
 		'./Snake'
 	],
@@ -15,6 +16,7 @@ define([
 		invertedControls,
 		Direction,
 		engine,
+		MenuActionCode,
 		ScoreBoard,
 		Snake
 		) {
@@ -64,9 +66,9 @@ define([
 			// TODO: R U SERIOUS, DIRTY GUY?!
 			this.menu = new Menu();
 			var menuFontSize = 48;
-			this.menu.addItem(new MenuItem('Hello Snake', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
-			this.menu.addItem(new MenuItem('START', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
-			this.menu.center(this.graphics);
+			this.menu.addItem(new MenuItem(MenuActionCode.NEW_GAME, 'NEW GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			this.menu.addItem(new MenuItem(MenuActionCode.CONTINUE, 'CONTINUE', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			this.menu.setItemSelectedListener(performMenuAction, this);
 
 			// Create the control module
 			this.manipulator = new Manipulator();
@@ -84,6 +86,21 @@ define([
 			});
 
 			reset(this);
+		}
+
+		function performMenuAction (game, actionCode) {
+
+			switch (actionCode) {
+				case MenuActionCode.NEW_GAME:
+					reset(game);
+					game.start();
+					break;
+				case MenuActionCode.CONTINUE:
+					game.start();
+					break;
+				default:
+					break;
+			}
 		}
 
 		function setUpGameControls (game) {
@@ -107,6 +124,8 @@ define([
 
 		function executeCommand (game, commandCode) {
 
+			var menu = game.menu;
+
 			// Pause keys
 			switch (commandCode) {
 				case CommandCode.TOGGLE_PAUSE:
@@ -117,7 +136,30 @@ define([
 					reset(game);
 					break;
 
-				default: break;
+				default:
+					break;
+			}
+
+			if(game.isStopped()) {
+				switch (commandCode) {
+					case CommandCode.PREVIOUS_MENU_ITEM:
+						menu.previousItem();
+						render(game);
+						break;
+
+					case CommandCode.NEXT_MENU_ITEM:
+						menu.nextItem();
+						render(game);
+						break;
+
+					case CommandCode.SELECT_MENU_ITEM:
+						menu.selectCurrentItem();
+						render(game);
+						break;
+
+					default:
+						break;
+				}
 			}
 
 			var snake = game.snake;
@@ -258,19 +300,24 @@ define([
 		}
 
 		function render (game) {
+			var graphics = game.graphics;
+
 			// Start from the clean sheet
-			game.graphics.reset();
+			graphics.reset();
 
 			// Render the score
-			game.scoreBoard.draw(game.graphics);
+			game.scoreBoard.draw(graphics);
 
 			// Draw an apple
-			game.apple.draw(game.graphics);
+			game.apple.draw(graphics);
 
 			// Draw the snake
-			game.snake.draw(game.graphics);
+			game.snake.draw(graphics);
 
-			game.menu.draw(game.graphics);
+			// Draw the menu
+			if (game.isStopped()) {
+				game.menu.draw(graphics);
+			}
 		}
 
 		function togglePause (game) {

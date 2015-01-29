@@ -9,6 +9,9 @@ define([],
 			TURN_SNAKE_UP: 'turnSnakeUp',
 			TURN_SNAKE_RIGHT: 'turnSnakeRight',
 			TURN_SNAKE_DOWN: 'turnSnakeDown',
-			TOGGLE_PAUSE: 'togglePause'
+			TOGGLE_PAUSE: 'togglePause',
+			PREVIOUS_MENU_ITEM: 'previousMenuItem',
+			NEXT_MENU_ITEM: 'nextMenuItem',
+			SELECT_MENU_ITEM: 'selectMenuItem'
 		}
 	});

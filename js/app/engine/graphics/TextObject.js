@@ -86,7 +86,10 @@ define([
 
 			this.setWidth(width);
 
-			graphics.drawText(this.getX(), this.getY(), this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
+			var textX = this.getX();
+			var textY = this.getY() + (this.fontSize / 2.0);
+
+			graphics.drawText(textX, textY, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
 		}
 
 		return TextObject;
