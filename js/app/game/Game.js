@@ -5,6 +5,7 @@ define([
 		'./controls/invertedGameControls',
 		'./controls/menuControls',
 		'./Direction',
+		'./DiscoSnakeMenuItem',
 		'engine',
 		'./ScoreBoard',
 		'./Snake'
@@ -16,6 +17,7 @@ define([
 		invertedControls,
 		menuControls,
 		Direction,
+		DiscoSnakeMenuItem,
 		engine,
 		ScoreBoard,
 		Snake
@@ -27,7 +29,6 @@ define([
 		var InputEvent = engine.input.InputEvent;
 		var Manipulator = engine.input.Manipulator;
 		var Menu = engine.ui.Menu;
-		var MenuItem = engine.ui.MenuItem;
 		var timeUtils = engine.utils.timeUtils;
 
 		// Get the animation methods
@@ -93,8 +94,10 @@ define([
 			var newGameMenu = new Menu();
 
 			var menuFontSize = 48;
+			var menuFontFace = 'Wendy';
+			var menuDefaultFontColor = '#FFFFFF';
 
-			newGameMenu.addItem(new MenuItem(CommandCode.CONTINUE_GAME, 'START GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME, 'START GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
 			newGameMenu.setItemSelectedListener(executeCommand, game);
 
 			// Set menu to the new game menu by default since no game has been started
@@ -102,8 +105,8 @@ define([
 
 			var pausedGameMenu = new Menu();
 
-			pausedGameMenu.addItem(new MenuItem(CommandCode.CONTINUE_GAME, 'CONTINUE', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
-			pausedGameMenu.addItem(new MenuItem(CommandCode.NEW_GAME, 'NEW GAME', menuFontSize, 'Wendy', '#FFFFFF', '#FFFF00', 600));
+			pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME, 'CONTINUE', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+			pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME, 'NEW GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
 			pausedGameMenu.setItemSelectedListener(executeCommand, game);
 
 			game.pausedGameMenu = pausedGameMenu;
