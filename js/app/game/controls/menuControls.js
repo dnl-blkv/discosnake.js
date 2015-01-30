@@ -13,9 +13,11 @@ define([
 		function createMenuControls () {
 			var menuControls = new Controls();
 
-			menuControls.bindKeyDown(KeyCode.UP, CommandCode.PREVIOUS_MENU_ITEM);
 			menuControls.bindKeyDown(KeyCode.DOWN, CommandCode.NEXT_MENU_ITEM);
 			menuControls.bindKeyDown(KeyCode.ENTER, CommandCode.SELECT_MENU_ITEM);
+			menuControls.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
+			menuControls.bindKeyDown(KeyCode.UP, CommandCode.PREVIOUS_MENU_ITEM);
+
 			return menuControls;
 		}
 

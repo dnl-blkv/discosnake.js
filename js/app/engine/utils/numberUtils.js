@@ -34,8 +34,34 @@ define([],
 			return randomNumber;
 		}
 
+		function roundDownToMultiple (number, divisor) {
+			var roundedNumber = number;
+
+			if (number > 0) {
+				roundedNumber = Math.ceil(number / divisor) * divisor;
+			} else if (number < 0) {
+				roundedNumber = Math.floor(number / divisor) * divisor;
+			}
+
+			return roundedNumber;
+		}
+
+		function roundUpToMultiple (number, divisor) {
+			var roundedNumber = number;
+
+			if (number > 0) {
+				roundedNumber = Math.floor(number / divisor) * divisor;
+			} else if (number < 0) {
+				roundedNumber = Math.ceil(number / divisor) * divisor;
+			}
+
+			return roundedNumber;
+		}
+
 		return {
 			getRandomInteger: getRandomInteger,
-			getRandomNumber: getRandomNumber
+			getRandomNumber: getRandomNumber,
+			roundDownToMultiple: roundDownToMultiple,
+			roundUpToMultiple: roundUpToMultiple
 		};
 	});

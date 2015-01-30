@@ -1,10 +1,15 @@
 define([
-		'engine/graphics/DisplayObject'
+		'engine/graphics/DisplayObject',
+		'engine/utils/numberUtils'
 	],
 	function (
-			DisplayObject
+			DisplayObject,
+			numberUtils
 		) {
 		'use strict';
+
+		var roundDownToMultiple = numberUtils.roundDownToMultiple;
+		var roundUpToMultiple = numberUtils.roundUpToMultiple;
 
 		function Menu () {
 			DisplayObject.call(this, 0, 0, 0, 0);
@@ -13,6 +18,7 @@ define([
 			this.focusFirstItem();
 			this.itemSelectedListener = null;
 			this.itemSelectedListenerArguments = null;
+			this.backgroundColor = '#000000';
 		}
 
 		Menu.prototype = Object.create(DisplayObject.prototype);
@@ -153,9 +159,27 @@ define([
 			return this.items[index];
 		}
 
+		function drawBackground (menu, graphics) {
+			var menuWidth = menu.getWidth(graphics);
+			var menuHeight = menu.getHeight();
+			var tileSize = 20;
+
+			// TODO: Move size rounding to the 'tiled' menu version
+			var backgroundWidth = roundUpToMultiple(menuWidth, tileSize) + 2 * tileSize;
+			var backgroundHeight = roundUpToMultiple(menuHeight, tileSize) + 2 * tileSize;
+			var backgroundX = roundDownToMultiple(menu.getX() - (backgroundWidth - menuWidth) / 2, tileSize) - tileSize;
+			var backgroundY = roundDownToMultiple(menu.getY(), tileSize) - tileSize;
+
+			var backgroundColor = menu.backgroundColor;
+
+			graphics.drawRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, backgroundColor, backgroundColor);
+		}
+
 		Menu.prototype.draw = function (graphics) {
 			// Replace with local, generic updatePosition method
 			this.center(graphics);
+
+			drawBackground(this, graphics);
 
 			var itemsCount = this.getItemsCount();
 			var currentX = this.getX();
