@@ -23,6 +23,7 @@ define([
 		'use strict';
 
 		var Graphics = engine.graphics.Graphics;
+		var graphicUtils = engine.utils.graphicUtils;
 		var InputEvent = engine.input.InputEvent;
 		var Manipulator = engine.input.Manipulator;
 		var Menu = engine.ui.Menu;
@@ -30,8 +31,11 @@ define([
 		var timeUtils = engine.utils.timeUtils;
 
 		// Get the animation methods
-		var requestAnimationFrame = timeUtils.requestAnimationFrame;
 		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
+		var requestAnimationFrame = timeUtils.requestAnimationFrame;
+
+		// Get the touch methods
+		var relTouchCoords = graphicUtils.relTouchCoords;
 
 		// Get the current time utility
 		var timeNow = timeUtils.timeNow;
@@ -63,7 +67,7 @@ define([
 			var height = cellsHeight * cellSize + 1;
 			this.graphics = new Graphics(width, height);
 
-			// TODO: R U SERIOUS, DIRTY GUY?!
+			// Create and build the menus
 			this.menu = null;
 			this.pausedGameMenu = null;
 			buildMenus(this);
@@ -75,7 +79,7 @@ define([
 			this.manipulator.setCommandListener(executeCommand, this);
 			this.manipulator.setControls(menuControls);
 
-			// TODO: Dirty, DIRTY solution; Fix
+			// Add the touch listener
 			var game = this;
 
 			this.graphics.canvas.addEventListener(InputEvent.TOUCH_START, function (event) {
@@ -179,51 +183,6 @@ define([
 
 				default:
 					break;
-			}
-		}
-
-		// TODO: Move to a helper
-		function relTouchCoords (element, touch) {
-			var absoluteX = touch.clientX;
-			var absoluteY = touch.clientY;
-
-			return relCoords(element, absoluteX, absoluteY);
-		}
-
-		// TODO: Move to a helper
-		function relLastTouchCoords (element, touchEvent) {
-			var lastTouchId = touchEvent.touches.length - 1;
-
-			return relTouchCoords(element, touchEvent.touches[lastTouchId]);
-		}
-
-		// TODO: Move to a helper
-		function relMouseCoords (element, event) {
-			var absoluteX = event.pageX;
-			var absoluteY = event.pageY;
-
-			return relCoords(element, absoluteX, absoluteY);
-		}
-
-		// TODO: Move to a helper
-		function relCoords(element, absoluteX, absoluteY){
-			var totalOffsetX = 0;
-			var totalOffsetY = 0;
-			var canvasX, canvasY;
-			var currentElement = element;
-
-			do{
-				totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
-				totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
-			}
-			while(currentElement = currentElement.offsetParent);
-
-			canvasX = absoluteX - totalOffsetX;
-			canvasY = absoluteY - totalOffsetY;
-
-			return {
-				x: canvasX,
-				y: canvasY
 			}
 		}
 
@@ -355,7 +314,7 @@ define([
 			return this.stopped;
 		}
 
-		// TODO: RUN THE FUCKING GAME
+		// Run the game repeatedly and continuously. NICE SHOT MAN.
 		Game.prototype.run = function () {
 
 			// Bind this
