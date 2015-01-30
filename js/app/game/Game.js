@@ -25,7 +25,6 @@ define([
 		'use strict';
 
 		var Graphics = engine.graphics.Graphics;
-		var graphicUtils = engine.utils.graphicUtils;
 		var InputEvent = engine.input.InputEvent;
 		var Manipulator = engine.input.Manipulator;
 		var Menu = engine.ui.Menu;
@@ -34,9 +33,6 @@ define([
 		// Get the animation methods
 		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;
-
-		// Get the touch methods
-		var relTouchCoords = graphicUtils.relTouchCoords;
 
 		// Get the current time utility
 		var timeNow = timeUtils.timeNow;
@@ -204,53 +200,6 @@ define([
 			var snake = game.snake;
 			snake.move(game);
 		}
-
-		function processTouch (game, event) {
-			var width = game.graphics.width;
-			var canvasHalfWidth =  width / 2;
-			var snake = game.snake;
-
-			// Turn snake in the required direction
-			if (event.touches.length === 1) {
-				var coordinates = relTouchCoords(game.graphics.canvas, event.touches[0]);
-
-				if (coordinates.x < canvasHalfWidth) {
-					snake.setDirection(Direction.LEFT);
-				} else {
-					snake.setDirection(Direction.RIGHT);
-				}
-			} else if (event.touches.length === 2) {
-				snake.setDirection(Direction.DOWN);
-			} else if (event.touches.length > 2) {
-				togglePause(game);
-			}
-
-		}
-
-//		// Cross-screened version
-//		function processTouch (game, event) {
-//			var coordinates = relLastTouchCoords(game.graphics.canvas, event);
-//			var width = game.graphics.width;
-//			var height = game.graphics.height;
-//			var canvasHalfWidth =  width / 2;
-//			var canvasHalfHeight =  height / 2;
-//			var ratioWH = width / height;
-//			var relX = coordinates.x - canvasHalfWidth;
-//			var relY = (- coordinates.y + canvasHalfHeight) * ratioWH;
-//
-//			// Turn snake in the required direction
-//			if (event.touches.length > 1) {
-//				togglePause(game);
-//			} else if ((- relX <= relY) && (relX <= relY)) {
-//				game.currentDirection = Direction.UP;
-//			} else if ((- relX < relY) && (relX > relY)) {
-//				game.currentDirection = Direction.RIGHT;
-//			} else if ((- relX >= relY) && (relX >= relY)) {
-//				game.currentDirection = Direction.DOWN;
-//			} else {
-//				game.currentDirection = Direction.LEFT;
-//			}
-//		}
 
 		function update (game) {
 			moveSnake(game);
