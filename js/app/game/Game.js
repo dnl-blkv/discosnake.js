@@ -76,13 +76,6 @@ define([
 			this.manipulator.setCommandListener(executeCommand, this);
 			this.manipulator.setControls(menuControls);
 
-			// Add the touch listener
-			var game = this;
-
-			this.graphics.canvas.addEventListener(InputEvent.TOUCH_START, function (event) {
-				processTouch(game, event);
-			});
-
 			reset(this);
 		}
 
@@ -215,7 +208,9 @@ define([
 			game.scoreBoard.draw(graphics);
 
 			// Draw an apple
-			game.apple.draw(graphics);
+			if (!game.isStopped()) {
+				game.apple.draw(graphics);
+			}
 
 			// Draw the snake
 			game.snake.draw(graphics);

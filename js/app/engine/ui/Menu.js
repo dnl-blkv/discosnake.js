@@ -165,10 +165,10 @@ define([
 			var tileSize = 20;
 
 			// TODO: Move size rounding to the 'tiled' menu version
-			var backgroundWidth = roundUpToMultiple(menuWidth, tileSize) + 2 * tileSize;
-			var backgroundHeight = roundUpToMultiple(menuHeight, tileSize) + 2 * tileSize;
-			var backgroundX = roundDownToMultiple(menu.getX() - (backgroundWidth - menuWidth) / 2, tileSize) - tileSize;
-			var backgroundY = roundDownToMultiple(menu.getY(), tileSize) - tileSize;
+			var backgroundWidth = roundUpToMultiple(menuWidth, tileSize) + 2 * tileSize - 2;
+			var backgroundHeight = roundUpToMultiple(menuHeight, tileSize) + 2 * tileSize - 2;
+			var backgroundX = roundDownToMultiple(menu.getX() - (backgroundWidth - menuWidth) / 2, tileSize) - tileSize + 1;
+			var backgroundY = roundDownToMultiple(menu.getY(), tileSize) - tileSize + 1;
 
 			var backgroundColor = menu.backgroundColor;
 
