@@ -19,6 +19,7 @@ define([
 			this.itemSelectedListener = null;
 			this.itemSelectedListenerArguments = null;
 			this.backgroundColor = '#000000';
+			this.backgroundBorderColor = '#FFFFFF';
 		}
 
 		Menu.prototype = Object.create(DisplayObject.prototype);
@@ -98,19 +99,6 @@ define([
 			this.itemSelectedListener.apply(itemSelectedListener, itemSelectedListenerArguments);
 		}
 
-		Menu.prototype.center = function (graphics) {
-			// TODO: USE canvas' methods for aligning the text dynamically
-			var width = this.getWidth(graphics);
-			var graphicsWidth = graphics.getWidth();
-			var centerX = (graphicsWidth - width) / 2.0;
-			this.setX(centerX);
-
-			var height = this.getHeight();
-			var graphicsHeight = graphics.getHeight();
-			var centerY = (graphicsHeight - height) / 2.0;
-			this.setY(centerY);
-		}
-
 		Menu.prototype.getWidth = function (graphics) {
 			var itemsCount = this.getItemsCount();
 			var width = 0;
@@ -160,34 +148,61 @@ define([
 		}
 
 		function drawBackground (menu, graphics) {
-			var menuWidth = menu.getWidth(graphics);
-			var menuHeight = menu.getHeight();
-			var tileSize = 20;
 
 			// TODO: Move size rounding to the 'tiled' menu version
-			var backgroundWidth = roundUpToMultiple(menuWidth, tileSize) + 2 * tileSize - 2;
-			var backgroundHeight = roundUpToMultiple(menuHeight, tileSize) + 2 * tileSize - 2;
-			var backgroundX = roundDownToMultiple(menu.getX() - (backgroundWidth - menuWidth) / 2, tileSize) - tileSize + 1;
-			var backgroundY = roundDownToMultiple(menu.getY(), tileSize) - tileSize + 1;
+			var cellSize = 20;
+
+			var graphicsCellWidth = Math.floor(graphics.getWidth() / cellSize);
+			var menuWidth = menu.getWidth(graphics);
+			var backgroundCellWidth = Math.ceil(menuWidth / cellSize) + 1;
+
+			if ((backgroundCellWidth % 2) === (graphicsCellWidth % 2)) {
+				backgroundCellWidth ++;
+			}
+
+			var backgroundWidth = (backgroundCellWidth) * cellSize;
+			var backgroundX = ((graphicsCellWidth - backgroundCellWidth) / 2) * cellSize;
+
+			var graphicsCellHeight = Math.floor(graphics.getHeight() / cellSize);
+			var menuHeight = menu.getHeight();
+			var backgroundCellHeight = Math.ceil(menuHeight / cellSize) + 1;
+
+			if ((backgroundCellHeight % 2) === (graphicsCellHeight % 2)) {
+				backgroundCellHeight ++;
+			}
+
+			var backgroundHeight = (backgroundCellHeight) * cellSize;
+			var backgroundY = ((graphicsCellHeight - backgroundCellHeight) / 2) * cellSize;
+
+			// TODO: CARE! DIRTY CENTERING!
+			// Center the menu over the background
+			var centerX = Math.floor(backgroundX + (backgroundWidth - menuWidth) / 2 + 3.5);
+			menu.setX(centerX);
+
+			var centerY = Math.floor(backgroundY + (backgroundHeight - menuHeight) / 2);
+			menu.setY(centerY);
 
 			var backgroundColor = menu.backgroundColor;
+			var backgroundBorderColor = menu.backgroundBorderColor;
 
-			graphics.drawRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, backgroundColor, backgroundColor);
+			graphics.drawRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, backgroundColor, backgroundBorderColor);
 		}
 
 		Menu.prototype.draw = function (graphics) {
-			// Replace with local, generic updatePosition method
-			this.center(graphics);
 
 			drawBackground(this, graphics);
 
 			var itemsCount = this.getItemsCount();
 			var currentX = this.getX();
 			var currentY = this.getY();
+			var menuWidth = this.getWidth(graphics);
 
 			for (var i = 0; i < itemsCount; i ++) {
 				var currentItem = this.items[i];
-				currentItem.setX(currentX);
+				var currentItemWidth = currentItem.getWidth(graphics);
+				var currentXMargin = (menuWidth - currentItemWidth) / 2;
+
+				currentItem.setX(currentX + currentXMargin);
 				currentItem.setY(currentY);
 				currentItem.draw(graphics);
 
