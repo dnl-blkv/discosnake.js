@@ -11,8 +11,15 @@ define([],
 			element.style.top = (height - element.offsetHeight)/2 + window.pageYOffset + 'px';
 		}
 
+		function buildFontString (fontSize, fontName) {
+			var fontString = '' + fontSize + 'px ' + fontName;
+
+			return fontString;
+		}
+
 		return {
-			centreElement: centreElement
+			centreElement: centreElement,
+			buildFontString: buildFontString
 		};
 	});
 

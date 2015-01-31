@@ -25,7 +25,6 @@ define([
 		'use strict';
 
 		var Graphics = engine.graphics.Graphics;
-		var InputEvent = engine.input.InputEvent;
 		var Manipulator = engine.input.Manipulator;
 		var Menu = engine.ui.Menu;
 		var timeUtils = engine.utils.timeUtils;
@@ -39,6 +38,7 @@ define([
 
 		function Game (cellSize, cellsWidth, cellsHeight) {
 
+			this.frameNumber = 0;
 			this.then = timeNow();
 
 			// Set the size parameters
@@ -62,7 +62,8 @@ define([
 			// Initialize the graphics
 			var width = cellsWidth * cellSize + 1;
 			var height = cellsHeight * cellSize + 1;
-			this.graphics = new Graphics(width, height);
+			var backgroundColor = '#000000';
+			this.graphics = new Graphics(width, height, backgroundColor);
 
 			// Create and build the menus
 			this.menu = null;
@@ -127,10 +128,6 @@ define([
 			switch (commandCode) {
 				case CommandCode.TOGGLE_PAUSE:
 					togglePause(game);
-					break;
-
-				case CommandCode.RESET_GAME:
-					reset(game);
 					break;
 
 				case CommandCode.PREVIOUS_MENU_ITEM:
@@ -200,9 +197,14 @@ define([
 
 		function render (game) {
 			var graphics = game.graphics;
+			var snake = game.snake;
+			var snakeDrunkness = snake.getDrunkness();
+			var frameNumber = game.frameNumber;
 
 			// Start from the clean sheet
-			graphics.reset();
+			if (frameNumber % (snakeDrunkness + 1) === 0) {
+				graphics.reset();
+			}
 
 			// Render the score
 			game.scoreBoard.draw(graphics);
@@ -272,6 +274,7 @@ define([
 			var processFrame = function () {
 				game.then = timeNow();
 				game.lastRequestId = requestAnimationFrame(run);
+				game.frameNumber ++;
 				update(game);
 				render(game);
 			};

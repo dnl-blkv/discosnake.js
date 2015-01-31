@@ -1,10 +1,14 @@
 define([
-		'engine/graphics/DisplayObject'
+		'engine/graphics/DisplayObject',
+		'engine/utils/htmlUtils'
 	],
 	function (
-		DisplayObject
+		DisplayObject,
+		htmlUtils
 		) {
 		'use strict';
+
+		var buildFontString = htmlUtils.buildFontString;
 
 		function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
 			DisplayObject.call(this, 0, 0, 0, 0);
@@ -66,17 +70,7 @@ define([
 		}
 
 		TextObject.prototype.getWidth = function (graphics) {
-			var context = graphics.getContext();
-
-			var fontString = graphics.buildFontString(this.fontSize, this.fontFamily);
-
-			context.font = fontString;
-
-			var text = this.text;
-
-			var textMetrics = context.measureText(text);
-
-			var width = textMetrics.width;
+			var width = graphics.getTextWidth(this.text, this.fontSize, this.fontFamily);
 
 			return width;
 		}

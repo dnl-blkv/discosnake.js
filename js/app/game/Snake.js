@@ -1,8 +1,10 @@
 define([
+		'./AppleSubstance',
 		'./Direction',
 		'./SnakePart'
 	],
 	function (
+		AppleSubstance,
 		Direction,
 		SnakePart
 		) {
@@ -22,6 +24,12 @@ define([
 
 			this.appleEatenListener = null;
 
+			this.drunkness = 0;
+
+		}
+
+		Snake.prototype.getDrunkness = function () {
+			return this.drunkness;
 		}
 
 		Snake.prototype.isAppleEaten = function (apple) {
@@ -129,32 +137,53 @@ define([
 		}
 
 		Snake.prototype.move = function (game) {
-			var snake = game.snake;
-			var direction = snake.getDirection();
+			var direction = this.getDirection();
 
 			switch (direction) {
 				case Direction.LEFT:
-					snake.moveLeft(game);
+					this.moveLeft(game);
 					break;
 				case Direction.UP:
-					snake.moveUp(game);
+					this.moveUp(game);
 					break;
 				case Direction.RIGHT:
-					snake.moveRight(game);
+					this.moveRight(game);
 					break;
 				case Direction.DOWN:
-					snake.moveDown(game);
+					this.moveDown(game);
 					break;
 				default: break;
 			}
 
 			var apple = game.apple;
-			var appleEaten = snake.isAppleEaten(apple);
+			var appleEaten = this.isAppleEaten(apple);
 			var appleEatenListener = this.appleEatenListener;
 
 			if (appleEaten) {
-				snake.addPart();
+				this.addPart();
+
+				// Apply appropriate effects to the snake
+				applyAppleEffects(this, apple);
 				appleEatenListener.call(appleEatenListener, game);
+			}
+		}
+
+		function applyAppleEffects (snake, apple) {
+			var substance = apple.getSubstance();
+
+			switch (substance) {
+				case AppleSubstance.NO_SUBSTANCE:
+					if (snake.drunkness > 0) {
+						snake.drunkness--;
+					}
+					break;
+
+				case AppleSubstance.ALCOHOL:
+					snake.drunkness += 3;
+					break;
+
+				default:
+					break;
 			}
 		}
 
