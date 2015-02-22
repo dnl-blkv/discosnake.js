@@ -20,7 +20,7 @@ define([
 			var scoreScreen = new TextObject(scoreText, scoreFontSize, scoreFontFamily, scoreColor);
 			scoreScreen.setX(scoreX);
 			scoreScreen.setY(scoreY);
-			
+
 			this.scoreScreen = scoreScreen;
 			this.updateHTMLStyle();
 		}
