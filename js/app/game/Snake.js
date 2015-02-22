@@ -179,7 +179,7 @@ define([
 					break;
 
 				case AppleSubstance.ALCOHOL:
-					snake.drunkness += 3;
+					snake.drunkness += 6;
 					break;
 
 				default:

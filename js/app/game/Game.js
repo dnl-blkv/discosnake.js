@@ -24,17 +24,23 @@ define([
 		) {
 		'use strict';
 
+		// Classes
 		var Graphics = engine.graphics.Graphics;
 		var Manipulator = engine.input.Manipulator;
 		var Menu = engine.ui.Menu;
 		var timeUtils = engine.utils.timeUtils;
+		var htmlUtils = engine.utils.htmlUtils;
 
+		// Methods
 		// Get the animation methods
 		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
 		var requestAnimationFrame = timeUtils.requestAnimationFrame;
 
 		// Get the current time utility
 		var timeNow = timeUtils.timeNow;
+
+		// Get the html methods
+		var getBody = htmlUtils.getBody;
 
 		function Game (cellSize, cellsWidth, cellsHeight) {
 
@@ -65,10 +71,20 @@ define([
 			var backgroundColor = '#000000';
 			this.graphics = new Graphics(width, height, backgroundColor);
 
+			// TODO: Dirty way of appending of the score screen to canvas, centralize
+			// TODO: Fix the positioning (dirty way)
+			var scoreScreenHTML = this.scoreBoard.getHTML();
+			var body = getBody();
+			body.appendChild(scoreScreenHTML);
+
 			// Create and build the menus
 			this.menu = null;
 			this.pausedGameMenu = null;
 			buildMenus(this);
+			body.appendChild(this.menu.getHTML());
+
+			// Center the menu
+			this.menu.center();
 
 			// Create the control module
 			this.manipulator = new Manipulator();
@@ -92,6 +108,10 @@ define([
 
 			// Set menu to the new game menu by default since no game has been started
 			game.menu = newGameMenu;
+			var body = getBody();
+			body.appendChild(newGameMenu.getHTML());
+			newGameMenu.reveal();
+			newGameMenu.center();
 
 			var pausedGameMenu = new Menu();
 
@@ -100,6 +120,8 @@ define([
 			pausedGameMenu.setItemSelectedListener(executeCommand, game);
 
 			game.pausedGameMenu = pausedGameMenu;
+			body.appendChild(pausedGameMenu.getHTML());
+			pausedGameMenu.center();
 		}
 
 		function reset (game) {
@@ -206,8 +228,9 @@ define([
 				graphics.reset();
 			}
 
+			// Not rendering the score on graphics
 			// Render the score
-			game.scoreBoard.draw(graphics);
+			// game.scoreBoard.draw(graphics);
 
 			// Draw an apple
 			if (!game.isStopped()) {
@@ -216,11 +239,6 @@ define([
 
 			// Draw the snake
 			game.snake.draw(graphics);
-
-			// Draw the menu
-			if (game.isStopped()) {
-				game.menu.draw(graphics);
-			}
 		}
 
 		function togglePause (game) {
@@ -237,10 +255,13 @@ define([
 
 			// Set up the menu
 			if (this.menu !== this.pausedGameMenu) {
+				this.menu.hide();
 				this.menu = this.pausedGameMenu;
 			}
 
 			this.menu.focusFirstItem();
+
+			this.menu.hide();
 
 			this.then = timeNow();
 			this.run();
@@ -255,6 +276,8 @@ define([
 			}
 
 			this.lastRequestId = 0;
+
+			this.menu.reveal();
 
 			this.stopped = true;
 		}

@@ -15,61 +15,113 @@ define([
 			DisplayObject.call(this, 0, 0, 0, 0);
 
 			this.items = [];
-			this.focusFirstItem();
+			this.focusedItemId = 0;
 			this.itemSelectedListener = null;
 			this.itemSelectedListenerArguments = null;
 			this.backgroundColor = '#000000';
 			this.backgroundBorderColor = '#FFFFFF';
+
+			this.html = document.createElement('div');
+
+			// TODO: Fix magic event
+			var menu = this;
+
+			this.html.addEventListener("DOMNodeInserted", function (event) {
+				calculateDimensions(menu);
+			}, false);
+
+			this.updateHTMLStyle();
+			this.hide();
 		}
 
 		Menu.prototype = Object.create(DisplayObject.prototype);
 		Menu.prototype.constructor = Menu;
 
-		// TODO: generalize next/previous items
-		Menu.prototype.focusNextItem = function () {
-			var itemsCount = this.getItemsCount();
+		function calculateDimensions (menu) {
 
-			var oldFocusedItem = getFocusedItem(this);
+			// Hide the menu saving the previous state
+			var wasRevealed = !menu.isHidden();
 
-			oldFocusedItem.unfocus();
+			menu.hide();
 
-			this.focusedItemId = (this.focusedItemId + itemsCount + 1) % itemsCount;
+			// Calculate the menu width
+			var width = 0;
 
-			var newFocusedItem = getFocusedItem(this);
+			var itemsCount = menu.getItemsCount();
 
-			newFocusedItem.focus();
+			for (var i = 0; i < itemsCount; i ++) {
+				var item = getFocusedItem(menu);
+				var itemHTML = item.getHTML();
+				var itemWidth = itemHTML.offsetWidth;
+
+				if (width < itemWidth) {
+					width = itemWidth;
+				}
+
+				menu.focusNextItem();
+			}
+
+			var html = menu.getHTML();
+
+			// Save the item width
+			menu.setWidth(width);
+			html.style.width = width + 'px';
+
+			// Calculate the item height
+			var height = 0;
+
+			for (var i = 0; i < itemsCount; i ++) {
+				var item = menu.getItemAt(i);
+				var itemHTML = item.getHTML();
+				var itemHeight = itemHTML.offsetHeight;
+
+				height += itemHeight;
+			}
+
+			menu.setHeight(height);
+			html.style.height = height + 'px';
+
+			// Restore the menu visibility
+			if (wasRevealed) {
+				menu.reveal();
+			}
 		}
 
-		Menu.prototype.focusPreviousItem = function () {
-			var itemsCount = this.getItemsCount();
+		// Focus an item
+		function focusItemById (menu, itemId) {
 
-			var oldFocusedItem = getFocusedItem(this);
-
-			oldFocusedItem.unfocus();
-
-			this.focusedItemId = (this.focusedItemId + itemsCount - 1) % itemsCount;
-
-			var newFocusedItem = getFocusedItem(this);
-
-			newFocusedItem.focus();
-		}
-
-		Menu.prototype.focusFirstItem = function () {
-			var oldFocusedItem = getFocusedItem(this);
+			var oldFocusedItem = getFocusedItem(menu);
 
 			if (oldFocusedItem) {
 				oldFocusedItem.unfocus();
 			}
 
-			this.focusedItemId = 0;
+			var itemsCount = menu.getItemsCount();
 
-			var newFocusedItem = getFocusedItem(this);
+			if (itemsCount != 0) {
+				menu.focusedItemId = (itemId + itemsCount) % itemsCount;
+			} else {
+				console.log('COULD NOT FOCUS A MENU ITEM: NO ITEMS ADDED');
+			}
+
+			var newFocusedItem = getFocusedItem(menu);
 
 			if (newFocusedItem) {
 				newFocusedItem.focus();
 			}
 		}
 
+		Menu.prototype.focusNextItem = function () {
+			focusItemById(this, this.focusedItemId + 1);
+		}
+
+		Menu.prototype.focusPreviousItem = function () {
+			focusItemById(this, this.focusedItemId - 1);
+		}
+
+		Menu.prototype.focusFirstItem = function () {
+			focusItemById(this, 0);
+		}
 
 		function getFocusedItem (menu) {
 			var focusedItemId = menu.focusedItemId;
@@ -99,44 +151,19 @@ define([
 			this.itemSelectedListener.apply(itemSelectedListener, itemSelectedListenerArguments);
 		}
 
-		Menu.prototype.getWidth = function (graphics) {
-			var itemsCount = this.getItemsCount();
-			var width = 0;
-
-			for (var i = 0; i < itemsCount; i ++) {
-				var currentItemWidth = this.items[i].getWidth(graphics);
-
-				if (width < currentItemWidth) {
-					width = currentItemWidth;
-				}
-			}
-
-			return width;
-		}
-
-		Menu.prototype.getHeight = function () {
-			var itemsCount = this.getItemsCount();
-			var height = 0;
-			var currentItemHeight = 0;
-
-			for (var i = 0; i < itemsCount; i ++) {
-				currentItemHeight = this.items[i].getHeight();
-
-				height += currentItemHeight;
-			}
-
-			return height;
-		}
-
 		Menu.prototype.addItem = function (item) {
 			var itemsCount = this.getItemsCount();
-			var focusedItemId = this.focusedItemId;
 
-			if (itemsCount === focusedItemId) {
+			if (itemsCount === 0) {
 				item.focus();
 			}
 
 			this.items.push(item);
+
+			// Add Item HTML representation
+			var itemHTML = item.getHTML();
+
+			this.html.appendChild(itemHTML);
 		}
 
 		Menu.prototype.getItemsCount = function () {
@@ -147,67 +174,48 @@ define([
 			return this.items[index];
 		}
 
-		function drawBackground (menu, graphics) {
-
-			// TODO: Move size rounding to the 'tiled' menu version
-			var cellSize = 20;
-
-			var graphicsCellWidth = Math.floor(graphics.getWidth() / cellSize);
-			var menuWidth = menu.getWidth(graphics);
-			var backgroundCellWidth = Math.ceil(menuWidth / cellSize) + 1;
-
-			if ((backgroundCellWidth % 2) === (graphicsCellWidth % 2)) {
-				backgroundCellWidth ++;
-			}
-
-			var backgroundWidth = (backgroundCellWidth) * cellSize;
-			var backgroundX = ((graphicsCellWidth - backgroundCellWidth) / 2) * cellSize;
-
-			var graphicsCellHeight = Math.floor(graphics.getHeight() / cellSize);
-			var menuHeight = menu.getHeight();
-			var backgroundCellHeight = Math.ceil(menuHeight / cellSize) + 1;
-
-			if ((backgroundCellHeight % 2) === (graphicsCellHeight % 2)) {
-				backgroundCellHeight ++;
-			}
-
-			var backgroundHeight = (backgroundCellHeight) * cellSize;
-			var backgroundY = ((graphicsCellHeight - backgroundCellHeight) / 2) * cellSize;
-
-			// TODO: CARE! DIRTY CENTERING!
-			// Center the menu over the background
-			var centerX = Math.floor(backgroundX + (backgroundWidth - menuWidth) / 2 + 3.5);
-			menu.setX(centerX);
-
-			var centerY = Math.floor(backgroundY + (backgroundHeight - menuHeight) / 2);
-			menu.setY(centerY);
-
-			var backgroundColor = menu.backgroundColor;
-			var backgroundBorderColor = menu.backgroundBorderColor;
-
-			graphics.drawRect(backgroundX, backgroundY, backgroundWidth, backgroundHeight, backgroundColor, backgroundBorderColor);
+		// ************
+		// HTML METHODS
+		// ************
+		Menu.prototype.getHTML = function () {
+			return this.html;
 		}
 
-		Menu.prototype.draw = function (graphics) {
+		Menu.prototype.hide = function () {
+			this.getHTML().style.visibility = 'hidden';
+		}
 
-			drawBackground(this, graphics);
+		Menu.prototype.reveal = function () {
+			this.getHTML().style.visibility = 'visible';
+		}
 
-			var itemsCount = this.getItemsCount();
-			var currentX = this.getX();
-			var currentY = this.getY();
-			var menuWidth = this.getWidth(graphics);
+		Menu.prototype.isHidden = function () {
+			var hidden = this.getHTML().style.visibility === 'hidden';
 
-			for (var i = 0; i < itemsCount; i ++) {
-				var currentItem = this.items[i];
-				var currentItemWidth = currentItem.getWidth(graphics);
-				var currentXMargin = (menuWidth - currentItemWidth) / 2;
+			return hidden;
+		}
 
-				currentItem.setX(currentX + currentXMargin);
-				currentItem.setY(currentY);
-				currentItem.draw(graphics);
+		Menu.prototype.updateHTMLStyle = function () {
+			var html = this.html;
 
-				currentY += currentItem.getHeight();
-			}
+			html.className = 'menu unselectable default-cursor';
+			html.style.borderColor = this.backgroundBorderColor;
+			html.style.borderStyle = 'solid';
+			html.style.borderWidth = '1px';
+			html.style.padding = '0 5px 0 12px';
+			html.style.backgroundColor = this.backgroundColor;
+			html.style.position = 'absolute';
+			html.style.whiteSpace = 'nowrap';
+			html.style.left = '50%';
+			html.style.top = '50%';
+		}
+
+		Menu.prototype.center = function ()
+		{
+			var html = this.html;
+
+			html.style.marginTop = '-' + this.getHeight() / 2 + 'px';
+			html.style.marginLeft = '-' + this.getWidth() / 2 + 'px';
 		}
 
 		return Menu;

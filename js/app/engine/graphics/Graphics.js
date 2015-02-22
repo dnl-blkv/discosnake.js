@@ -35,6 +35,7 @@ define([
 			context.lineWidth = 0.75;
 
 			// Append the canvas to body
+			// TODO: dirty way of appending graphics to body, centralize
 			var body = document.getElementsByTagName('body')[0];
 			body.appendChild(canvas);
 

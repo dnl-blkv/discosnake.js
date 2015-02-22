@@ -20,14 +20,16 @@ define([
 			var scoreScreen = new TextObject(scoreText, scoreFontSize, scoreFontFamily, scoreColor);
 			scoreScreen.setX(scoreX);
 			scoreScreen.setY(scoreY);
-
+			
 			this.scoreScreen = scoreScreen;
+			this.updateHTMLStyle();
 		}
 
 		function updateScore(scoreBoard) {
 			var scoreScreen = scoreBoard.scoreScreen;
+			var scoreText = '' + scoreBoard.score;
 
-			scoreScreen.text = '' + scoreBoard.score;
+			scoreScreen.setText(scoreText);
 		}
 
 		ScoreBoard.prototype.reset = function () {
@@ -52,6 +54,16 @@ define([
 
 		ScoreBoard.prototype.draw = function (gameGraphics) {
 			this.scoreScreen.draw(gameGraphics);
+		}
+
+		ScoreBoard.prototype.getHTML = function () {
+			return this.scoreScreen.getHTML();
+		}
+
+		ScoreBoard.prototype.updateHTMLStyle = function () {
+			var html = this.getHTML();
+
+			html.style.left = '24px';
 		}
 
 		return ScoreBoard;

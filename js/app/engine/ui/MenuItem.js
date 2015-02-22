@@ -16,9 +16,11 @@ define([
 			this.defaultColor = defaultColor;
 			this.focusedColor = focusedColor;
 			this.focused = false;
+			this.selectedFontSizeMultiplier = 1.5;
 
 			// Create the text object
 			this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
+			this.updateHTMLStyle();
 
 			updateHeight(this);
 		}
@@ -68,10 +70,11 @@ define([
 
 				var textObject = this.textObject;
 
-				// TODO magic coefficient; FIX
-				textObject.setFontSize(this.defaultFontSize * 1.5);
+				textObject.setFontSize(this.defaultFontSize * this.selectedFontSizeMultiplier);
 
 				updateHeight(this);
+
+				this.textObject.updateHTMLStyle();
 			}
 		}
 
@@ -88,7 +91,19 @@ define([
 				textObject.setFontSize(this.defaultFontSize);
 
 				updateHeight(this);
+
+				this.textObject.updateHTMLStyle();
 			}
+		}
+
+		MenuItem.prototype.updateHTMLStyle = function () {
+			var html = this.getHTML();
+
+			html.style.display = 'block';
+		}
+
+		MenuItem.prototype.getHTML = function () {
+			return this.textObject.getHTML();
 		}
 
 		return MenuItem;
