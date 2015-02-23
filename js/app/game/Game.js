@@ -1,14 +1,14 @@
 define([
-		'./Apple',
-		'./CommandCode',
+		'./gameplay/Apple',
+		'./commands/CommandCode',
 		'./controls/defaultGameControls',
 		'./controls/invertedGameControls',
 		'./controls/menuControls',
-		'./Direction',
-		'./DiscoSnakeMenuItem',
+		'./gameplay/Direction',
+		'./ui/DiscoSnakeMenuItem',
 		'engine',
-		'./ScoreBoard',
-		'./Snake'
+		'./ui/ScoreBoard',
+		'./gameplay/Snake'
 	],
 	function (
 		Apple,
@@ -227,10 +227,6 @@ define([
 			if (frameNumber % (snakeDrunkness + 1) === 0) {
 				graphics.reset();
 			}
-
-			// Not rendering the score on graphics
-			// Render the score
-			// game.scoreBoard.draw(graphics);
 
 			// Draw an apple
 			if (!game.isStopped()) {
