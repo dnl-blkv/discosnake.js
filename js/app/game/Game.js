@@ -2,11 +2,11 @@ define([
 		'./gameplay/Apple',
 		'./commands/CommandCode',
 		'./controls/defaultGameControls',
-		'./controls/invertedGameControls',
-		'./controls/menuControls',
 		'./gameplay/Direction',
 		'./ui/DiscoSnakeMenuItem',
 		'engine',
+		'./controls/invertedGameControls',
+		'./controls/menuControls',
 		'./ui/ScoreBoard',
 		'./gameplay/Snake'
 	],
@@ -14,11 +14,11 @@ define([
 		Apple,
 		CommandCode,
 		defaultGameControls,
-		invertedControls,
-		menuControls,
 		Direction,
 		DiscoSnakeMenuItem,
 		engine,
+		invertedControls,
+		menuControls,
 		ScoreBoard,
 		Snake
 		) {

@@ -20,6 +20,7 @@ define([
 
 			// Create the text object
 			this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
+
 			this.updateHTMLStyle();
 
 			updateHeight(this);

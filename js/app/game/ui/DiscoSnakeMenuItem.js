@@ -28,5 +28,13 @@ define([
 			MenuItem.prototype.focus.call(this);
 		}
 
+		DiscoSnakeMenuItem.prototype.updateHTMLStyle = function () {
+			MenuItem.prototype.updateHTMLStyle.call(this);
+
+			var html = this.getHTML();
+
+			html.style.lineHeight = '95%';
+		}
+
 		return DiscoSnakeMenuItem;
 	});

@@ -202,7 +202,7 @@ define([
 			html.style.borderColor = this.backgroundBorderColor;
 			html.style.borderStyle = 'solid';
 			html.style.borderWidth = '1px';
-			html.style.padding = '0 10px 0 17px';
+			html.style.padding = '10px 10px 15px 17px';
 			html.style.backgroundColor = this.backgroundColor;
 			html.style.position = 'absolute';
 			html.style.whiteSpace = 'nowrap';
