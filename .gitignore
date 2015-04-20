@@ -1,3 +1,4 @@
 .idea/
-lib/unused/
-style/unused/
+release/
+node_modules/
+projectBackupFiles/
