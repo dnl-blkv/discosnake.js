@@ -75,6 +75,7 @@ define([
 			var game = this;
 			this.audio.addEventListener('ended', function() {
 				resetAudio(game);
+				game.audio.play();
 			}, false);
 
 			// Initialize the game graphics

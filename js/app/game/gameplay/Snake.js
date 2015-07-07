@@ -194,12 +194,12 @@ define([
 			switch (substance) {
 				case AppleSubstance.NO_SUBSTANCE:
 					if (snake.drunkness > 0) {
-						snake.drunkness--;
+						snake.drunkness --;
 					}
 					break;
 
 				case AppleSubstance.ALCOHOL:
-					snake.drunkness += 4;
+					snake.drunkness += 5;
 					break;
 
 				default:
