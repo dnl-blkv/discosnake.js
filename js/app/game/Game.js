@@ -44,35 +44,50 @@ define([
 
 		function Game (cellSize, cellsWidth, cellsHeight) {
 
-			this.frameNumber = 0;
-			this.then = timeNow();
-
 			// Set the size parameters
 			this.cellSize = cellSize;
 			this.cellsWidth = cellsWidth;
 			this.cellsHeight = cellsHeight;
 
-			// Set the FPS rate
-			this.fps = 20;
-			this.defaultSnakeLength = 4;
-			this.lastRequestId = 0;
+			// Initialize the 'then' time
+			this.then = 0;
+			updateThen(this);
 
-			// Set the default properties
+			// Initialize the current frame number
+			this.frameNumber = 0;
+
+			// Initialize the FPS rate
+			this.fps = 21;
+
+			// Initialize the starting snake length
+			this.defaultSnakeLength = 4;
+
+			// Set the initial game state
 			this.stopped = true;
 			this.lastRequestId = 0;
+
+			// Initialize the scoreboard
 			this.scoreBoard = new ScoreBoard();
 
-			// Initialize the snake
-			this.snake = null;
+			// Initialize the audio player
+			// TODO: dirty way, refactor
+			this.audio = new Audio('audio/scooter-last-minute.mp3');
+			var game = this;
+			this.audio.addEventListener('ended', function() {
+				resetAudio(game);
+			}, false);
 
-			// Initialize an apple
-			this.apple = null;
-
-			// Initialize the graphics
+			// Initialize the game graphics
 			var width = cellsWidth * cellSize + 1;
 			var height = cellsHeight * cellSize + 1;
 			var backgroundColor = '#000000';
 			this.graphics = new Graphics(width, height, backgroundColor);
+
+			// Declare the snake
+			this.snake = null;
+
+			// Declare an apple
+			this.apple = null;
 
 			// TODO: Dirty way of appending of the score screen to canvas, centralize
 			// TODO: Fix the positioning (dirty way)
@@ -97,6 +112,10 @@ define([
 			this.manipulator.setControls(menuControls);
 
 			reset(this);
+		}
+
+		function updateThen(game) {
+			game.then = timeNow();
 		}
 
 		function buildNewGameMenu (game) {
@@ -176,6 +195,10 @@ define([
 			game.snake.setAppleEatenListener(appleEatenListener);
 		}
 
+		function resetAudio (game) {
+			game.audio.currentTime = 0;
+		}
+
 		function reset (game) {
 			// Update the 'then' timestamp
 			resetThen(game);
@@ -188,6 +211,9 @@ define([
 
 			// Drop an apple
 			dropApple(game);
+
+			// Reset the audio
+			resetAudio(game);
 		}
 
 		function executeCommand (game, commandCode) {
@@ -270,12 +296,8 @@ define([
 			// TODO: Move substances' effect implementation to a separate place (method or class)
 			// Act according to the substances
 			var snakeDrunkness = snake.getDrunkness();
-			var frameNumber = game.frameNumber;
 
-			// Start from the clean sheet
-			if (frameNumber % (snakeDrunkness + 1) === 0) {
-				graphics.reset();
-			}
+			graphics.reset();
 
 			// Draw the apple
 			if (!game.isStopped()) {
@@ -283,7 +305,7 @@ define([
 			}
 
 			// Draw the snake
-			game.snake.draw(graphics);
+			game.snake.draw(graphics, snakeDrunkness);
 		}
 
 		// Toggle the pause state (pause / unpause)
@@ -309,7 +331,9 @@ define([
 
 			this.menu.hide();
 
-			this.then = timeNow();
+			this.audio.play();
+
+			updateThen(this);
 
 			this.run();
 		}
@@ -320,6 +344,8 @@ define([
 			cancelNextFrame(this);
 
 			this.manipulator.setControls(menuControls);
+
+			this.audio.pause();
 
 			this.menu.reveal();
 

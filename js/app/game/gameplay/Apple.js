@@ -23,7 +23,7 @@ define([
 			var lineStyle = '#1de600';
 
 			// ALCOHOL-FILLED APPLE
-			var alcoholChance = 7;
+			var alcoholChance = 5;
 			var alcoholIndicator = getRandomInteger(0, alcoholChance);
 
 			if (alcoholIndicator === (alcoholChance - 1)) {

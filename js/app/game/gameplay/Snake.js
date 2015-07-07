@@ -74,8 +74,28 @@ define([
 			}
 		}
 
-		Snake.prototype.draw = function (gameGraphics) {
+		Snake.prototype.draw = function (gameGraphics, drunkness) {
+
+			// Update the snake parts' colors
 			var currentPart = this.getHead();
+
+			do {
+				currentPart.updateColor(gameGraphics);
+				currentPart = currentPart.getNextPart();
+			} while (currentPart !== null);
+
+			// Draw additional effects for the snake
+			if (drunkness > 0) {
+				currentPart = this.getTail();
+
+				do {
+					currentPart.drawDrunkEffect(gameGraphics, drunkness);
+					currentPart = currentPart.getPreviousPart();
+				} while (currentPart !== null);
+			}
+
+			// Draw the snake itself
+			currentPart = this.getHead();
 
 			do {
 				currentPart.draw(gameGraphics);
@@ -179,7 +199,7 @@ define([
 					break;
 
 				case AppleSubstance.ALCOHOL:
-					snake.drunkness += 6;
+					snake.drunkness += 4;
 					break;
 
 				default:

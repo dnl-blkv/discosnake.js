@@ -17,10 +17,20 @@ define([
 		Color.prototype.getHexString = function () {
 			var hexString = '#';
 			hexString += this.getHexRed();
-			hexString += this.getHexBlue();
 			hexString += this.getHexGreen();
+			hexString += this.getHexBlue();
 
 			return hexString;
+		}
+
+		Color.prototype.toRGBAString = function (alpha) {
+			var rgbaString = 'rgba(';
+			rgbaString += this.getRed() + ', ';
+			rgbaString += this.getGreen() + ', ';
+			rgbaString += this.getBlue() + ', ';
+			rgbaString += alpha + ')'
+
+			return rgbaString;
 		}
 
 		Color.prototype.setRed = function (red) {

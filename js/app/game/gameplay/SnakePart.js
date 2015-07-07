@@ -7,6 +7,7 @@ define([
 		'use strict';
 
 		var Tile = engine.graphics.Tile;
+		var Color = engine.graphics.Color;
 		var graphicUtils = engine.utils.graphicUtils;
 
 		// Access the required methods
@@ -44,6 +45,10 @@ define([
 			return this.nextPart;
 		}
 
+		SnakePart.prototype.getColor = function () {
+			return this.color;
+		}
+
 		SnakePart.prototype.moveRight = function (game) {
 			this.setCellX(this.cellX + 1, game.getCellsWidth());
 		}
@@ -65,13 +70,29 @@ define([
 			this.setCellY(otherSnakePart.getCellY(), game.getCellsHeight());
 		}
 
-		SnakePart.prototype.draw = function (gameGraphics) {
-			// Convert the basic properties
+		SnakePart.prototype.updateColor = function () {
 			var randomColor = getRandomPsychedelicColor();
 
 			this.setFillStyle(randomColor.getHexString());
+		}
 
+		SnakePart.prototype.draw = function (gameGraphics) {
 			Tile.prototype.draw.call(this, gameGraphics);
+		}
+
+		SnakePart.prototype.drawDrunkEffect = function (gameGraphics, drunkness) {
+			var xPosition = this.getX() - this.getSize();
+			var yPosition = this.getY() - this.getSize();
+			var size = this.getSize() * 3;
+			var alpha = drunkness / 48;
+			if (alpha > 0.3) {
+				alpha = 0.3;
+			}
+			var effectFillStyle = Color.fromHexString(this.getFillStyle()).toRGBAString(alpha)
+			var fillStyle = effectFillStyle;
+			var lineStyle = effectFillStyle;
+
+			gameGraphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
 		}
 
 		return SnakePart;
