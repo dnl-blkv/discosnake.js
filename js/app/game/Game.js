@@ -1,5 +1,6 @@
 define([
 		'./gameplay/Apple',
+		'./gameplay/BonusApple',
 		'./commands/CommandCode',
 		'./controls/defaultGameControls',
 		'./gameplay/Direction',
@@ -12,6 +13,7 @@ define([
 	],
 	function (
 		Apple,
+		BonusApple,
 		CommandCode,
 		defaultGameControls,
 		Direction,
@@ -89,6 +91,9 @@ define([
 
 			// Declare an apple
 			this.apple = null;
+
+			// Declare a bonus apple
+			this.bonusApple = null;
 
 			// TODO: Dirty way of appending of the score screen to canvas, centralize
 			// TODO: Fix the positioning (dirty way)
@@ -177,6 +182,10 @@ define([
 
 		function incrementScore (game) {
 			game.scoreBoard.incrementScore();
+
+			if (game.snake.getDrunkness() > 0) {
+				game.scoreBoard.incrementScore();
+			}
 		}
 
 		function resetScore (game) {
@@ -194,6 +203,7 @@ define([
 			// Initialize the snake
 			game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition, game.defaultSnakeLength);
 			game.snake.setAppleEatenListener(appleEatenListener);
+			game.snake.setBonusAppleEatenListener(bonusAppleEatenListener);
 		}
 
 		function resetAudio (game) {
@@ -212,6 +222,9 @@ define([
 
 			// Drop an apple
 			dropApple(game);
+
+			// Drop a bonus apple
+			dropBonusApple(game);
 
 			// Reset the audio
 			resetAudio(game);
@@ -272,22 +285,37 @@ define([
 			}
 		}
 
+		function dropApple (game) {
+			game.apple = new Apple(game.cellSize, -1, -1);
+			game.apple.placeRandomly(game);
+		}
+
 		function appleEatenListener (game) {
 			dropApple(game);
 			incrementScore(game);
 		}
 
-		function dropApple (game) {
-			game.apple = new Apple (game.cellSize, -1, -1);
-			game.apple.placeRandomly(game);
+		function dropBonusApple (game) {
+			game.bonusApple = new BonusApple(game.cellSize, -1, -1);
+			game.bonusApple.placeRandomly(game);
+		}
+
+		function bonusAppleEatenListener (game) {
+			dropBonusApple(game);
 		}
 
 		function moveSnake (game) {
 			game.snake.move(game);
 		}
 
+		function updateBonusApple (game) {
+			game.bonusApple.update(game);
+		}
+
 		function update (game) {
 			moveSnake(game);
+
+			updateBonusApple(game);
 		}
 
 		function render (game) {
@@ -300,9 +328,10 @@ define([
 
 			graphics.reset();
 
-			// Draw the apple
+			// Draw the apples
 			if (!game.isStopped()) {
 				game.apple.draw(graphics);
+				game.bonusApple.draw(graphics);
 			}
 
 			// Draw the snake
@@ -405,6 +434,22 @@ define([
 
 		Game.prototype.getCellsHeight = function () {
 			return this.cellsHeight;
+		}
+
+		Game.prototype.getFps = function () {
+			return this.fps;
+		}
+
+		Game.prototype.getApple = function () {
+			return this.apple;
+		}
+
+		Game.prototype.getBonusApple = function () {
+			return this.bonusApple;
+		}
+
+		Game.prototype.appleMisplaced = function (newApple) {
+			return (newApple.doesCollideWith(this.apple) || newApple.doesCollideWith(this.bonusApple));
 		}
 
 		return Game;

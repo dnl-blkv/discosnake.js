@@ -24,6 +24,8 @@ define([
 
 			this.appleEatenListener = null;
 
+			this.bonusAppleEatenListener = null;
+
 			this.drunkness = 0;
 
 		}
@@ -136,6 +138,10 @@ define([
 			this.appleEatenListener = appleEatenListener;
 		}
 
+		Snake.prototype.setBonusAppleEatenListener = function (bonusAppleEatenListener) {
+			this.bonusAppleEatenListener = bonusAppleEatenListener;
+		}
+
 		// [Next][Current][Previous][Head] ->
 		Snake.prototype.addPart = function () {
 
@@ -175,31 +181,44 @@ define([
 				default: break;
 			}
 
-			var apple = game.apple;
+			var apple = game.getApple();
 			var appleEaten = this.isAppleEaten(apple);
 			var appleEatenListener = this.appleEatenListener;
 
-			if (appleEaten) {
+			var bonusApple = game.getBonusApple();
+			var bonusAppleEaten = this.isAppleEaten(bonusApple);
+			var bonusAppleEatenListener = this.bonusAppleEatenListener;
+
+			if (appleEaten || bonusAppleEaten) {
 				this.addPart();
 
-				// Apply appropriate effects to the snake
-				applyAppleEffects(this, apple);
-				appleEatenListener.call(appleEatenListener, game);
+				if (bonusAppleEaten) {
+					// Apply appropriate effects to the snake
+					applyBonusAppleEffects(this, bonusApple);
+					bonusAppleEatenListener.call(bonusAppleEatenListener, game);
+				} else {
+					// Decrease effects level
+					if (this.drunkness > 0) {
+						this.drunkness --;
+						console.log(this.drunkness);
+					}
+
+					appleEatenListener.call(appleEatenListener, game);
+				}
 			}
+
 		}
 
-		function applyAppleEffects (snake, apple) {
-			var substance = apple.getSubstance();
+		function applyBonusAppleEffects (snake, bonusApple) {
+			var substance = bonusApple.getSubstance();
 
 			switch (substance) {
-				case AppleSubstance.NO_SUBSTANCE:
-					if (snake.drunkness > 0) {
-						snake.drunkness --;
-					}
-					break;
-
 				case AppleSubstance.ALCOHOL:
-					snake.drunkness += 5;
+					snake.drunkness += 4;
+
+					if (snake.drunkness > 8) {
+						snake.drunkness = 8;
+					}
 					break;
 
 				default:

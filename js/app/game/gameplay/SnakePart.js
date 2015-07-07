@@ -86,10 +86,7 @@ define([
 			var size = this.getSize() * 3;
 
 			// Set the effect transparency
-			var alpha = drunkness / 50;
-			if (alpha > 0.4) {
-				alpha = 0.4;
-			}
+			var alpha = drunkness / 10;
 			var effectFillStyle = Color.fromHexString(this.getFillStyle()).toRGBAString(alpha)
 			var fillStyle = effectFillStyle;
 			var lineStyle = effectFillStyle;

@@ -95,10 +95,18 @@ define([
 		}
 
 		Tile.prototype.doesCollideWith = function (anotherTile) {
-			var xPositionMatches = (this.cellX === anotherTile.cellX);
-			var yPositionMatches = (this.cellY === anotherTile.cellY);
+			var anotherTilePassed = (this !== anotherTile);
+			var xPositionMatches = false;
+			var yPositionMatches = false;
 
-			return (xPositionMatches && yPositionMatches);
+			try {
+				xPositionMatches = (this.cellX === anotherTile.cellX);
+				yPositionMatches = (this.cellY === anotherTile.cellY);
+			} catch (e) {
+				console.log('A null tile reference passed to doesCollideWith method.');
+			}
+
+			return (anotherTilePassed && xPositionMatches && yPositionMatches);
 		}
 
 		return Tile;
