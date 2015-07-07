@@ -182,10 +182,10 @@ define([
 
 		function incrementScore (game) {
 			game.scoreBoard.incrementScore();
+		}
 
-			if (game.snake.getDrunkness() > 0) {
-				game.scoreBoard.incrementScore();
-			}
+		function changeScore (game, difference) {
+			game.scoreBoard.changeScore(difference);
 		}
 
 		function resetScore (game) {
@@ -291,8 +291,10 @@ define([
 		}
 
 		function appleEatenListener (game) {
+
+			var scoreIncrease = ((game.snake.getDrunkness() > 0) ? 2 : 1);
+			changeScore(game, scoreIncrease);
 			dropApple(game);
-			incrementScore(game);
 		}
 
 		function dropBonusApple (game) {
@@ -301,6 +303,8 @@ define([
 		}
 
 		function bonusAppleEatenListener (game) {
+
+			incrementScore(game);
 			dropBonusApple(game);
 		}
 

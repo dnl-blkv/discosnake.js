@@ -40,16 +40,19 @@ define([
 		ScoreBoard.prototype.getScore = function () {
 			return this.score;
 		}
-		
-		ScoreBoard.prototype.incrementScore = function () {
-			this.score ++;
+
+		ScoreBoard.prototype.changeScore = function (difference) {
+			this.score += difference;
 			updateScore(this);
+		}
+
+		ScoreBoard.prototype.incrementScore = function () {
+			this.changeScore(1);
 
 		}
 
 		ScoreBoard.prototype.decrementScore = function () {
-			this.score --;
-			updateScore(this);
+			this.changeScore(-1);
 		}
 
 		ScoreBoard.prototype.draw = function (gameGraphics) {
