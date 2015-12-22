@@ -49,10 +49,15 @@ define([
 
 			var itemsCount = menu.getItemsCount();
 
-			for (var i = 0; i < itemsCount; i ++) {
-				var item = getFocusedItem(menu);
-				var itemHTML = item.getHTML();
-				var itemWidth = itemHTML.offsetWidth;
+			var i, item, itemHTML, itemWidth, itemHeight;
+
+			// TODO: Bad temporal way to set menu width
+			menu.getHTML().style.width = '300px';
+
+			for (i = 0; i < itemsCount; i ++) {
+				item = getFocusedItem(menu);
+				itemHTML = item.getHTML();
+				itemWidth = itemHTML.offsetWidth;
 
 				if (width < itemWidth) {
 					width = itemWidth;
@@ -70,10 +75,10 @@ define([
 			// Calculate the item height
 			var height = 0;
 
-			for (var i = 0; i < itemsCount; i ++) {
-				var item = menu.getItemAt(i);
-				var itemHTML = item.getHTML();
-				var itemHeight = itemHTML.offsetHeight;
+			for (i = 0; i < itemsCount; i ++) {
+				item = menu.getItemAt(i);
+				itemHTML = item.getHTML();
+				itemHeight = itemHTML.offsetHeight;
 
 				height += itemHeight;
 			}
@@ -113,22 +118,20 @@ define([
 
 		Menu.prototype.focusNextItem = function () {
 			focusItemById(this, this.focusedItemId + 1);
-		}
+		};
 
 		Menu.prototype.focusPreviousItem = function () {
 			focusItemById(this, this.focusedItemId - 1);
-		}
+		};
 
 		Menu.prototype.focusFirstItem = function () {
 			focusItemById(this, 0);
-		}
+		};
 
 		function getFocusedItem (menu) {
 			var focusedItemId = menu.focusedItemId;
 
-			var focusedItem = menu.getItemAt(focusedItemId);
-
-			return focusedItem;
+			return menu.getItemAt(focusedItemId);
 		}
 
 		Menu.prototype.setItemSelectedListener = function () {
@@ -136,7 +139,7 @@ define([
 
 			this.itemSelectedListener = args[0];
 			this.itemSelectedListenerArguments = args.slice(1, args.length);
-		}
+		};
 
 		Menu.prototype.selectCurrentItem = function () {
 			var itemSelectedListener = this.itemSelectedListener;
@@ -149,7 +152,7 @@ define([
 			itemSelectedListenerArguments.push(focusedItemActionCode); 
 
 			this.itemSelectedListener.apply(itemSelectedListener, itemSelectedListenerArguments);
-		}
+		};
 
 		Menu.prototype.addItem = function (item) {
 			var itemsCount = this.getItemsCount();
@@ -164,36 +167,36 @@ define([
 			var itemHTML = item.getHTML();
 
 			this.html.appendChild(itemHTML);
-		}
+		};
 
 		Menu.prototype.getItemsCount = function () {
 			return this.items.length;
-		}
+		};
 
 		Menu.prototype.getItemAt = function (index) {
 			return this.items[index];
-		}
+		};
 
 		// ************
 		// HTML METHODS
 		// ************
 		Menu.prototype.getHTML = function () {
 			return this.html;
-		}
+		};
 
 		Menu.prototype.hide = function () {
 			this.getHTML().style.visibility = 'hidden';
-		}
+		};
 
 		Menu.prototype.reveal = function () {
 			this.getHTML().style.visibility = 'visible';
-		}
+		};
 
 		Menu.prototype.isHidden = function () {
 			var hidden = this.getHTML().style.visibility === 'hidden';
 
 			return hidden;
-		}
+		};
 
 		Menu.prototype.updateHTMLStyle = function () {
 			var html = this.html;
@@ -208,7 +211,7 @@ define([
 			html.style.whiteSpace = 'nowrap';
 			html.style.left = '50%';
 			html.style.top = '50%';
-		}
+		};
 
 		Menu.prototype.center = function ()
 		{
@@ -216,7 +219,7 @@ define([
 
 			html.style.marginTop = '-' + this.getHeight() / 2 + 'px';
 			html.style.marginLeft = '-' + this.getWidth() / 2 + 'px';
-		}
+		};
 
 		return Menu;
 	});

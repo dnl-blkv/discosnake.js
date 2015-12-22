@@ -45,11 +45,11 @@ define([
 
 		MenuItem.prototype.getActionCode = function () {
 			return this.actionCode;
-		}
+		};
 
 		MenuItem.prototype.getWidth = function (graphics) {
 			return this.textObject.getWidth(graphics);
-		}
+		};
 
 		MenuItem.prototype.draw = function (graphics) {
 			var width = this.getWidth(graphics);
@@ -59,7 +59,7 @@ define([
 			this.textObject.setY(this.getY());
 
 			this.textObject.draw(graphics);
-		}
+		};
 
 		MenuItem.prototype.focus = function () {
 			if (!this.focused) {
@@ -77,7 +77,7 @@ define([
 
 				this.textObject.updateHTMLStyle();
 			}
-		}
+		};
 
 		MenuItem.prototype.unfocus = function () {
 			if (this.focused) {
@@ -95,17 +95,17 @@ define([
 
 				this.textObject.updateHTMLStyle();
 			}
-		}
+		};
 
 		MenuItem.prototype.updateHTMLStyle = function () {
 			var html = this.getHTML();
 
 			html.style.display = 'block';
-		}
+		};
 
 		MenuItem.prototype.getHTML = function () {
 			return this.textObject.getHTML();
-		}
+		};
 
 		return MenuItem;
 	});

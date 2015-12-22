@@ -1,10 +1,12 @@
 define([
 		'./AppleSubstance',
+		'game/commands/CommandCode',
 		'./Direction',
 		'./SnakePart'
 	],
 	function (
 		AppleSubstance,
+		CommandCode,
 		Direction,
 		SnakePart
 		) {
@@ -207,6 +209,29 @@ define([
 				}
 			}
 
+		}
+
+		Snake.prototype.executeCommand = function (commandCode) {
+			switch (commandCode) {
+				case CommandCode.DIRECT_SNAKE_LEFT:
+					this.setDirection(Direction.LEFT);
+					break;
+
+				case CommandCode.DIRECT_SNAKE_UP:
+					this.setDirection(Direction.UP);
+					break;
+
+				case CommandCode.DIRECT_SNAKE_RIGHT:
+					this.setDirection(Direction.RIGHT);
+					break;
+
+				case CommandCode.DIRECT_SNAKE_DOWN:
+					this.setDirection(Direction.DOWN);
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		function applyBonusAppleEffects (snake, bonusApple) {

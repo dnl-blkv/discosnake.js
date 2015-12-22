@@ -21,12 +21,11 @@ define([
 
 		DiscoSnakeMenuItem.prototype.focus = function () {
 			var randomPsychedelicColor = graphicUtils.getRandomPsychedelicColor();
-			var focusedColor = randomPsychedelicColor.getHexString();
 
-			this.focusedColor = focusedColor;
+			this.focusedColor = randomPsychedelicColor.getHexString();
 
 			MenuItem.prototype.focus.call(this);
-		}
+		};
 
 		DiscoSnakeMenuItem.prototype.updateHTMLStyle = function () {
 			MenuItem.prototype.updateHTMLStyle.call(this);
@@ -34,7 +33,7 @@ define([
 			var html = this.getHTML();
 
 			html.style.lineHeight = '95%';
-		}
+		};
 
 		return DiscoSnakeMenuItem;
 	});

@@ -39,6 +39,7 @@ image, canvas {
 
 .menu-item {
 	display: block;
+	width: auto;
 }
 
 .unselectable {

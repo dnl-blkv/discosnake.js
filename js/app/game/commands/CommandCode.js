@@ -7,10 +7,10 @@ define([],
 			NULL_COMMAND: 'nullCommand',
 
 			// Snake control commands
-			TURN_SNAKE_DOWN: 'turnSnakeDown',
-			TURN_SNAKE_LEFT: 'turnSnakeLeft',
-			TURN_SNAKE_RIGHT: 'turnSnakeRight',
-			TURN_SNAKE_UP: 'turnSnakeUp',
+			DIRECT_SNAKE_DOWN: 'turnSnakeDown',
+			DIRECT_SNAKE_LEFT: 'turnSnakeLeft',
+			DIRECT_SNAKE_RIGHT: 'turnSnakeRight',
+			DIRECT_SNAKE_UP: 'turnSnakeUp',
 
 			// Game management commands
 			TOGGLE_PAUSE: 'togglePause',

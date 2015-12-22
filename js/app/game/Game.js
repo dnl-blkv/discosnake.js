@@ -233,7 +233,6 @@ define([
 		function executeCommand (game, commandCode) {
 
 			var menu = game.menu;
-			var snake = game.snake;
 
 			switch (commandCode) {
 				case CommandCode.TOGGLE_PAUSE:
@@ -255,22 +254,6 @@ define([
 					render(game);
 					break;
 
-				case CommandCode.TURN_SNAKE_LEFT:
-					snake.setDirection(Direction.LEFT);
-					break;
-
-				case CommandCode.TURN_SNAKE_UP:
-					snake.setDirection(Direction.UP);
-					break;
-
-				case CommandCode.TURN_SNAKE_RIGHT:
-					snake.setDirection(Direction.RIGHT);
-					break;
-
-				case CommandCode.TURN_SNAKE_DOWN:
-					snake.setDirection(Direction.DOWN);
-					break;
-
 				case CommandCode.NEW_GAME:
 					reset(game);
 					game.start();
@@ -283,6 +266,10 @@ define([
 				default:
 					break;
 			}
+
+			var snake = game.snake;
+
+			snake.executeCommand(commandCode);
 		}
 
 		function dropApple (game) {
@@ -291,8 +278,8 @@ define([
 		}
 
 		function appleEatenListener (game) {
-
-			var scoreIncrease = ((game.snake.getDrunkness() > 0) ? 2 : 1);
+			var drunkBonus = Math.ceil(game.snake.getDrunkness() / 5);
+			var scoreIncrease = 1 + drunkBonus;
 			changeScore(game, scoreIncrease);
 			dropApple(game);
 		}

@@ -31,7 +31,7 @@ define([
 			var lineStyle = this.getLineStyle();
 
 			graphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
-		}
+		};
 
 		/** Set tile's size */
 		Tile.prototype.setSize = function (size) {
@@ -40,11 +40,11 @@ define([
 			// Set the basic parameters
 			this.setWidth(size);
 			this.setHeight(size);
-		}
+		};
 
 		Tile.prototype.getSize = function () {
 			return this.size;
-		}
+		};
 
 		Tile.prototype.setCellX = function (cellX, gridWidth) {
 			// If grid width is defined, control overflow
@@ -56,11 +56,11 @@ define([
 			}
 
 			this.setX(this.cellX * this.size);
-		}
+		};
 
 		Tile.prototype.getCellX = function () {
 			return this.cellX;
-		}
+		};
 
 		Tile.prototype.setCellY = function (cellY, gridHeight) {
 			// If grid height is defined, control overflow
@@ -72,27 +72,27 @@ define([
 			}
 
 			this.setY(this.cellY * this.size);
-		}
+		};
 
 		Tile.prototype.getCellY = function () {
 			return this.cellY;
-		}
+		};
 
 		Tile.prototype.setFillStyle = function (fillStyle) {
 			this.fillStyle = fillStyle;
-		}
+		};
 
 		Tile.prototype.getFillStyle = function () {
 			return this.fillStyle;
-		}
+		};
 
 		Tile.prototype.setLineStyle = function (lineStyle) {
 			this.lineStyle = lineStyle;
-		}
+		};
 
 		Tile.prototype.getLineStyle = function () {
 			return this.lineStyle;
-		}
+		};
 
 		Tile.prototype.doesCollideWith = function (anotherTile) {
 			var anotherTilePassed = (this !== anotherTile);
@@ -107,7 +107,7 @@ define([
 			}
 
 			return (anotherTilePassed && xPositionMatches && yPositionMatches);
-		}
+		};
 
 		return Tile;
 	});
