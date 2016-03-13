@@ -1,447 +1,451 @@
 define([
-		'./gameplay/Apple',
-		'./gameplay/BonusApple',
-		'./commands/CommandCode',
-		'./controls/defaultGameControls',
-		'./gameplay/Direction',
-		'./ui/DiscoSnakeMenuItem',
-		'engine',
-		'./controls/invertedGameControls',
-		'./controls/menuControls',
-		'./ui/ScoreBoard',
-		'./gameplay/Snake'
-	],
-	function (
-		Apple,
-		BonusApple,
-		CommandCode,
-		defaultGameControls,
-		Direction,
-		DiscoSnakeMenuItem,
-		engine,
-		invertedControls,
-		menuControls,
-		ScoreBoard,
-		Snake
-		) {
-		'use strict';
+    "./gameplay/Apple",
+    "./gameplay/BonusApple",
+    "./commands/CommandCode",
+    "./controls/defaultGameControls",
+    "./gameplay/Direction",
+    "./ui/DiscoSnakeMenuItem",
+    "engine",
+    "./controls/invertedGameControls",
+    "./controls/menuControls",
+    "./ui/ScoreBoard",
+    "./gameplay/Snake"
+  ],
+  function (
+    Apple,
+    BonusApple,
+    CommandCode,
+    defaultGameControls,
+    Direction,
+    DiscoSnakeMenuItem,
+    engine,
+    invertedControls,
+    menuControls,
+    ScoreBoard,
+    Snake
+    ) {
+    "use strict";
 
-		// Classes
-		var Graphics = engine.graphics.Graphics;
-		var Manipulator = engine.input.Manipulator;
-		var Menu = engine.ui.Menu;
-		var timeUtils = engine.utils.timeUtils;
-		var htmlUtils = engine.utils.htmlUtils;
+    // Classes
+    var Graphics = engine.graphics.Graphics;
+    var Manipulator = engine.input.Manipulator;
+    var Menu = engine.ui.Menu;
+    var timeUtils = engine.utils.timeUtils;
+    var htmlUtils = engine.utils.htmlUtils;
 
-		// Methods
-		// Get the animation methods
-		var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
-		var requestAnimationFrame = timeUtils.requestAnimationFrame;
+    // Methods
+    // Get the animation methods
+    var cancelAnimationFrame = timeUtils.cancelAnimationFrame;
+    var requestAnimationFrame = timeUtils.requestAnimationFrame;
 
-		// Get the current time utility
-		var timeNow = timeUtils.timeNow;
+    // Get the current time utility
+    var timeNow = timeUtils.timeNow;
 
-		// Get the html methods
-		var getBody = htmlUtils.getBody;
+    // Get the html methods
+    var getBody = htmlUtils.getBody;
 
-		function Game (cellSize, cellsWidth, cellsHeight) {
+    function Game (cellSize, cellsWidth, cellsHeight) {
 
-			// Set the size parameters
-			this.cellSize = cellSize;
-			this.cellsWidth = cellsWidth;
-			this.cellsHeight = cellsHeight;
+      // Set the size parameters
+      this.cellSize = cellSize;
+      this.cellsWidth = cellsWidth;
+      this.cellsHeight = cellsHeight;
 
-			// Initialize the 'then' time
-			this.then = 0;
-			updateThen(this);
+      // Initialize the 'then' time
+      this.then = 0;
+      updateThen(this);
 
-			// Initialize the current frame number
-			this.frameNumber = 0;
+      // Initialize the current frame number
+      this.frameNumber = 0;
 
-			// Initialize the FPS rate
-			this.fps = 21;
+      // Initialize the FPS rate
+      this.fps = 21;
 
-			// Initialize the starting snake length
-			this.defaultSnakeLength = 4;
+      // Initialize the starting snake length
+      this.defaultSnakeLength = 4;
 
-			// Set the initial game state
-			this.stopped = true;
-			this.lastRequestId = 0;
+      // Set the initial game state
+      this.stopped = true;
+      this.lastRequestId = 0;
 
-			// Initialize the scoreboard
-			this.scoreBoard = new ScoreBoard();
+      // Initialize the scoreboard
+      this.scoreBoard = new ScoreBoard();
 
-			// Initialize the audio player
-			// TODO: dirty way, refactor
-			this.audio = new Audio('audio/scooter-last-minute.mp3');
-			var game = this;
-			this.audio.addEventListener('ended', function() {
-				resetAudio(game);
-				game.audio.play();
-			}, false);
+      // Initialize the audio player
+      // TODO: dirty way, refactor
+      this.audio = new Audio("audio/scooter-last-minute.mp3");
+      var game = this;
+      this.audio.addEventListener("ended", function() {
+        resetAudio(game);
+        game.audio.play();
+      }, false);
 
-			// Initialize the game graphics
-			var width = cellsWidth * cellSize + 1;
-			var height = cellsHeight * cellSize + 1;
-			var backgroundColor = '#000000';
-			this.graphics = new Graphics(width, height, backgroundColor);
+      // Initialize the game graphics
+      var width = cellsWidth * cellSize + 1;
+      var height = cellsHeight * cellSize + 1;
+      var backgroundColor = "#000000";
+      this.graphics = new Graphics(width, height, backgroundColor);
 
-			// Declare the snake
-			this.snake = null;
+      // Declare the snake
+      this.snake = null;
 
-			// Declare an apple
-			this.apple = null;
+      // Declare an apple
+      this.apple = null;
 
-			// Declare a bonus apple
-			this.bonusApple = null;
+      // Declare a bonus apple
+      this.bonusApple = null;
 
-			// TODO: Dirty way of appending of the score screen to canvas, centralize
-			// TODO: Fix the positioning (dirty way)
-			var scoreScreenHTML = this.scoreBoard.getHTML();
-			var body = getBody();
-			body.appendChild(scoreScreenHTML);
+      // TODO: Dirty way of appending of the score screen to canvas, centralize
+      // TODO: Fix the positioning (dirty way)
+      var scoreScreenHTML = this.scoreBoard.getHTML();
+      var body = getBody();
+      body.appendChild(scoreScreenHTML);
 
-			// Create and build the menus
-			this.menu = null;
-			this.pausedGameMenu = null;
-			buildMenus(this);
-			body.appendChild(this.menu.getHTML());
+      // Create and build the menus
+      this.menu = null;
+      this.pausedGameMenu = null;
+      buildMenus(this);
+      body.appendChild(this.menu.getHTML());
 
-			// Center the menu
-			this.menu.center();
+      // Center the menu
+      this.menu.center();
 
-			// Create the control module
-			this.manipulator = new Manipulator();
+      // Create the control module
+      this.manipulator = new Manipulator();
 
-			// Set the command listener
-			this.manipulator.setCommandListener(executeCommand, this);
-			this.manipulator.setControls(menuControls);
+      // Set the command listener
+      this.manipulator.setCommandListener(executeCommand, this);
+      this.manipulator.setControls(menuControls);
 
-			reset(this);
-		}
+      reset(this);
+    }
 
-		function updateThen(game) {
-			game.then = timeNow();
-		}
+    function updateThen(game) {
+      game.then = timeNow();
+    }
 
-		function buildNewGameMenu (game) {
-			var newGameMenu = new Menu();
+    function buildNewGameMenu (game) {
+      var newGameMenu = new Menu();
 
-			// TODO: Centralize menu's style
-			var menuFontSize = 48;
-			var menuFontFace = 'Wendy';
-			var menuDefaultFontColor = '#FFFFFF';
+      // TODO: Centralize menu's style
+      var menuFontSize = 48;
+      var menuFontFace = "Wendy";
+      var menuDefaultFontColor = "#FFFFFF";
 
-			newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME, 'START GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
-			newGameMenu.setItemSelectedListener(executeCommand, game);
+      newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
+          "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+      newGameMenu.setItemSelectedListener(executeCommand, game);
 
-			// Set menu to the new game menu by default since no game has been started
-			game.menu = newGameMenu;
-
-			var body = getBody();
-
-			body.appendChild(newGameMenu.getHTML());
-
-			newGameMenu.reveal();
-
-			newGameMenu.center();
-		}
-
-		// Build the paused game menu
-		function buildPausedGameMenu (game) {
-			var pausedGameMenu = new Menu();
-
-			// TODO: Centralize menu's style [2]
-			var menuFontSize = 48;
-			var menuFontFace = 'Wendy';
-			var menuDefaultFontColor = '#FFFFFF';
-
-			pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME, 'CONTINUE', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
-			pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME, 'NEW GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
-			pausedGameMenu.setItemSelectedListener(executeCommand, game);
-
-			game.pausedGameMenu = pausedGameMenu;
+      // Set menu to the new game menu by default since no game has been started
+      game.menu = newGameMenu;
 
 			var body = getBody();
 
-			body.appendChild(pausedGameMenu.getHTML());
+      body.appendChild(newGameMenu.getHTML());
 
-			pausedGameMenu.center();
-		}
+      newGameMenu.reveal();
 
-		// Build all the menus
-		function buildMenus (game) {
+      newGameMenu.center();
+    }
 
-			// Build the new game menu
-			buildNewGameMenu(game);
+    // Build the paused game menu
+    function buildPausedGameMenu (game) {
+      var pausedGameMenu = new Menu();
 
-			// Build the paused game menu
-			buildPausedGameMenu(game);
+      // TODO: Centralize menu's style [2]
+      var menuFontSize = 48;
+      var menuFontFace = "Wendy";
+      var menuDefaultFontColor = "#FFFFFF";
 
-		}
+      pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
+          "CONTINUE", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+      pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME,
+          "NEW GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+      pausedGameMenu.setItemSelectedListener(executeCommand, game);
 
-		function incrementScore (game) {
-			game.scoreBoard.incrementScore();
-		}
+      game.pausedGameMenu = pausedGameMenu;
 
-		function changeScore (game, difference) {
-			game.scoreBoard.changeScore(difference);
-		}
+      var body = getBody();
 
-		function resetScore (game) {
-			game.scoreBoard.reset();
-		}
+      body.appendChild(pausedGameMenu.getHTML());
 
-		function resetThen (game) {
-			game.then = timeNow();
-		}
+      pausedGameMenu.center();
+    }
 
-		function resetSnake (game) {
-			var midWidthPosition = Math.round(game.cellsWidth / 2);
-			var midHeightPosition = Math.round(game.cellsHeight / 2);
+    // Build all the menus
+    function buildMenus (game) {
 
-			// Initialize the snake
-			game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition, game.defaultSnakeLength);
-			game.snake.setAppleEatenListener(appleEatenListener);
-			game.snake.setBonusAppleEatenListener(bonusAppleEatenListener);
-		}
+      // Build the new game menu
+      buildNewGameMenu(game);
 
-		function resetAudio (game) {
-			game.audio.currentTime = 0;
-		}
+      // Build the paused game menu
+      buildPausedGameMenu(game);
 
-		function reset (game) {
-			// Update the 'then' timestamp
-			resetThen(game);
+    }
 
-			// Reset the scoreboard
-			resetScore(game);
+    function incrementScore (game) {
+      game.scoreBoard.incrementScore();
+    }
 
-			// Reset the snake
-			resetSnake(game);
+    function changeScore (game, difference) {
+      game.scoreBoard.changeScore(difference);
+    }
 
-			// Drop an apple
-			dropApple(game);
+    function resetScore (game) {
+      game.scoreBoard.reset();
+    }
 
-			// Drop a bonus apple
-			dropBonusApple(game);
+    function resetThen (game) {
+      game.then = timeNow();
+    }
 
-			// Reset the audio
-			resetAudio(game);
-		}
+    function resetSnake (game) {
+      var midWidthPosition = Math.round(game.cellsWidth / 2);
+      var midHeightPosition = Math.round(game.cellsHeight / 2);
 
-		function executeCommand (game, commandCode) {
+      // Initialize the snake
+      game.snake = new Snake(game.cellSize, midWidthPosition, midHeightPosition,
+          game.defaultSnakeLength);
+      game.snake.setAppleEatenListener(appleEatenListener);
+      game.snake.setBonusAppleEatenListener(bonusAppleEatenListener);
+    }
 
-			var menu = game.menu;
+    function resetAudio (game) {
+      game.audio.currentTime = 0;
+    }
 
-			switch (commandCode) {
-				case CommandCode.TOGGLE_PAUSE:
-					togglePause(game);
-					break;
+    function reset (game) {
+      // Update the 'then' timestamp
+      resetThen(game);
 
-				case CommandCode.PREVIOUS_MENU_ITEM:
-					menu.focusPreviousItem();
-					render(game);
-					break;
+      // Reset the scoreboard
+      resetScore(game);
 
-				case CommandCode.NEXT_MENU_ITEM:
-					menu.focusNextItem();
-					render(game);
-					break;
+      // Reset the snake
+      resetSnake(game);
 
-				case CommandCode.SELECT_MENU_ITEM:
-					menu.selectCurrentItem();
-					render(game);
-					break;
+      // Drop an apple
+      dropApple(game);
 
-				case CommandCode.NEW_GAME:
-					reset(game);
-					game.start();
-					break;
+      // Drop a bonus apple
+      dropBonusApple(game);
 
-				case CommandCode.CONTINUE_GAME:
-					game.start();
-					break;
+      // Reset the audio
+      resetAudio(game);
+    }
 
-				default:
-					break;
-			}
+    function executeCommand (game, commandCode) {
 
-			var snake = game.snake;
+      var menu = game.menu;
 
-			snake.executeCommand(commandCode);
-		}
+      switch (commandCode) {
+        case CommandCode.TOGGLE_PAUSE:
+          togglePause(game);
+          break;
+
+        case CommandCode.PREVIOUS_MENU_ITEM:
+          menu.focusPreviousItem();
+          render(game);
+          break;
+
+        case CommandCode.NEXT_MENU_ITEM:
+          menu.focusNextItem();
+          render(game);
+          break;
+
+        case CommandCode.SELECT_MENU_ITEM:
+          menu.selectCurrentItem();
+          render(game);
+          break;
+
+        case CommandCode.NEW_GAME:
+          reset(game);
+          game.start();
+          break;
+
+        case CommandCode.CONTINUE_GAME:
+          game.start();
+          break;
 
-		function dropApple (game) {
-			game.apple = new Apple(game.cellSize, -1, -1);
-			game.apple.placeRandomly(game);
-		}
+        default:
+          break;
+      }
 
-		function appleEatenListener (game) {
-			var drunkBonus = Math.ceil(game.snake.getDrunkness() / 5);
-			var scoreIncrease = 1 + drunkBonus;
-			changeScore(game, scoreIncrease);
-			dropApple(game);
-		}
+      var snake = game.snake;
 
-		function dropBonusApple (game) {
-			game.bonusApple = new BonusApple(game.cellSize, -1, -1);
-			game.bonusApple.placeRandomly(game);
-		}
+      snake.executeCommand(commandCode);
+    }
 
-		function bonusAppleEatenListener (game) {
+    function dropApple (game) {
+      game.apple = new Apple(game.cellSize, -1, -1);
+      game.apple.placeRandomly(game);
+    }
 
-			incrementScore(game);
-			dropBonusApple(game);
-		}
+    function appleEatenListener (game) {
+      var drunkBonus = Math.ceil(game.snake.getDrunkness() / 5);
+      var scoreIncrease = 1 + drunkBonus;
+      changeScore(game, scoreIncrease);
+      dropApple(game);
+    }
 
-		function moveSnake (game) {
-			game.snake.move(game);
-		}
+    function dropBonusApple (game) {
+      game.bonusApple = new BonusApple(game.cellSize, -1, -1);
+      game.bonusApple.placeRandomly(game);
+    }
 
-		function updateBonusApple (game) {
-			game.bonusApple.update(game);
-		}
+    function bonusAppleEatenListener (game) {
 
-		function update (game) {
-			moveSnake(game);
+      incrementScore(game);
+      dropBonusApple(game);
+    }
 
-			updateBonusApple(game);
-		}
+    function moveSnake (game) {
+      game.snake.move(game);
+    }
 
-		function render (game) {
-			var graphics = game.graphics;
-			var snake = game.snake;
+    function updateBonusApple (game) {
+      game.bonusApple.update(game);
+    }
 
-			// TODO: Move substances' effect implementation to a separate place (method or class)
-			// Act according to the substances
-			var snakeDrunkness = snake.getDrunkness();
+    function update (game) {
+      moveSnake(game);
 
-			graphics.reset();
+      updateBonusApple(game);
+    }
 
-			// Draw the apples
-			if (!game.isStopped()) {
-				game.apple.draw(graphics);
-				game.bonusApple.draw(graphics);
-			}
+    function render (game) {
+      var graphics = game.graphics;
+      var snake = game.snake;
 
-			// Draw the snake
-			game.snake.draw(graphics, snakeDrunkness);
-		}
+      // TODO: Separate the implementation of effects of substances
+      // Act according to the substances
+      var snakeDrunkness = snake.getDrunkness();
 
-		// Toggle the pause state (pause / unpause)
-		function togglePause (game) {
-			if(game.isStopped()) {
-				game.start();
-			} else {
-				game.pause();
-			}
-		}
+      graphics.reset();
 
-		Game.prototype.start = function () {
-			this.stopped = false;
-			this.manipulator.setControls(defaultGameControls);
+      // Draw the apples
+      if (!game.isStopped()) {
+        game.apple.draw(graphics);
+        game.bonusApple.draw(graphics);
+      }
 
-			// Set up the menu
-			if (this.menu !== this.pausedGameMenu) {
-				this.menu.hide();
-				this.menu = this.pausedGameMenu;
-			}
+      // Draw the snake
+      game.snake.draw(graphics, snakeDrunkness);
+    }
 
-			this.menu.focusFirstItem();
+    // Toggle the pause state (pause / unpause)
+    function togglePause (game) {
+      if(game.isStopped()) {
+        game.start();
+      } else {
+        game.pause();
+      }
+    }
 
-			this.menu.hide();
+    Game.prototype.start = function () {
+      this.stopped = false;
+      this.manipulator.setControls(defaultGameControls);
 
-			this.audio.play();
+      // Set up the menu
+      if (this.menu !== this.pausedGameMenu) {
+        this.menu.hide();
+        this.menu = this.pausedGameMenu;
+      }
 
-			updateThen(this);
+      this.menu.focusFirstItem();
 
-			this.run();
-		}
+      this.menu.hide();
 
-		// TODO: implement modes for switching the controls etc
-		Game.prototype.pause = function () {
+      this.audio.play();
 
-			cancelNextFrame(this);
+      updateThen(this);
 
-			this.manipulator.setControls(menuControls);
+      this.run();
+    };
 
-			this.audio.pause();
+    // TODO: implement modes for switching the controls etc
+    Game.prototype.pause = function () {
 
-			this.menu.reveal();
+      cancelNextFrame(this);
 
-			this.stopped = true;
-		}
+      this.manipulator.setControls(menuControls);
 
-		Game.prototype.isStopped = function () {
-			return this.stopped;
-		}
+      this.audio.pause();
 
-		function cancelNextFrame (game) {
-			var lastRequestId = game.lastRequestId;
+      this.menu.reveal();
 
-			cancelAnimationFrame(lastRequestId);
+      this.stopped = true;
+    };
 
-			game.lastRequestId = 0;
-		}
+    Game.prototype.isStopped = function () {
+      return this.stopped;
+    };
 
-		function requestNextFrame (game, runner) {
-			game.lastRequestId = requestAnimationFrame(runner);
-			game.frameNumber ++;
-		}
+    function cancelNextFrame (game) {
+      var lastRequestId = game.lastRequestId;
 
-		// Run the game repeatedly and continuously. NICE SHOT MAN.
-		Game.prototype.run = function () {
+      cancelAnimationFrame(lastRequestId);
 
-			// Bind this
-			var run = this.run.bind(this);
+      game.lastRequestId = 0;
+    }
 
-			// Prepare the frame processing method
-			var game = this;
+    function requestNextFrame (game, runner) {
+      game.lastRequestId = requestAnimationFrame(runner);
+      game.frameNumber ++;
+    }
 
-			var processFrame = function () {
-				resetThen(game);
-				requestNextFrame(game, run);
-				update(game);
-				render(game);
-			};
+    // Run the game repeatedly and continuously. NICE SHOT MAN.
+    Game.prototype.run = function () {
 
-			// Calculate the delay for previous frame processing
-			var delay = 0;
-			var currentFrameDuration = (1000 / this.fps);
+      // Bind this
+      var run = this.run.bind(this);
 
-			// If the game is running, process frame
-			var gameStopped = this.isStopped();
-			if (!gameStopped) {
-				delay = timeNow() - this.then;
-				currentFrameDuration -= delay;
-				setTimeout(processFrame, currentFrameDuration);
-			}
-		}
+      // Prepare the frame processing method
+      var game = this;
 
-		Game.prototype.getCellsWidth = function () {
-			return this.cellsWidth;
-		}
+      var processFrame = function () {
+        resetThen(game);
+        requestNextFrame(game, run);
+        update(game);
+        render(game);
+      };
 
-		Game.prototype.getCellsHeight = function () {
-			return this.cellsHeight;
-		}
+      // Calculate the delay for previous frame processing
+      var delay = 0;
+      var currentFrameDuration = (1000 / this.fps);
 
-		Game.prototype.getFps = function () {
-			return this.fps;
-		}
+      // If the game is running, process frame
+      var gameStopped = this.isStopped();
+      if (!gameStopped) {
+        delay = timeNow() - this.then;
+        currentFrameDuration -= delay;
+        setTimeout(processFrame, currentFrameDuration);
+      }
+    };
 
-		Game.prototype.getApple = function () {
-			return this.apple;
-		}
+    Game.prototype.getCellsWidth = function () {
+      return this.cellsWidth;
+    };
 
-		Game.prototype.getBonusApple = function () {
-			return this.bonusApple;
-		}
+    Game.prototype.getCellsHeight = function () {
+      return this.cellsHeight;
+    };
 
-		Game.prototype.appleMisplaced = function (newApple) {
-			return (newApple.doesCollideWith(this.apple) || newApple.doesCollideWith(this.bonusApple));
-		}
+    Game.prototype.getFps = function () {
+      return this.fps;
+    };
 
-		return Game;
-	});
+    Game.prototype.getApple = function () {
+      return this.apple;
+    };
+
+    Game.prototype.getBonusApple = function () {
+      return this.bonusApple;
+    };
+
+    Game.prototype.appleMisplaced = function (newApple) {
+      return (newApple.doesCollideWith(this.apple) || newApple.doesCollideWith(this.bonusApple));
+    };
+
+    return Game;
+  });
