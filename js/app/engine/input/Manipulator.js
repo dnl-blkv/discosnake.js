@@ -73,6 +73,7 @@ define([
 
         /**
          * @param {number} keyCode
+         *
          * @returns {boolean}
          */
         Manipulator.prototype.isKeyDown = function(keyCode) {
@@ -83,7 +84,6 @@ define([
          */
         Manipulator.prototype.setCommandListener = function() {
             var args = Array.prototype.slice.call(arguments);
-
             this.commandListener = args[0];
             this.commandListenerArguments = args.slice(1, args.length);
         };
@@ -137,30 +137,21 @@ define([
         /**
          * @param {Manipulator} manipulator
          * @param {Event} event
+         *
          * @returns {string}
          */
         function getCommandCode(manipulator, event) {
-            var keyCode = event.keyCode;
-            var type = event.type;
-            var commandCode = NULL_COMMAND;
             var controls = manipulator.controls;
+            var keyCode = event.keyCode;
+            var eventType = event.type;
 
-            switch (type) {
-                case InputEvent.KEY_DOWN:
-                    commandCode = controls.getKeyDownBinding(keyCode);
-                    break;
-                case InputEvent.KEY_UP:
-                    commandCode = controls.getKeyUpBinding(keyCode);
-                    break;
-                default:
-                    break;
+            if (eventType === InputEvent.KEY_DOWN) {
+                return controls.getKeyDownBinding(keyCode);
+            } else if(eventType === InputEvent.KEY_UP) {
+                return controls.getKeyUpBinding(keyCode);
+            } else {
+                return NULL_COMMAND;
             }
-
-            if (commandCode === undefined) {
-                commandCode = NULL_COMMAND;
-            }
-
-            return commandCode;
         }
 
         /**
