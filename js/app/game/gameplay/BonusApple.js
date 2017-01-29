@@ -3,7 +3,7 @@ define([
         './AppleSubstance',
         'engine'
     ],
-    function (
+    function(
         Apple,
         AppleSubstance,
         engine
@@ -14,7 +14,7 @@ define([
 
         var getRandomInteger = numberUtils.getRandomInteger;
 
-        function BonusApple (size, cellX, cellY) {
+        function BonusApple(size, cellX, cellY) {
 
             // Call the super constructor
             Apple.call(this, size, cellX, cellY);
@@ -31,7 +31,7 @@ define([
         BonusApple.prototype = Object.create(Apple.prototype);
         BonusApple.prototype.constructor = BonusApple;
 
-        BonusApple.prototype.update = function (game) {
+        BonusApple.prototype.update = function(game) {
             this.framesLeft --;
 
             if (this.framesLeft <= 0) {
@@ -39,7 +39,7 @@ define([
             }
         }
 
-        function calculateFramesLeft (game) {
+        function calculateFramesLeft(game) {
             var gameCellsWidth = game.getCellsWidth();
             var gameCellsHeight = game.getCellsHeight();
             var maxDimension = ((gameCellsWidth > gameCellsHeight) ? gameCellsWidth : gameCellsHeight);
@@ -47,7 +47,7 @@ define([
             return 1.5 * maxDimension;
         }
 
-        BonusApple.prototype.placeRandomly = function (game) {
+        BonusApple.prototype.placeRandomly = function(game) {
             this.framesLeft = calculateFramesLeft(game);
 
             Apple.prototype.placeRandomly.call(this, game);
@@ -57,7 +57,7 @@ define([
             }
         }
 
-        BonusApple.prototype.getSubstance = function () {
+        BonusApple.prototype.getSubstance = function() {
             return this.substance;
         }
 

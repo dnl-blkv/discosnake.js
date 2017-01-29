@@ -11,7 +11,7 @@ define([
         "./ui/ScoreBoard",
         "./gameplay/Snake"
     ],
-    function (Apple,
+    function(Apple,
               BonusApple,
               CommandCode,
               defaultGameControls,
@@ -59,7 +59,7 @@ define([
             // TODO: dirty way, refactor
             this.audio = new Audio("audio/scooter-last-minute.mp3");
             var game = this;
-            this.audio.addEventListener("ended", function () {
+            this.audio.addEventListener("ended", function() {
                 resetAudio(game);
                 game.audio.play();
             }, false);
@@ -311,7 +311,7 @@ define([
             }
         }
 
-        Game.prototype.start = function () {
+        Game.prototype.start = function() {
             this.stopped = false;
             this.manipulator.setControls(defaultGameControls);
 
@@ -333,7 +333,7 @@ define([
         };
 
         // TODO: implement modes for switching the controls etc
-        Game.prototype.pause = function () {
+        Game.prototype.pause = function() {
 
             cancelNextFrame(this);
 
@@ -346,7 +346,7 @@ define([
             this.stopped = true;
         };
 
-        Game.prototype.isStopped = function () {
+        Game.prototype.isStopped = function() {
             return this.stopped;
         };
 
@@ -364,7 +364,7 @@ define([
         }
 
         // Run the game repeatedly and continuously. NICE SHOT MAN.
-        Game.prototype.run = function () {
+        Game.prototype.run = function() {
 
             // Bind this
             var run = this.run.bind(this);
@@ -372,7 +372,7 @@ define([
             // Prepare the frame processing method
             var game = this;
 
-            var processFrame = function () {
+            var processFrame = function() {
                 updateThenTimestamp(game);
                 requestNextFrame(game, run);
                 update(game);
@@ -392,27 +392,27 @@ define([
             }
         };
 
-        Game.prototype.getCellsWidth = function () {
+        Game.prototype.getCellsWidth = function() {
             return this.cellsWidth;
         };
 
-        Game.prototype.getCellsHeight = function () {
+        Game.prototype.getCellsHeight = function() {
             return this.cellsHeight;
         };
 
-        Game.prototype.getFps = function () {
+        Game.prototype.getFps = function() {
             return this.fpsRate;
         };
 
-        Game.prototype.getApple = function () {
+        Game.prototype.getApple = function() {
             return this.apple;
         };
 
-        Game.prototype.getBonusApple = function () {
+        Game.prototype.getBonusApple = function() {
             return this.bonusApple;
         };
 
-        Game.prototype.appleMisplaced = function (newApple) {
+        Game.prototype.appleMisplaced = function(newApple) {
             return (newApple.doesCollideWith(this.apple) || newApple.doesCollideWith(this.bonusApple));
         };
 

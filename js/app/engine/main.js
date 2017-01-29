@@ -3,7 +3,7 @@ define([
     './input/main',
     './utils/main',
     './ui/main'
-], function (
+], function(
     graphics,
     input,
     utils,

@@ -1,7 +1,7 @@
 define([
         'engine/graphics/DisplayObject'
     ],
-    function (
+    function(
         DisplayObject
         ) {
         'use strict';
@@ -26,56 +26,56 @@ define([
         TextObject.prototype = Object.create(DisplayObject.prototype);
         TextObject.prototype.constructor = TextObject;
 
-        TextObject.prototype.setText = function (text) {
+        TextObject.prototype.setText = function(text) {
             this.text = text;
             updateHTMLText(this);
-        }
+        };
 
-        TextObject.prototype.getText = function () {
+        TextObject.prototype.getText = function() {
             return this.text;
-        }
+        };
 
-        TextObject.prototype.setFontSize = function (fontSize) {
+        TextObject.prototype.setFontSize = function(fontSize) {
             this.fontSize = fontSize;
 
             this.setHeight(fontSize);
-        }
+        };
 
-        TextObject.prototype.getFontSize = function () {
+        TextObject.prototype.getFontSize = function() {
             return this.fontSize;
-        }
+        };
 
-        TextObject.prototype.setFontName = function (fontName) {
+        TextObject.prototype.setFontName = function(fontName) {
             this.fontFamily = fontName;
-        }
+        };
 
-        TextObject.prototype.getFontName = function () {
+        TextObject.prototype.getFontName = function() {
             return this.fontFamily;
-        }
+        };
 
-        TextObject.prototype.setFontColor = function (fontColor) {
+        TextObject.prototype.setFontColor = function(fontColor) {
             this.fontColor = fontColor;
-        }
+        };
 
-        TextObject.prototype.getFontColor = function () {
+        TextObject.prototype.getFontColor = function() {
             return this.fontColor;
-        }
+        };
 
-        TextObject.prototype.setMaxWidth = function (maxWidth) {
+        TextObject.prototype.setMaxWidth = function(maxWidth) {
             this.maxWidth = maxWidth;
-        }
+        };
 
-        TextObject.prototype.getMaxWidth = function () {
+        TextObject.prototype.getMaxWidth = function() {
             return this.maxWidth;
-        }
+        };
 
-        TextObject.prototype.getWidth = function (graphics) {
+        TextObject.prototype.getWidth = function(graphics) {
             var width = graphics.getTextWidth(this.text, this.fontSize, this.fontFamily);
 
             return width;
-        }
+        };
 
-        TextObject.prototype.draw = function (graphics) {
+        TextObject.prototype.draw = function(graphics) {
             var width = this.getWidth(graphics);
 
             this.setWidth(width);
@@ -84,18 +84,18 @@ define([
             var textY = this.getY() + (this.fontSize / 2.0);
 
             graphics.drawText(textX, textY, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
-        }
+        };
 
-        TextObject.prototype.getHTML = function () {
+        TextObject.prototype.getHTML = function() {
             return this.html;
-        }
+        };
 
         // TODO: re-consider methods' publicity
-        function updateHTMLText (textObject) {
+        function updateHTMLText(textObject) {
             textObject.html.innerHTML = textObject.text;
-        }
+        };
 
-        TextObject.prototype.updateHTMLStyle = function () {
+        TextObject.prototype.updateHTMLStyle = function() {
 
             var html = this.html;
 
@@ -105,12 +105,12 @@ define([
             html.style.fontFamily = this.fontFamily;
 
             return html;
-        }
+        };
 
-        TextObject.prototype.updateHTML = function () {
+        TextObject.prototype.updateHTML = function() {
             updateHTMLText(this);
             this.updateHTMLStyle();
-        }
+        };
 
         return TextObject;
     });

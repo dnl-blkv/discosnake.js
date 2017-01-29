@@ -3,7 +3,7 @@ define([
     './InputEvent',
     './KeyCode',
     './Manipulator'
-], function (
+], function(
         Controls,
         InputEvent,
         KeyCode,

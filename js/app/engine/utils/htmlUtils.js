@@ -1,8 +1,8 @@
 define([],
-    function () {
+    function() {
         'use strict';
 
-        function centreElement (element) {
+        function centreElement(element) {
             var width = document.documentElement.clientWidth;
             var height = document.documentElement.clientHeight;
 
@@ -11,7 +11,7 @@ define([],
             element.style.top = (height - element.offsetHeight)/2 + window.pageYOffset + 'px';
         }
 
-        function buildFontString (fontSize, fontName) {
+        function buildFontString(fontSize, fontName) {
             var fontString = '' + fontSize + 'px ' + fontName;
 
             return fontString;
@@ -37,34 +37,34 @@ define([],
             }
         }
 
-        function relMouseCoords (element, event) {
+        function relMouseCoords(element, event) {
             var absoluteX = event.pageX;
             var absoluteY = event.pageY;
 
             return relCoords(element, absoluteX, absoluteY);
         }
 
-        function relLastTouchCoords (element, touchEvent) {
+        function relLastTouchCoords(element, touchEvent) {
             var lastTouchId = touchEvent.touches.length - 1;
 
             return relTouchCoords(element, touchEvent.touches[lastTouchId]);
         }
 
-        function relTouchCoords (element, touch) {
+        function relTouchCoords(element, touch) {
             var absoluteX = touch.clientX;
             var absoluteY = touch.clientY;
 
             return relCoords(element, absoluteX, absoluteY);
         }
 
-        function getWindowSize () {
+        function getWindowSize() {
             return {
                 width: window.innerWidth || document.body.clientWidth,
                 height: window.innerHeight || document.body.clientHeight
             }
         }
 
-        function getBody () {
+        function getBody() {
             return document.getElementsByTagName('body')[0];
         }
 

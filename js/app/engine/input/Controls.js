@@ -1,37 +1,37 @@
 define([
         './KeyCode'
     ],
-    function (
+    function(
         KeyCode
         ) {
         'use strict';
 
-        function Controls () {
+        function Controls() {
             this.keyDownCommandMap = {};
             this.keyUpCommandMap = {};
         }
 
-        Controls.prototype.bindKeyDown = function (keyCode, commandCode) {
+        Controls.prototype.bindKeyDown = function(keyCode, commandCode) {
             this.keyDownCommandMap[keyCode] = commandCode;
         }
 
-        Controls.prototype.getKeyDownBinding = function (keyCode) {
+        Controls.prototype.getKeyDownBinding = function(keyCode) {
             return this.keyDownCommandMap[keyCode];
         }
 
-        Controls.prototype.unbindKeyDown = function (keyCode) {
+        Controls.prototype.unbindKeyDown = function(keyCode) {
             this.keyDownCommandMap[keyCode] = KeyCode.NULL_KEY;
         }
 
-        Controls.prototype.bindKeyUp = function (keyCode, commandCode) {
+        Controls.prototype.bindKeyUp = function(keyCode, commandCode) {
             this.keyUpCommandMap[keyCode] = commandCode;
         }
 
-        Controls.prototype.getKeyUpBinding = function (keyCode) {
+        Controls.prototype.getKeyUpBinding = function(keyCode) {
             return this.keyUpCommandMap[keyCode];
         }
 
-        Controls.prototype.unbindKeyUp = function (keyCode) {
+        Controls.prototype.unbindKeyUp = function(keyCode) {
             this.keyUpCommandMap[keyCode] = KeyCode.NULL_KEY;
         }
 

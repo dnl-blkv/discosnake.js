@@ -1,5 +1,5 @@
 define([],
-    function () {
+    function() {
         "use strict";
 
         /**
@@ -10,36 +10,47 @@ define([],
          * @constructor
          */
         function Color(red, green, blue) {
+            /**
+             * @type {number}
+             */
             this.red = red;
+
+            /**
+             * @type {number}
+             */
             this.green = green;
+
+            /**
+             * @type {number}
+             */
             this.blue = blue;
         }
 
         /**
          * @param {number} red
          */
-        Color.prototype.setRed = function (red) {
+        Color.prototype.setRed = function(red) {
             this.red = red;
         };
 
         /**
          * @param {number} green
          */
-        Color.prototype.setGreen = function (green) {
+        Color.prototype.setGreen = function(green) {
             this.green = green;
         };
 
         /**
          * @param {number} blue
          */
-        Color.prototype.setBlue = function (blue) {
+        Color.prototype.setBlue = function(blue) {
             this.blue = blue;
         };
 
         /**
          * @returns {string}
          */
-        Color.prototype.generateHexString = function () {
+        Color.prototype.generateHexString = function() {
             var hexString = "#";
             hexString += this.getRedHex();
             hexString += this.getGreenHex();
@@ -51,42 +62,53 @@ define([],
         /**
          * @returns {string}
          */
-        Color.prototype.getRedHex = function () {
-            return Color.decChannelToHex(this.getRed());
+        Color.prototype.getRedHex = function() {
+            return decChannelToHex(this.getRed());
         };
+        
+        /**
+         * @param {number} decChannel
+         *
+         * @returns {string}
+         */
+        function decChannelToHex(decChannel) {
+            var zeroPaddedHexChannel = "0" + decChannel.toString(16);
+
+            return zeroPaddedHexChannel.substr(-2);
+        }
 
         /**
          * @returns {number}
          */
-        Color.prototype.getRed = function () {
+        Color.prototype.getRed = function() {
             return this.red;
         };
 
         /**
          * @returns {string}
          */
-        Color.prototype.getGreenHex = function () {
-            return Color.decChannelToHex(this.getGreen());
+        Color.prototype.getGreenHex = function() {
+            return decChannelToHex(this.getGreen());
         };
 
         /**
          * @returns {number}
          */
-        Color.prototype.getGreen = function () {
+        Color.prototype.getGreen = function() {
             return this.green;
         };
 
         /**
          * @returns {string}
          */
-        Color.prototype.getBlueHex = function () {
-            return Color.decChannelToHex(this.getBlue());
+        Color.prototype.getBlueHex = function() {
+            return decChannelToHex(this.getBlue());
         };
 
         /**
          * @returns {number}
          */
-        Color.prototype.getBlue = function () {
+        Color.prototype.getBlue = function() {
             return this.blue;
         };
 
@@ -94,7 +116,7 @@ define([],
          * @param {number} alpha
          * @returns {string}
          */
-        Color.prototype.generateRGBAString = function (alpha) {
+        Color.prototype.generateRGBAString = function(alpha) {
             var rgbaString = "rgba(";
             rgbaString += this.getRed() + ", ";
             rgbaString += this.getGreen() + ", ";
@@ -111,7 +133,7 @@ define([],
          *
          * @returns {Color}
          */
-        Color.prototype.blend = function (anotherColor, ratio) {
+        Color.prototype.blend = function(anotherColor, ratio) {
             if (ratio === undefined) {
                 ratio = 0.5;
             }
@@ -128,7 +150,7 @@ define([],
         /**
          * @returns {Color}
          */
-        Color.prototype.copy = function () {
+        Color.prototype.copy = function() {
             return new Color(this.getRed(), this.getGreen(), this.getBlue());
         };
 
@@ -141,7 +163,7 @@ define([],
          *
          * @returns {Color}
          */
-        Color.createFromHSV = function (hue, saturation, value) {
+        Color.createFromHSV = function(hue, saturation, value) {
             var coefficients = [0, 0, 0];
             var hueInterval = Math.floor(hue * 6);
             var f = hue * 6 - hueInterval;
@@ -182,7 +204,7 @@ define([],
          *
          * @returns {Color}
          */
-        Color.createFromHexString = function (hexString) {
+        Color.createFromHexString = function(hexString) {
             var colorNumberHex = hexString.substring(1);
             var colorChannelsHex = colorNumberHex.match(/.{2}/g);
             var red = parseInt(colorChannelsHex[0], 16);
@@ -190,17 +212,6 @@ define([],
             var blue = parseInt(colorChannelsHex[2], 16);
 
             return (new Color(red, green, blue));
-        };
-
-        /**
-         * @param {number} decChannel
-         *
-         * @returns {string}
-         */
-        Color.decChannelToHex = function (decChannel) {
-            var zeroPaddedHexChannel = "0" + decChannel.toString(16);
-
-            return zeroPaddedHexChannel.substr(-2);
         };
 
         return Color;

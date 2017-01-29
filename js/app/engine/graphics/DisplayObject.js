@@ -1,6 +1,6 @@
 define(
     [],
-    function () {
+    function() {
         'use strict';
 
         /**
@@ -12,65 +12,80 @@ define(
          * @constructor
          */
         function DisplayObject(x, y, width, height) {
+            /**
+             * @type {number}
+             */
             this.x = x;
+
+            /**
+             * @type {number}
+             */
             this.y = y;
+
+            /**
+             * @type {number}
+             */
             this.width = width;
+
+            /**
+             * @type {number}
+             */
             this.height = height;
         }
 
         /**
          * @param {number} x
          */
-        DisplayObject.prototype.setX = function (x) {
+        DisplayObject.prototype.setX = function(x) {
             this.x = x;
         };
 
         /**
          * @returns {number}
          */
-        DisplayObject.prototype.getX = function () {
+        DisplayObject.prototype.getX = function() {
             return this.x;
         };
 
         /**
          * @param {number} y
          */
-        DisplayObject.prototype.setY = function (y) {
+        DisplayObject.prototype.setY = function(y) {
             this.y = y;
         };
 
         /**
          * @returns {number}
          */
-        DisplayObject.prototype.getY = function () {
+        DisplayObject.prototype.getY = function() {
             return this.y;
         };
 
         /**
          * @param {number} width
          */
-        DisplayObject.prototype.setWidth = function (width) {
+        DisplayObject.prototype.setWidth = function(width) {
             this.width = width;
         };
 
         /**
          * @returns {number}
          */
-        DisplayObject.prototype.getWidth = function () {
+        DisplayObject.prototype.getWidth = function() {
             return this.width;
         };
 
         /**
          * @param {number} height
          */
-        DisplayObject.prototype.setHeight = function (height) {
+        DisplayObject.prototype.setHeight = function(height) {
             this.height = height;
         };
 
         /**
          * @returns {number}
          */
-        DisplayObject.prototype.getHeight = function () {
+        DisplayObject.prototype.getHeight = function() {
             return this.height;
         };
 

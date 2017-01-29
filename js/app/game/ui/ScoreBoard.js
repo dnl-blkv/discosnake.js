@@ -1,7 +1,7 @@
 define([
         'engine'
     ],
-    function (
+    function(
         engine
         ) {
         'use strict';
@@ -32,38 +32,38 @@ define([
             scoreScreen.setText(scoreText);
         }
 
-        ScoreBoard.prototype.reset = function () {
+        ScoreBoard.prototype.reset = function() {
             this.score = 0;
             updateScore(this);
         }
 
-        ScoreBoard.prototype.getScore = function () {
+        ScoreBoard.prototype.getScore = function() {
             return this.score;
         }
 
-        ScoreBoard.prototype.changeScore = function (difference) {
+        ScoreBoard.prototype.changeScore = function(difference) {
             this.score += difference;
             updateScore(this);
         }
 
-        ScoreBoard.prototype.incrementScore = function () {
+        ScoreBoard.prototype.incrementScore = function() {
             this.changeScore(1);
 
         }
 
-        ScoreBoard.prototype.decrementScore = function () {
+        ScoreBoard.prototype.decrementScore = function() {
             this.changeScore(-1);
         }
 
-        ScoreBoard.prototype.draw = function (gameGraphics) {
+        ScoreBoard.prototype.draw = function(gameGraphics) {
             this.scoreScreen.draw(gameGraphics);
         }
 
-        ScoreBoard.prototype.getHTML = function () {
+        ScoreBoard.prototype.getHTML = function() {
             return this.scoreScreen.getHTML();
         }
 
-        ScoreBoard.prototype.updateHTMLStyle = function () {
+        ScoreBoard.prototype.updateHTMLStyle = function() {
             var html = this.getHTML();
 
             html.style.left = '24px';

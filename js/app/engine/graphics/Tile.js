@@ -1,12 +1,12 @@
 define([
         'engine/graphics/DisplayObject'
     ],
-    function (
+    function(
         DisplayObject
         ) {
         'use strict';
 
-        function Tile (size, cellX, cellY, fillStyle, lineStyle) {
+        function Tile(size, cellX, cellY, fillStyle, lineStyle) {
             DisplayObject.call(this, 0, 0, 0, 0);
 
             // Modify the input parameters
@@ -22,7 +22,7 @@ define([
         Tile.prototype.constructor = Tile;
 
         /** Draw the a tile on a graphics */
-        Tile.prototype.draw = function (graphics) {
+        Tile.prototype.draw = function(graphics) {
 
             var xPosition = this.getX();
             var yPosition = this.getY();
@@ -34,7 +34,7 @@ define([
         };
 
         /** Set tile's size */
-        Tile.prototype.setSize = function (size) {
+        Tile.prototype.setSize = function(size) {
             this.size = size;
 
             // Set the basic parameters
@@ -42,11 +42,11 @@ define([
             this.setHeight(size);
         };
 
-        Tile.prototype.getSize = function () {
+        Tile.prototype.getSize = function() {
             return this.size;
         };
 
-        Tile.prototype.setCellX = function (cellX, gridWidth) {
+        Tile.prototype.setCellX = function(cellX, gridWidth) {
             // If grid width is defined, control overflow
             // Otherwise, assume the grid is unlimited
             if (gridWidth !== undefined) {
@@ -58,11 +58,11 @@ define([
             this.setX(this.cellX * this.size);
         };
 
-        Tile.prototype.getCellX = function () {
+        Tile.prototype.getCellX = function() {
             return this.cellX;
         };
 
-        Tile.prototype.setCellY = function (cellY, gridHeight) {
+        Tile.prototype.setCellY = function(cellY, gridHeight) {
             // If grid height is defined, control overflow
             // Otherwise, assume the grid is unlimited
             if (gridHeight !== undefined) {
@@ -74,27 +74,27 @@ define([
             this.setY(this.cellY * this.size);
         };
 
-        Tile.prototype.getCellY = function () {
+        Tile.prototype.getCellY = function() {
             return this.cellY;
         };
 
-        Tile.prototype.setFillStyle = function (fillStyle) {
+        Tile.prototype.setFillStyle = function(fillStyle) {
             this.fillStyle = fillStyle;
         };
 
-        Tile.prototype.getFillStyle = function () {
+        Tile.prototype.getFillStyle = function() {
             return this.fillStyle;
         };
 
-        Tile.prototype.setLineStyle = function (lineStyle) {
+        Tile.prototype.setLineStyle = function(lineStyle) {
             this.lineStyle = lineStyle;
         };
 
-        Tile.prototype.getLineStyle = function () {
+        Tile.prototype.getLineStyle = function() {
             return this.lineStyle;
         };
 
-        Tile.prototype.doesCollideWith = function (anotherTile) {
+        Tile.prototype.doesCollideWith = function(anotherTile) {
             var anotherTilePassed = (this !== anotherTile);
             var xPositionMatches = false;
             var yPositionMatches = false;

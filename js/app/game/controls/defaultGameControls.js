@@ -2,7 +2,7 @@ define([
         'game/commands/CommandCode',
         'engine'
     ],
-    function (
+    function(
         CommandCode,
         engine
         ) {
@@ -10,7 +10,7 @@ define([
         var Controls = engine.input.Controls;
         var KeyCode = engine.input.KeyCode;
 
-        function createDefaultControls () {
+        function createDefaultControls() {
             var defaultControls = new Controls();
 
             // Set up the controls

@@ -2,7 +2,7 @@ define([
         './AppleSubstance',
         'engine'
     ],
-    function (
+    function(
         AppleSubstance,
         engine
         ) {
@@ -13,7 +13,7 @@ define([
 
         var getRandomInteger = numberUtils.getRandomInteger;
 
-        function Apple (size, cellX, cellY) {
+        function Apple(size, cellX, cellY) {
 
             var fillStyle = '#20ff00';
             var lineStyle = '#1de600';
@@ -25,7 +25,7 @@ define([
         Apple.prototype = Object.create(Tile.prototype);
         Apple.prototype.constructor = Apple;
 
-        Apple.prototype.placeRandomly = function (game) {
+        Apple.prototype.placeRandomly = function(game) {
             var cellsWidth = game.getCellsWidth();
             var cellsHeight = game.getCellsHeight();
 

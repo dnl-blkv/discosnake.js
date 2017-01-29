@@ -2,7 +2,7 @@ define([
     'domReady',
     'game',
     'font!custom,families:[Wendy],urls:[style/style.css]'
-], function (
+], function(
     domReady,
     Game
     ) {
@@ -10,7 +10,7 @@ define([
 
     domReady(runGame);
 
-    function runGame () {
+    function runGame() {
         var cellSize = 20;
         var fieldWidth = 48;
         var fieldHeight = 30;

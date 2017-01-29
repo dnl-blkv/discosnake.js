@@ -4,7 +4,7 @@ define([
         './Direction',
         './SnakePart'
     ],
-    function (
+    function(
         AppleSubstance,
         CommandCode,
         Direction,
@@ -12,7 +12,7 @@ define([
         ) {
         'use strict';
 
-        function Snake (cellSize, defaultCellX, defaultCellY, defaultLength) {
+        function Snake(cellSize, defaultCellX, defaultCellY, defaultLength) {
 
             this.cellSize = cellSize;
 
@@ -32,38 +32,38 @@ define([
 
         }
 
-        Snake.prototype.getDrunkness = function () {
+        Snake.prototype.getDrunkness = function() {
             return this.drunkness;
         }
 
-        Snake.prototype.isAppleEaten = function (apple) {
+        Snake.prototype.isAppleEaten = function(apple) {
             var head = this.getHead();
             var appleEaten = head.doesCollideWith(apple);
 
             return appleEaten;
         }
 
-        Snake.prototype.moveRight = function (game) {
+        Snake.prototype.moveRight = function(game) {
             moveBody(this, game);
             this.head.moveRight(game);
         }
 
-        Snake.prototype.moveLeft = function (game) {
+        Snake.prototype.moveLeft = function(game) {
             moveBody(this, game);
             this.head.moveLeft(game);
         }
 
-        Snake.prototype.moveDown = function (game) {
+        Snake.prototype.moveDown = function(game) {
             moveBody(this, game);
             this.head.moveDown(game);
         }
 
-        Snake.prototype.moveUp = function (game) {
+        Snake.prototype.moveUp = function(game) {
             moveBody(this, game);
             this.head.moveUp(game);
         }
 
-        function moveBody (snake, game) {
+        function moveBody(snake, game) {
             var currentPart = snake.getTail();
             var previousPart = currentPart.getPreviousPart();
 
@@ -78,7 +78,7 @@ define([
             }
         }
 
-        Snake.prototype.draw = function (gameGraphics, drunkness) {
+        Snake.prototype.draw = function(gameGraphics, drunkness) {
 
             // Update the snake parts' colors
             var currentPart = this.getHead();
@@ -107,11 +107,11 @@ define([
             } while (currentPart !== null);
         }
 
-        Snake.prototype.getHead = function () {
+        Snake.prototype.getHead = function() {
             return this.head;
         }
 
-        Snake.prototype.getTail = function () {
+        Snake.prototype.getTail = function() {
             var tail = this.getHead();
             var nextPart = tail.getNextPart();
 
@@ -124,28 +124,28 @@ define([
             return tail;
         }
 
-        Snake.prototype.getLength = function () {
+        Snake.prototype.getLength = function() {
             return this.length;
         }
 
-        Snake.prototype.setDirection = function (direction) {
+        Snake.prototype.setDirection = function(direction) {
             this.direction = direction;
         }
 
-        Snake.prototype.getDirection = function () {
+        Snake.prototype.getDirection = function() {
             return this.direction;
         }
 
-        Snake.prototype.setAppleEatenListener = function (appleEatenListener) {
+        Snake.prototype.setAppleEatenListener = function(appleEatenListener) {
             this.appleEatenListener = appleEatenListener;
         }
 
-        Snake.prototype.setBonusAppleEatenListener = function (bonusAppleEatenListener) {
+        Snake.prototype.setBonusAppleEatenListener = function(bonusAppleEatenListener) {
             this.bonusAppleEatenListener = bonusAppleEatenListener;
         }
 
         // [Next][Current][Previous][Head] ->
-        Snake.prototype.addPart = function () {
+        Snake.prototype.addPart = function() {
 
             var tail = this.getTail();
 
@@ -158,13 +158,13 @@ define([
             this.length ++;
         }
 
-        Snake.prototype.addParts = function (partsCount) {
+        Snake.prototype.addParts = function(partsCount) {
             for (var i = 0; i < partsCount; i ++) {
                 this.addPart();
             }
         }
 
-        Snake.prototype.move = function (game) {
+        Snake.prototype.move = function(game) {
             var direction = this.getDirection();
 
             switch (direction) {
@@ -211,7 +211,7 @@ define([
 
         }
 
-        Snake.prototype.executeCommand = function (commandCode) {
+        Snake.prototype.executeCommand = function(commandCode) {
             switch (commandCode) {
                 case CommandCode.DIRECT_SNAKE_LEFT:
                     this.setDirection(Direction.LEFT);
@@ -234,7 +234,7 @@ define([
             }
         }
 
-        function applyBonusAppleEffects (snake, bonusApple) {
+        function applyBonusAppleEffects(snake, bonusApple) {
             var substance = bonusApple.getSubstance();
 
             switch (substance) {

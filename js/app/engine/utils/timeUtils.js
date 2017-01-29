@@ -1,14 +1,14 @@
 define([],
-    function () {
+    function() {
         'use strict';
 
         if (!Date.now) {
-            Date.now = function () {
+            Date.now = function() {
                 (new Date()).getTime();
             };
         }
 
-        function timeNow () {
+        function timeNow() {
             var currentTimestamp = window.performance.now ?
                 (performance.now() + performance.timing.navigationStart) :
                 Date.now();
@@ -16,7 +16,7 @@ define([],
             return currentTimestamp;
         }
 
-        (function () {
+        (function() {
             // Cross-browser support for requestAnimationFrame
             // Adapted from https://gist.github.com/paulirish/1579671 which derived from
             // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
@@ -37,10 +37,10 @@ define([],
             if (/iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) // iOS6 is buggy
                 || !window.requestAnimationFrame || !window.cancelAnimationFrame) {
                 var lastTime = 0;
-                window.requestAnimationFrame = function (callback) {
+                window.requestAnimationFrame = function(callback) {
                     var now = timeNow();
                     var nextTime = Math.max(lastTime + 16, now);
-                    return setTimeout(    function () {
+                    return setTimeout(    function() {
                                             callback(lastTime = nextTime);
                                         },
                                         nextTime - now    );

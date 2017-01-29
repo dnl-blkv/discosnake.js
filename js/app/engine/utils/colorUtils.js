@@ -2,7 +2,7 @@ define([
         "engine/utils/numberUtils",
         "engine/graphics/Color"
     ],
-    function (
+    function(
         numberUtils,
         Color
     ) {

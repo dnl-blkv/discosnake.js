@@ -2,13 +2,13 @@ define([
         'engine/graphics/DisplayObject',
         'engine/graphics/TextObject'
     ],
-    function (
+    function(
         DisplayObject,
         TextObject
         ) {
         'use strict';
 
-        function MenuItem (actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
+        function MenuItem(actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
             DisplayObject.call(this, 0, 0, 0, 0);
 
             this.actionCode = actionCode || 'nullActionCode';
@@ -29,7 +29,7 @@ define([
         MenuItem.prototype = Object.create(DisplayObject.prototype);
         MenuItem.prototype.constructor = MenuItem;
 
-        function updateHeight (menuItem) {
+        function updateHeight(menuItem) {
             var textObject = menuItem.textObject;
 
             var height = textObject.getHeight();
@@ -37,21 +37,21 @@ define([
             menuItem.setHeight(height);
         }
 
-        function setTextColor (menuItem, textColor) {
+        function setTextColor(menuItem, textColor) {
             var textObject = menuItem.textObject;
 
             textObject.setFontColor(textColor);
         }
 
-        MenuItem.prototype.getActionCode = function () {
+        MenuItem.prototype.getActionCode = function() {
             return this.actionCode;
         };
 
-        MenuItem.prototype.getWidth = function (graphics) {
+        MenuItem.prototype.getWidth = function(graphics) {
             return this.textObject.getWidth(graphics);
         };
 
-        MenuItem.prototype.draw = function (graphics) {
+        MenuItem.prototype.draw = function(graphics) {
             var width = this.getWidth(graphics);
             this.setWidth(width);
 
@@ -61,7 +61,7 @@ define([
             this.textObject.draw(graphics);
         };
 
-        MenuItem.prototype.focus = function () {
+        MenuItem.prototype.focus = function() {
             if (!this.focused) {
                 this.focused = true;
 
@@ -79,7 +79,7 @@ define([
             }
         };
 
-        MenuItem.prototype.unfocus = function () {
+        MenuItem.prototype.unfocus = function() {
             if (this.focused) {
                 this.focused = false;
 
@@ -97,13 +97,13 @@ define([
             }
         };
 
-        MenuItem.prototype.updateHTMLStyle = function () {
+        MenuItem.prototype.updateHTMLStyle = function() {
             var html = this.getHTML();
 
             html.style.display = 'block';
         };
 
-        MenuItem.prototype.getHTML = function () {
+        MenuItem.prototype.getHTML = function() {
             return this.textObject.getHTML();
         };
 

@@ -3,7 +3,7 @@ define([
     './htmlUtils',
     './numberUtils',
     './timeUtils'
-], function (
+], function(
     colorUtils,
     htmlUtils,
     numberUtils,

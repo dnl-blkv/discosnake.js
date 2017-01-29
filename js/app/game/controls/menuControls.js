@@ -2,7 +2,7 @@ define([
         'game/commands/CommandCode',
         'engine'
     ],
-    function (
+    function(
         CommandCode,
         engine
     ) {
@@ -10,7 +10,7 @@ define([
         var Controls = engine.input.Controls;
         var KeyCode = engine.input.KeyCode;
 
-        function createMenuControls () {
+        function createMenuControls() {
             var menuControls = new Controls();
 
             menuControls.bindKeyDown(KeyCode.DOWN, CommandCode.NEXT_MENU_ITEM);

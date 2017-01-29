@@ -4,7 +4,7 @@ define([
         './KeyCode',
         'engine/utils/TimeUtils'
     ],
-    function (
+    function(
         InputEvent,
         Controls,
         KeyCode,
@@ -31,58 +31,58 @@ define([
          * @param keyCode
          * @returns {*}
          */
-        Manipulator.prototype.setControls = function (controls) {
+        Manipulator.prototype.setControls = function(controls) {
             this.controls = controls;
         }
 
-        Manipulator.prototype.getControls = function () {
+        Manipulator.prototype.getControls = function() {
             return this.controls;
         }
 
-        Manipulator.prototype.isKeyDown = function (keyCode) {
+        Manipulator.prototype.isKeyDown = function(keyCode) {
             return this.keysPressed[keyCode];
         }
 
-        Manipulator.prototype.setCommandListener = function () {
+        Manipulator.prototype.setCommandListener = function() {
             var args = Array.prototype.slice.call(arguments);
 
             this.commandListener = args[0];
             this.commandListenerArguments = args.slice(1, args.length);
         }
 
-        Manipulator.prototype.onKeyDown = function (event) {
+        Manipulator.prototype.onKeyDown = function(event) {
             this.keysPressed[event.keyCode] = timeNow();
 
             sendCommand(this, event);
         }
 
-        Manipulator.prototype.onKeyUp = function (event) {
+        Manipulator.prototype.onKeyUp = function(event) {
             this.keysPressed[event.keyCode] = 0;
 
             sendCommand(this, event);
         }
 
-        Manipulator.prototype.bindKeyDown = function (keyCode, commandCode) {
+        Manipulator.prototype.bindKeyDown = function(keyCode, commandCode) {
             this.controls.bindKeyDown(keyCode, commandCode);
         }
 
-        Manipulator.prototype.unbindKeyDown = function (keyCode) {
+        Manipulator.prototype.unbindKeyDown = function(keyCode) {
             this.controls.unbindKeyDown(keyCode);
         }
 
-        Manipulator.prototype.bindKeyUp = function (keyCode, commandCode) {
+        Manipulator.prototype.bindKeyUp = function(keyCode, commandCode) {
             this.controls.bindKeyUp(keyCode, commandCode);
         }
 
-        Manipulator.prototype.unbindKeyUp = function (keyCode) {
+        Manipulator.prototype.unbindKeyUp = function(keyCode) {
             this.controls.unbindKeyUp(keyCode);
         }
 
-        Manipulator.prototype.setNullCommandCode = function (nullCommandCode) {
+        Manipulator.prototype.setNullCommandCode = function(nullCommandCode) {
             this.nullCommandCode = nullCommandCode;
         }
 
-        function getCommandCode (manipulator, event) {
+        function getCommandCode(manipulator, event) {
             var keyCode = event.keyCode;
             var type = event.type;
             var commandCode = manipulator.nullCommandCode;
@@ -106,7 +106,7 @@ define([
             return commandCode;
         }
 
-        function sendCommand (manipulator, event) {
+        function sendCommand(manipulator, event) {
 
             var commandListener = manipulator.commandListener;
 

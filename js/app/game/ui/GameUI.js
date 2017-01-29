@@ -3,14 +3,14 @@ define([
         'engine',
         './ScoreBoard'
     ],
-    function (
+    function(
         DiscoSnakeMenuItem,
         engine,
         ScoreBoard
     ) {
         'use strict';
 
-        function GameUI () {
+        function GameUI() {
 
         }
 

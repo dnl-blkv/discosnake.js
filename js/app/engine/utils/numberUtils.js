@@ -1,5 +1,5 @@
 define([],
-    function () {
+    function() {
         'use strict';
 
         /**
@@ -9,7 +9,7 @@ define([],
          * @param to
          * @returns {number}
          */
-        function getRandomInteger (from, to) {
+        function getRandomInteger(from, to) {
 
             var range = to - from;
 
@@ -22,7 +22,7 @@ define([],
             return randomInteger;
         }
 
-        function getRandomNumber (from, to) {
+        function getRandomNumber(from, to) {
             var range = to - from;
 
             var randomPart = Math.random() * range;
@@ -34,7 +34,7 @@ define([],
             return randomNumber;
         }
 
-        function roundDownToMultiple (number, divisor) {
+        function roundDownToMultiple(number, divisor) {
             var roundedNumber = number;
 
             if (number > 0) {
@@ -46,7 +46,7 @@ define([],
             return roundedNumber;
         }
 
-        function roundUpToMultiple (number, divisor) {
+        function roundUpToMultiple(number, divisor) {
             var roundedNumber = number;
 
             if (number > 0) {

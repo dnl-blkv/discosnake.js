@@ -2,16 +2,16 @@ define([
         'engine/input/InputEvent',
         'engine/utils/HtmlUtils'
     ],
-    function (
+    function(
         InputEvent,
         htmlUtils
-        ) {
+    ) {
         'use strict';
 
         var centreElement = htmlUtils.centreElement;
         var buildFontString = htmlUtils.buildFontString;
 
-        function Graphics (width, height, backgroundColor) {
+        function Graphics(width, height, backgroundColor) {
 
             // Initialize the underlying canvas
             var canvas = document.createElement('canvas');
@@ -40,7 +40,7 @@ define([
             body.appendChild(canvas);
 
             // Centre the canvas
-            window.addEventListener (InputEvent.RESIZE, function () {
+            window.addEventListener(InputEvent.RESIZE, function() {
                 centreElement(canvas);
             });
 
@@ -50,7 +50,7 @@ define([
             this.canvas = canvas;
         }
 
-        Graphics.prototype.reset = function () {
+        Graphics.prototype.reset = function() {
             var context = this.getContext();
             // Clear the canvas content
             // Store the current transformation matrix
@@ -68,21 +68,21 @@ define([
             context.restore();
         }
 
-        Graphics.prototype.getWidth = function () {
+        Graphics.prototype.getWidth = function() {
             return this.canvas.width;
         }
 
-        Graphics.prototype.getHeight = function () {
+        Graphics.prototype.getHeight = function() {
             return this.canvas.height;
         }
 
-        Graphics.prototype.getContext = function () {
+        Graphics.prototype.getContext = function() {
             var context = this.canvas.getContext('2d');
 
             return context;
         }
 
-        Graphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
+        Graphics.prototype.drawRect = function(x, y, width, height, fillStyle, lineStyle) {
 
             var context = this.getContext();
 
@@ -99,7 +99,7 @@ define([
             context.stroke();
         }
 
-        Graphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
+        Graphics.prototype.drawText = function(x, y, text, fontSize, fontName, fontColor, maxWidth) {
             var context = this.getContext();
 
             context.beginPath();
@@ -118,7 +118,7 @@ define([
 
         // TODO: consider maxWidth1!1!!11
         // TODO: deal with fontFamily / fontName naming convention
-        Graphics.prototype.getTextWidth = function (text, fontSize, fontName) {
+        Graphics.prototype.getTextWidth = function(text, fontSize, fontName) {
             var context = this.getContext();
 
             var fontString = buildFontString(fontSize, fontName);

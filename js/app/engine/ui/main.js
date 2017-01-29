@@ -1,7 +1,7 @@
 define([
     './Menu',
     './MenuItem'
-], function (
+], function(
     Menu,
     MenuItem
     ) {

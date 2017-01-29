@@ -2,7 +2,7 @@ define([
         'engine/graphics/DisplayObject',
         'engine/utils/numberUtils'
     ],
-    function (
+    function(
             DisplayObject,
             numberUtils
         ) {
@@ -11,7 +11,7 @@ define([
         var roundDownToMultiple = numberUtils.roundDownToMultiple;
         var roundUpToMultiple = numberUtils.roundUpToMultiple;
 
-        function Menu () {
+        function Menu() {
             DisplayObject.call(this, 0, 0, 0, 0);
 
             this.items = [];
@@ -26,7 +26,7 @@ define([
             // TODO: Fix magic event
             var menu = this;
 
-            this.html.addEventListener("DOMNodeInserted", function (event) {
+            this.html.addEventListener("DOMNodeInserted", function(event) {
                 calculateDimensions(menu);
             }, false);
 
@@ -37,7 +37,7 @@ define([
         Menu.prototype = Object.create(DisplayObject.prototype);
         Menu.prototype.constructor = Menu;
 
-        function calculateDimensions (menu) {
+        function calculateDimensions(menu) {
 
             // Hide the menu saving the previous state
             var wasRevealed = !menu.isHidden();
@@ -93,7 +93,7 @@ define([
         }
 
         // Focus an item
-        function focusItemById (menu, itemId) {
+        function focusItemById(menu, itemId) {
 
             var oldFocusedItem = getFocusedItem(menu);
 
@@ -116,32 +116,32 @@ define([
             }
         }
 
-        Menu.prototype.focusNextItem = function () {
+        Menu.prototype.focusNextItem = function() {
             focusItemById(this, this.focusedItemId + 1);
         };
 
-        Menu.prototype.focusPreviousItem = function () {
+        Menu.prototype.focusPreviousItem = function() {
             focusItemById(this, this.focusedItemId - 1);
         };
 
-        Menu.prototype.focusFirstItem = function () {
+        Menu.prototype.focusFirstItem = function() {
             focusItemById(this, 0);
         };
 
-        function getFocusedItem (menu) {
+        function getFocusedItem(menu) {
             var focusedItemId = menu.focusedItemId;
 
             return menu.getItemAt(focusedItemId);
         }
 
-        Menu.prototype.setItemSelectedListener = function () {
+        Menu.prototype.setItemSelectedListener = function() {
             var args = Array.prototype.slice.call(arguments);
 
             this.itemSelectedListener = args[0];
             this.itemSelectedListenerArguments = args.slice(1, args.length);
         };
 
-        Menu.prototype.selectCurrentItem = function () {
+        Menu.prototype.selectCurrentItem = function() {
             var itemSelectedListener = this.itemSelectedListener;
             var itemSelectedListenerArguments = this.itemSelectedListenerArguments.slice(0);
 
@@ -154,7 +154,7 @@ define([
             this.itemSelectedListener.apply(itemSelectedListener, itemSelectedListenerArguments);
         };
 
-        Menu.prototype.addItem = function (item) {
+        Menu.prototype.addItem = function(item) {
             var itemsCount = this.getItemsCount();
 
             if (itemsCount === 0) {
@@ -169,36 +169,36 @@ define([
             this.html.appendChild(itemHTML);
         };
 
-        Menu.prototype.getItemsCount = function () {
+        Menu.prototype.getItemsCount = function() {
             return this.items.length;
         };
 
-        Menu.prototype.getItemAt = function (index) {
+        Menu.prototype.getItemAt = function(index) {
             return this.items[index];
         };
 
         // ************
         // HTML METHODS
         // ************
-        Menu.prototype.getHTML = function () {
+        Menu.prototype.getHTML = function() {
             return this.html;
         };
 
-        Menu.prototype.hide = function () {
+        Menu.prototype.hide = function() {
             this.getHTML().style.visibility = 'hidden';
         };
 
-        Menu.prototype.reveal = function () {
+        Menu.prototype.reveal = function() {
             this.getHTML().style.visibility = 'visible';
         };
 
-        Menu.prototype.isHidden = function () {
+        Menu.prototype.isHidden = function() {
             var hidden = this.getHTML().style.visibility === 'hidden';
 
             return hidden;
         };
 
-        Menu.prototype.updateHTMLStyle = function () {
+        Menu.prototype.updateHTMLStyle = function() {
             var html = this.html;
 
             html.className = 'menu unselectable default-cursor';
@@ -213,7 +213,7 @@ define([
             html.style.top = '50%';
         };
 
-        Menu.prototype.center = function ()
+        Menu.prototype.center = function()
         {
             var html = this.html;
 
