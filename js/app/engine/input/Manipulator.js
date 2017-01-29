@@ -9,21 +9,52 @@ define([
         Controls,
         KeyCode,
         timeUtils
-        ) {
+    ) {
         'use strict';
 
+        /**
+         * @type {function}
+         */
         var timeNow = timeUtils.timeNow;
 
+        /**
+         * @type {string}
+         */
+        var NULL_COMMAND = 'nullCommand';
+
+        /**
+         * @constructor
+         */
         function Manipulator() {
-            this.nullCommandCode = 'nullCommand';
             this.commandListener = null;
             this.commandListenerArguments = null;
             this.controls = new Controls();
-            this.keysPressed = {};
+            this.keyPressedToTimestampMap = {};
 
-            var manipulator = this;
-            window.addEventListener(InputEvent.KEY_DOWN, function(event) { manipulator.onKeyDown(event); }, false);
-            window.addEventListener(InputEvent.KEY_UP, function(event) { manipulator.onKeyUp(event); }, false);
+            window.addEventListener(InputEvent.KEY_DOWN, createOnKeyDownEventListener(this), false);
+            window.addEventListener(InputEvent.KEY_UP, createOnKeyUpEventListener(this), false);
+        }
+
+        /**
+         * @param {Manipulator} manipulator
+         *
+         * @returns {function}
+         */
+        function createOnKeyDownEventListener(manipulator) {
+            return function(event) {
+                manipulator.onKeyDown(event);
+            };
+        }
+
+        /**
+         * @param {Manipulator} manipulator
+         *
+         * @returns {function}
+         */
+        function createOnKeyUpEventListener(manipulator) {
+            return function(event) {
+                manipulator.onKeyUp(event);
+            };
         }
 
         /**
@@ -45,7 +76,7 @@ define([
          * @returns {boolean}
          */
         Manipulator.prototype.isKeyDown = function(keyCode) {
-            return this.keysPressed[keyCode];
+            return this.keyPressedToTimestampMap[keyCode];
         };
 
         /**
@@ -61,7 +92,7 @@ define([
          * @param {Event} event
          */
         Manipulator.prototype.onKeyDown = function(event) {
-            this.keysPressed[event.keyCode] = timeNow();
+            this.keyPressedToTimestampMap[event.keyCode] = timeNow();
             sendCommand(this, event);
         };
 
@@ -69,7 +100,7 @@ define([
          * @param {Event} event
          */
         Manipulator.prototype.onKeyUp = function(event) {
-            this.keysPressed[event.keyCode] = 0;
+            this.keyPressedToTimestampMap[event.keyCode] = 0;
             sendCommand(this, event);
         };
 
@@ -111,10 +142,10 @@ define([
         function getCommandCode(manipulator, event) {
             var keyCode = event.keyCode;
             var type = event.type;
-            var commandCode = manipulator.nullCommandCode;
+            var commandCode = NULL_COMMAND;
             var controls = manipulator.controls;
 
-            switch(type) {
+            switch (type) {
                 case InputEvent.KEY_DOWN:
                     commandCode = controls.getKeyDownBinding(keyCode);
                     break;
@@ -125,8 +156,8 @@ define([
                     break;
             }
 
-            if (!commandCode && (commandCode !== 0)) {
-                commandCode = manipulator.nullCommandCode;
+            if (commandCode === undefined) {
+                commandCode = NULL_COMMAND;
             }
 
             return commandCode;
@@ -137,13 +168,10 @@ define([
          * @param {Event} event
          */
         function sendCommand(manipulator, event) {
-
             var commandListener = manipulator.commandListener;
-
-            // Add the command code to the command listener arguments
             var commandCode = getCommandCode(manipulator, event);
 
-            if (commandCode !== manipulator.nullCommandCode) {
+            if (commandCode !== NULL_COMMAND) {
                 var commandListenerArguments = Array.prototype.slice.call(manipulator.commandListenerArguments);
                 commandListenerArguments.push(commandCode);
                 commandListener.apply(commandListener, commandListenerArguments);
