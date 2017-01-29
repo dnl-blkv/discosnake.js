@@ -9,5 +9,5 @@ define([],
             RESIZE: 'resize',
             TOUCH_START: 'touchstart',
             TOUCH_END: 'touchend'
-        }
+        };
     });

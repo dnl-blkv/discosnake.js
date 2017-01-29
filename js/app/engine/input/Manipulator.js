@@ -1,5 +1,5 @@
 define([
-        './InputEvent',
+        './InputEventType',
         './Controls',
         './KeyCode',
         'engine/utils/TimeUtils'
@@ -27,61 +27,87 @@ define([
         }
 
         /**
-         * Check if a given key is down.
-         * @param keyCode
-         * @returns {*}
+         * @param {Controls} controls
          */
         Manipulator.prototype.setControls = function(controls) {
             this.controls = controls;
-        }
+        };
 
+        /**
+         * @returns {Controls}
+         */
         Manipulator.prototype.getControls = function() {
             return this.controls;
-        }
+        };
 
+        /**
+         * @param {number} keyCode
+         * @returns {boolean}
+         */
         Manipulator.prototype.isKeyDown = function(keyCode) {
             return this.keysPressed[keyCode];
-        }
+        };
 
+        /**
+         */
         Manipulator.prototype.setCommandListener = function() {
             var args = Array.prototype.slice.call(arguments);
 
             this.commandListener = args[0];
             this.commandListenerArguments = args.slice(1, args.length);
-        }
+        };
 
+        /**
+         * @param {Event} event
+         */
         Manipulator.prototype.onKeyDown = function(event) {
             this.keysPressed[event.keyCode] = timeNow();
-
             sendCommand(this, event);
-        }
+        };
 
+        /**
+         * @param {Event} event
+         */
         Manipulator.prototype.onKeyUp = function(event) {
             this.keysPressed[event.keyCode] = 0;
-
             sendCommand(this, event);
-        }
+        };
 
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
         Manipulator.prototype.bindKeyDown = function(keyCode, commandCode) {
             this.controls.bindKeyDown(keyCode, commandCode);
-        }
+        };
 
+        /**
+         * @param {number} keyCode
+         */
         Manipulator.prototype.unbindKeyDown = function(keyCode) {
             this.controls.unbindKeyDown(keyCode);
-        }
+        };
 
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
         Manipulator.prototype.bindKeyUp = function(keyCode, commandCode) {
             this.controls.bindKeyUp(keyCode, commandCode);
-        }
+        };
 
+        /**
+         * @param {number} keyCode
+         */
         Manipulator.prototype.unbindKeyUp = function(keyCode) {
             this.controls.unbindKeyUp(keyCode);
-        }
+        };
 
-        Manipulator.prototype.setNullCommandCode = function(nullCommandCode) {
-            this.nullCommandCode = nullCommandCode;
-        }
-
+        /**
+         * @param {Manipulator} manipulator
+         * @param {Event} event
+         * @returns {string}
+         */
         function getCommandCode(manipulator, event) {
             var keyCode = event.keyCode;
             var type = event.type;
@@ -106,6 +132,10 @@ define([
             return commandCode;
         }
 
+        /**
+         * @param {Manipulator} manipulator
+         * @param {Event} event
+         */
         function sendCommand(manipulator, event) {
 
             var commandListener = manipulator.commandListener;

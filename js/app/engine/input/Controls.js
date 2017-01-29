@@ -22,7 +22,7 @@ define([
         }
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          * @param {string} commandCode
          */
         Controls.prototype.bindKeyDown = function(keyCode, commandCode) {
@@ -30,7 +30,7 @@ define([
         };
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          *
          * @returns {string}
          */
@@ -39,14 +39,14 @@ define([
         };
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          */
         Controls.prototype.unbindKeyDown = function(keyCode) {
             this.keyDownCommandMap[keyCode] = KeyCode.NULL_KEY;
         };
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          * @param {string} commandCode
          */
         Controls.prototype.bindKeyUp = function(keyCode, commandCode) {
@@ -54,7 +54,7 @@ define([
         };
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          *
          * @returns {string}
          */
@@ -63,7 +63,7 @@ define([
         };
 
         /**
-         * @param {string} keyCode
+         * @param {number} keyCode
          */
         Controls.prototype.unbindKeyUp = function(keyCode) {
             this.keyUpCommandMap[keyCode] = KeyCode.NULL_KEY;

@@ -1,5 +1,5 @@
 define([
-        'engine/input/InputEvent',
+        'engine/input/InputEventType',
         'engine/utils/HtmlUtils'
     ],
     function(

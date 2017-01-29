@@ -1,14 +1,14 @@
 define([
     './Controls',
-    './InputEvent',
+    './InputEventType',
     './KeyCode',
     './Manipulator'
 ], function(
-        Controls,
-        InputEvent,
-        KeyCode,
-        Manipulator
-    ) {
+    Controls,
+    InputEvent,
+    KeyCode,
+    Manipulator
+) {
     'use strict';
 
     return {
@@ -16,5 +16,5 @@ define([
         InputEvent: InputEvent,
         KeyCode: KeyCode,
         Manipulator: Manipulator
-    }
+    };
 });
