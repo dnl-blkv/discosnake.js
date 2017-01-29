@@ -70,7 +70,7 @@ define([],
         /**
          * @returns {number}
          */
-        DisplayObject.prototype.getWidth = function() {
+        DisplayObject.prototype.determineWidth = function() {
             return this.width;
         };
 

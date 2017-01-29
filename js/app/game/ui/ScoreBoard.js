@@ -22,7 +22,7 @@ define([
             scoreScreen.setY(scoreY);
 
             this.scoreScreen = scoreScreen;
-            this.updateHTMLStyle();
+            this.updateHtmlStyle();
         }
 
         function updateScore(scoreBoard) {
@@ -63,7 +63,7 @@ define([
             return this.scoreScreen.getHTML();
         }
 
-        ScoreBoard.prototype.updateHTMLStyle = function() {
+        ScoreBoard.prototype.updateHtmlStyle = function() {
             var html = this.getHTML();
 
             html.style.left = '24px';

@@ -27,8 +27,8 @@ define([
             MenuItem.prototype.focus.call(this);
         };
 
-        DiscoSnakeMenuItem.prototype.updateHTMLStyle = function() {
-            MenuItem.prototype.updateHTMLStyle.call(this);
+        DiscoSnakeMenuItem.prototype.updateHtmlStyle = function() {
+            MenuItem.prototype.updateHtmlStyle.call(this);
 
             var html = this.getHTML();
 

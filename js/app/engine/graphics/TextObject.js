@@ -3,102 +3,143 @@ define([
     ],
     function(
         DisplayObject
-        ) {
+    ) {
         'use strict';
 
-        function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
+        /**
+         * @param {string} text
+         * @param {number} fontSize
+         * @param {string} fontFamily
+         * @param {string} fontColor
+         * @param {number} maxWidth
+         *
+         * @constructor
+         */
+        function DisplayObjectText(text, fontSize, fontFamily, fontColor, maxWidth) {
             DisplayObject.call(this, 0, 0, 0, 0);
-
-            // TextObject Specifics
             this.text = text;
-
             this.setFontSize(fontSize || 12);
-
             this.fontFamily = fontFamily || 'Arial';
             this.fontColor = fontColor || 'black';
             this.maxWidth = maxWidth || (5 * fontSize);
-
             this.html = document.createElement('div');
-            this.updateHTML();
-
+            this.updateHtml();
         }
 
-        TextObject.prototype = Object.create(DisplayObject.prototype);
-        TextObject.prototype.constructor = TextObject;
+        DisplayObjectText.prototype = Object.create(DisplayObject.prototype);
+        DisplayObjectText.prototype.constructor = DisplayObjectText;
 
-        TextObject.prototype.setText = function(text) {
+        /**
+         * @param {string} text
+         */
+        DisplayObjectText.prototype.setText = function(text) {
             this.text = text;
-            updateHTMLText(this);
+            this.updateHtmlText();
         };
 
-        TextObject.prototype.getText = function() {
+        /**
+         */
+        DisplayObjectText.prototype.updateHtmlText = function() {
+            this.html.innerHTML = this.text;
+        };
+
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getText = function() {
             return this.text;
         };
 
-        TextObject.prototype.setFontSize = function(fontSize) {
-            this.fontSize = fontSize;
-
+        /**
+         * @param {number} fontSize
+         */
+        DisplayObjectText.prototype.setFontSize = function(fontSize) {
             this.setHeight(fontSize);
+            this.fontSize = fontSize;
         };
 
-        TextObject.prototype.getFontSize = function() {
+        /**
+         * @returns {number}
+         */
+        DisplayObjectText.prototype.getFontSize = function() {
             return this.fontSize;
         };
 
-        TextObject.prototype.setFontName = function(fontName) {
-            this.fontFamily = fontName;
+        /**
+         * @param {string} fontFamily
+         */
+        DisplayObjectText.prototype.setFontName = function(fontFamily) {
+            this.fontFamily = fontFamily;
         };
 
-        TextObject.prototype.getFontName = function() {
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getFontName = function() {
             return this.fontFamily;
         };
 
-        TextObject.prototype.setFontColor = function(fontColor) {
+        /**
+         * @param {string} fontColor
+         */
+        DisplayObjectText.prototype.setFontColor = function(fontColor) {
             this.fontColor = fontColor;
         };
 
-        TextObject.prototype.getFontColor = function() {
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getFontColor = function() {
             return this.fontColor;
         };
 
-        TextObject.prototype.setMaxWidth = function(maxWidth) {
+        /**
+         * @param {width} maxWidth
+         */
+        DisplayObjectText.prototype.setMaxWidth = function(maxWidth) {
             this.maxWidth = maxWidth;
         };
 
-        TextObject.prototype.getMaxWidth = function() {
+        /**
+         * @returns {number}
+         */
+        DisplayObjectText.prototype.getMaxWidth = function() {
             return this.maxWidth;
         };
 
-        TextObject.prototype.getWidth = function(graphics) {
-            var width = graphics.determineTextWidth(this.text, this.fontSize, this.fontFamily);
-
-            return width;
+        /**
+         * @param {Graphics} graphics
+         *
+         * @returns {Number}
+         */
+        DisplayObjectText.prototype.determineWidth = function(graphics) {
+            return graphics.determineTextWidth(this.text, this.fontSize, this.fontFamily);
         };
 
-        TextObject.prototype.draw = function(graphics) {
-            var width = this.getWidth(graphics);
-
+        /**
+         * @param {Graphics} graphics
+         */
+        DisplayObjectText.prototype.draw = function(graphics) {
+            var width = this.determineWidth(graphics);
             this.setWidth(width);
-
             var textX = this.getX();
             var textY = this.getY() + (this.fontSize / 2.0);
 
             graphics.drawText(textX, textY, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
         };
 
-        TextObject.prototype.getHTML = function() {
+        /**
+         * @returns {Element}
+         */
+        DisplayObjectText.prototype.getHTML = function() {
             return this.html;
         };
 
-        // TODO: re-consider methods' publicity
-        function updateHTMLText(textObject) {
-            textObject.html.innerHTML = textObject.text;
-        };
-
-        TextObject.prototype.updateHTMLStyle = function() {
-
+        /**
+         * @returns {Element}
+         */
+        DisplayObjectText.prototype.updateHtmlStyle = function() {
             var html = this.html;
-
             html.className = 'text-object unselectable default-cursor';
             html.style.fontSize = this.fontSize + 'px';
             html.style.color = this.fontColor;
@@ -107,10 +148,12 @@ define([
             return html;
         };
 
-        TextObject.prototype.updateHTML = function() {
-            updateHTMLText(this);
-            this.updateHTMLStyle();
+        /**
+         */
+        DisplayObjectText.prototype.updateHtml = function() {
+            this.html.innerHTML = this.text;
+            this.updateHtmlStyle();
         };
 
-        return TextObject;
+        return DisplayObjectText;
     });

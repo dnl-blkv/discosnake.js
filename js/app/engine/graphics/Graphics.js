@@ -2,7 +2,7 @@ define([
         'engine/input/InputEvent',
         'engine/utils/HtmlUtils'
     ],
-    function (
+    function(
         InputEvent,
         htmlUtils
     ) {
@@ -88,39 +88,39 @@ define([
          * @returns {function}
          */
         function createOnResizeEventListener(graphics) {
-            return function () {
+            return function() {
                 centreElement(graphics);
             };
         }
 
         /**
          */
-        Graphics.prototype.reset = function () {
+        Graphics.prototype.reset = function() {
             var context = this.getContext();
             context.save();
             context.setTransform(1, 0, 0, 1, 0, 0);
-            context.clearRect(0, 0, this.getWidth(), this.getHeight());
+            context.clearRect(0, 0, this.determineWidth(), this.getHeight());
             context.restore();
         };
 
         /**
          * @returns {number}
          */
-        Graphics.prototype.getWidth = function () {
+        Graphics.prototype.determineWidth = function() {
             return this.canvas.width;
         };
 
         /**
          * @returns {number}
          */
-        Graphics.prototype.getHeight = function () {
+        Graphics.prototype.getHeight = function() {
             return this.canvas.height;
         };
 
         /**
          * @returns {CanvasRenderingContext2D}
          */
-        Graphics.prototype.getContext = function () {
+        Graphics.prototype.getContext = function() {
             return this.canvas.getContext('2d');
         };
 
@@ -132,7 +132,7 @@ define([
          * @param {string} fillStyle
          * @param {string} lineStyle
          */
-        Graphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
+        Graphics.prototype.drawRect = function(x, y, width, height, fillStyle, lineStyle) {
             var context = this.getContext();
             context.beginPath();
             context.rect(x, y, width, height);
@@ -151,7 +151,7 @@ define([
          * @param {string} fontColor
          * @param {number} maxWidth
          */
-        Graphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
+        Graphics.prototype.drawText = function(x, y, text, fontSize, fontName, fontColor, maxWidth) {
             var context = this.getContext();
             context.beginPath();
             context.font = buildFontString(fontSize, fontName);
@@ -170,7 +170,7 @@ define([
          *
          * @returns {Number}
          */
-        Graphics.prototype.determineTextWidth = function (text, fontSize, fontName) {
+        Graphics.prototype.determineTextWidth = function(text, fontSize, fontName) {
             var context = this.getContext();
             context.font = buildFontString(fontSize, fontName);
             var textMetrics = context.measureText(text);

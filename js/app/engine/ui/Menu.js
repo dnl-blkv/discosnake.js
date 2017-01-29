@@ -1,15 +1,10 @@
 define([
-        'engine/graphics/DisplayObject',
-        'engine/utils/numberUtils'
+        'engine/graphics/DisplayObject'
     ],
     function(
-            DisplayObject,
-            numberUtils
+            DisplayObject
         ) {
         'use strict';
-
-        var roundDownToMultiple = numberUtils.roundDownToMultiple;
-        var roundUpToMultiple = numberUtils.roundUpToMultiple;
 
         function Menu() {
             DisplayObject.call(this, 0, 0, 0, 0);
@@ -30,7 +25,7 @@ define([
                 calculateDimensions(menu);
             }, false);
 
-            this.updateHTMLStyle();
+            this.updateHtmlStyle();
             this.hide();
         }
 
@@ -54,7 +49,7 @@ define([
             // TODO: Bad temporal way to set menu width
             menu.getHTML().style.width = '300px';
 
-            for (i = 0; i < itemsCount; i ++) {
+            for (i = 0; i < itemsCount; i += 1) {
                 item = getFocusedItem(menu);
                 itemHTML = item.getHTML();
                 itemWidth = itemHTML.offsetWidth;
@@ -75,7 +70,7 @@ define([
             // Calculate the item height
             var height = 0;
 
-            for (i = 0; i < itemsCount; i ++) {
+            for (i = 0; i < itemsCount; i += 1) {
                 item = menu.getItemAt(i);
                 itemHTML = item.getHTML();
                 itemHeight = itemHTML.offsetHeight;
@@ -103,7 +98,7 @@ define([
 
             var itemsCount = menu.getItemsCount();
 
-            if (itemsCount != 0) {
+            if (itemsCount !== 0) {
                 menu.focusedItemId = (itemId + itemsCount) % itemsCount;
             } else {
                 console.log('COULD NOT FOCUS A MENU ITEM: NO ITEMS ADDED');
@@ -198,7 +193,7 @@ define([
             return hidden;
         };
 
-        Menu.prototype.updateHTMLStyle = function() {
+        Menu.prototype.updateHtmlStyle = function() {
             var html = this.html;
 
             html.className = 'menu unselectable default-cursor';
@@ -218,7 +213,7 @@ define([
             var html = this.html;
 
             html.style.marginTop = '-' + this.getHeight() / 2 + 'px';
-            html.style.marginLeft = '-' + this.getWidth() / 2 + 'px';
+            html.style.marginLeft = '-' + this.determineWidth() / 2 + 'px';
         };
 
         return Menu;

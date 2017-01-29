@@ -21,7 +21,7 @@ define([
             // Create the text object
             this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
 
-            this.updateHTMLStyle();
+            this.updateHtmlStyle();
 
             updateHeight(this);
         }
@@ -47,12 +47,12 @@ define([
             return this.actionCode;
         };
 
-        MenuItem.prototype.getWidth = function(graphics) {
-            return this.textObject.getWidth(graphics);
+        MenuItem.prototype.determineWidth = function(graphics) {
+            return this.textObject.determineWidth(graphics);
         };
 
         MenuItem.prototype.draw = function(graphics) {
-            var width = this.getWidth(graphics);
+            var width = this.determineWidth(graphics);
             this.setWidth(width);
 
             this.textObject.setX(this.getX());
@@ -75,7 +75,7 @@ define([
 
                 updateHeight(this);
 
-                this.textObject.updateHTMLStyle();
+                this.textObject.updateHtmlStyle();
             }
         };
 
@@ -93,11 +93,11 @@ define([
 
                 updateHeight(this);
 
-                this.textObject.updateHTMLStyle();
+                this.textObject.updateHtmlStyle();
             }
         };
 
-        MenuItem.prototype.updateHTMLStyle = function() {
+        MenuItem.prototype.updateHtmlStyle = function() {
             var html = this.getHTML();
 
             html.style.display = 'block';
