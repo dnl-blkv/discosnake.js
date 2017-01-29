@@ -164,40 +164,46 @@ define([],
          * @returns {Color}
          */
         Color.createFromHSV = function(hue, saturation, value) {
-            var coefficients = [0, 0, 0];
             var hueInterval = Math.floor(hue * 6);
             var f = hue * 6 - hueInterval;
             var p = value * (1 - saturation);
             var q = value * (1 - f * saturation);
             var t = value * (1 - (1 - f) * saturation);
-
-            switch (hueInterval) {
-                case 0:
-                    coefficients = [value, t, p];
-                    break;
-                case 1:
-                    coefficients = [q, value, p];
-                    break;
-                case 2:
-                    coefficients = [p, value, t];
-                    break;
-                case 3:
-                    coefficients = [p, q, value];
-                    break;
-                case 4:
-                    coefficients = [t, p, value];
-                    break;
-                case 5:
-                    coefficients = [value, p, q];
-                    break;
-            }
-
+            var coefficients = determineRgbCoefficients(hueInterval, value, p, q, t);
             var red = Math.round(256 * coefficients[0]);
             var green = Math.round(256 * coefficients[1]);
             var blue = Math.round(256 * coefficients[2]);
 
             return new Color(red, green, blue);
         };
+
+        /**
+         * @param {number} hueInterval
+         * @param {number} value
+         * @param {number} p
+         * @param {number} q
+         * @param {number} t
+         *
+         * @returns {number[]}
+         */
+        function determineRgbCoefficients(hueInterval, value, p, q, t) {
+            switch (hueInterval) {
+                case 0:
+                    return [value, t, p];
+                case 1:
+                    return [q, value, p];
+                case 2:
+                    return [p, value, t];
+                case 3:
+                    return [p, q, value];
+                case 4:
+                    return [t, p, value];
+                case 5:
+                    return [value, p, q];
+                default:
+                    return [0, 0, 0];
+            }
+        }
 
         /**
          * @param {string} hexString
