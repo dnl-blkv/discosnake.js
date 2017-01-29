@@ -3,13 +3,20 @@ define([
     ],
     function(
         DisplayObject
-        ) {
+    ) {
         'use strict';
 
+        /**
+         * @param {number} size
+         * @param {number} cellX
+         * @param {number} cellY
+         * @param {string} fillStyle
+         * @param {string} lineStyle
+         *
+         * @constructor
+         */
         function Tile(size, cellX, cellY, fillStyle, lineStyle) {
             DisplayObject.call(this, 0, 0, 0, 0);
-
-            // Modify the input parameters
             this.setSize(size);
             this.setCellX(cellX);
             this.setCellY(cellY);
@@ -17,38 +24,44 @@ define([
             this.lineStyle = lineStyle;
         }
 
-        // Derive from the DisplayObject
         Tile.prototype = Object.create(DisplayObject.prototype);
         Tile.prototype.constructor = Tile;
 
-        /** Draw the a tile on a graphics */
+        /**
+         * @param {Graphics} graphics
+         */
         Tile.prototype.draw = function(graphics) {
-
+            var size = this.getSize();
             var xPosition = this.getX();
             var yPosition = this.getY();
-            var size = this.getSize();
             var fillStyle = this.getFillStyle();
             var lineStyle = this.getLineStyle();
 
             graphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
         };
 
-        /** Set tile's size */
+        /**
+         * @param {number} size
+         */
         Tile.prototype.setSize = function(size) {
             this.size = size;
-
-            // Set the basic parameters
             this.setWidth(size);
             this.setHeight(size);
         };
 
+        /**
+         * @returns {number}
+         */
         Tile.prototype.getSize = function() {
             return this.size;
         };
 
+        /**
+         * @param {number} cellX
+         * @param {number=} gridWidth
+         */
         Tile.prototype.setCellX = function(cellX, gridWidth) {
-            // If grid width is defined, control overflow
-            // Otherwise, assume the grid is unlimited
+            // TODO: Tile should be assigned to a grid, or should be provided with a grid object
             if (gridWidth !== undefined) {
                 this.cellX = (cellX + gridWidth) % gridWidth;
             } else {
@@ -58,13 +71,19 @@ define([
             this.setX(this.cellX * this.size);
         };
 
+        /**
+         * @returns {number}
+         */
         Tile.prototype.getCellX = function() {
             return this.cellX;
         };
 
+        /**
+         * @param {number} cellY
+         * @param {number=} gridHeight
+         */
         Tile.prototype.setCellY = function(cellY, gridHeight) {
-            // If grid height is defined, control overflow
-            // Otherwise, assume the grid is unlimited
+            // TODO: Tile should be assigned to a grid, or should be provided with a grid object
             if (gridHeight !== undefined) {
                 this.cellY = (cellY + gridHeight) % gridHeight;
             } else {
@@ -74,26 +93,46 @@ define([
             this.setY(this.cellY * this.size);
         };
 
+        /**
+         * @returns {number}
+         */
         Tile.prototype.getCellY = function() {
             return this.cellY;
         };
 
+        /**
+         * @param {string} fillStyle
+         */
         Tile.prototype.setFillStyle = function(fillStyle) {
             this.fillStyle = fillStyle;
         };
 
+        /**
+         * @returns {string}
+         */
         Tile.prototype.getFillStyle = function() {
             return this.fillStyle;
         };
 
+        /**
+         * @param {string} lineStyle
+         */
         Tile.prototype.setLineStyle = function(lineStyle) {
             this.lineStyle = lineStyle;
         };
 
+        /**
+         * @returns {string}
+         */
         Tile.prototype.getLineStyle = function() {
             return this.lineStyle;
         };
 
+        /**
+         * @param {Tile} anotherTile
+         *
+         * @returns {boolean}
+         */
         Tile.prototype.doesCollideWith = function(anotherTile) {
             var anotherTilePassed = (this !== anotherTile);
             var xPositionMatches = false;
