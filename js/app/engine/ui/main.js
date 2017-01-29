@@ -1,14 +1,14 @@
 define([
-	'./Menu',
-	'./MenuItem'
+    './Menu',
+    './MenuItem'
 ], function (
-	Menu,
-	MenuItem
-	) {
-	'use strict';
+    Menu,
+    MenuItem
+    ) {
+    'use strict';
 
-	return {
-		Menu: Menu,
-		MenuItem: MenuItem
-	}
+    return {
+        Menu: Menu,
+        MenuItem: MenuItem
+    }
 });

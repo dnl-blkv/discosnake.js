@@ -1,11 +1,11 @@
 define([],
-	function () {
-		'use strict';
+    function () {
+        'use strict';
 
-		return {
-			LEFT: 0,
-			UP: 1,
-			RIGHT: 2,
-			DOWN: 3
-		}
-	});
+        return {
+            LEFT: 0,
+            UP: 1,
+            RIGHT: 2,
+            DOWN: 3
+        }
+    });

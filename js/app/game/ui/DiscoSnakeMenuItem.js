@@ -1,39 +1,39 @@
 define([
-		'engine'
-	],
-	function (
-		engine
-	) {
-		'use strict';
-		var MenuItem = engine.ui.MenuItem;
-		var colorUtils = engine.utils.colorUtils;
+        'engine'
+    ],
+    function (
+        engine
+    ) {
+        'use strict';
+        var MenuItem = engine.ui.MenuItem;
+        var colorUtils = engine.utils.colorUtils;
 
-		function DiscoSnakeMenuItem (actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
+        function DiscoSnakeMenuItem (actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
 
-			var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
-			var focusedColor = randomPsychedelicColor.generateHexString();
+            var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
+            var focusedColor = randomPsychedelicColor.generateHexString();
 
-			MenuItem.call(this, actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth);
-		}
+            MenuItem.call(this, actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth);
+        }
 
-		DiscoSnakeMenuItem.prototype = Object.create(MenuItem.prototype);
-		DiscoSnakeMenuItem.prototype.constructor = DiscoSnakeMenuItem;
+        DiscoSnakeMenuItem.prototype = Object.create(MenuItem.prototype);
+        DiscoSnakeMenuItem.prototype.constructor = DiscoSnakeMenuItem;
 
-		DiscoSnakeMenuItem.prototype.focus = function () {
-			var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
+        DiscoSnakeMenuItem.prototype.focus = function () {
+            var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
 
-			this.focusedColor = randomPsychedelicColor.generateHexString();
+            this.focusedColor = randomPsychedelicColor.generateHexString();
 
-			MenuItem.prototype.focus.call(this);
-		};
+            MenuItem.prototype.focus.call(this);
+        };
 
-		DiscoSnakeMenuItem.prototype.updateHTMLStyle = function () {
-			MenuItem.prototype.updateHTMLStyle.call(this);
+        DiscoSnakeMenuItem.prototype.updateHTMLStyle = function () {
+            MenuItem.prototype.updateHTMLStyle.call(this);
 
-			var html = this.getHTML();
+            var html = this.getHTML();
 
-			html.style.lineHeight = '95%';
-		};
+            html.style.lineHeight = '95%';
+        };
 
-		return DiscoSnakeMenuItem;
-	});
+        return DiscoSnakeMenuItem;
+    });

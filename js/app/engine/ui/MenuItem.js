@@ -1,111 +1,111 @@
 define([
-		'engine/graphics/DisplayObject',
-		'engine/graphics/TextObject'
-	],
-	function (
-		DisplayObject,
-		TextObject
-		) {
-		'use strict';
+        'engine/graphics/DisplayObject',
+        'engine/graphics/TextObject'
+    ],
+    function (
+        DisplayObject,
+        TextObject
+        ) {
+        'use strict';
 
-		function MenuItem (actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
-			DisplayObject.call(this, 0, 0, 0, 0);
+        function MenuItem (actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
+            DisplayObject.call(this, 0, 0, 0, 0);
 
-			this.actionCode = actionCode || 'nullActionCode';
-			this.defaultFontSize = fontSize;
-			this.defaultColor = defaultColor;
-			this.focusedColor = focusedColor;
-			this.focused = false;
-			this.selectedFontSizeMultiplier = 1.5;
+            this.actionCode = actionCode || 'nullActionCode';
+            this.defaultFontSize = fontSize;
+            this.defaultColor = defaultColor;
+            this.focusedColor = focusedColor;
+            this.focused = false;
+            this.selectedFontSizeMultiplier = 1.5;
 
-			// Create the text object
-			this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
+            // Create the text object
+            this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
 
-			this.updateHTMLStyle();
+            this.updateHTMLStyle();
 
-			updateHeight(this);
-		}
+            updateHeight(this);
+        }
 
-		MenuItem.prototype = Object.create(DisplayObject.prototype);
-		MenuItem.prototype.constructor = MenuItem;
+        MenuItem.prototype = Object.create(DisplayObject.prototype);
+        MenuItem.prototype.constructor = MenuItem;
 
-		function updateHeight (menuItem) {
-			var textObject = menuItem.textObject;
+        function updateHeight (menuItem) {
+            var textObject = menuItem.textObject;
 
-			var height = textObject.getHeight();
+            var height = textObject.getHeight();
 
-			menuItem.setHeight(height);
-		}
+            menuItem.setHeight(height);
+        }
 
-		function setTextColor (menuItem, textColor) {
-			var textObject = menuItem.textObject;
+        function setTextColor (menuItem, textColor) {
+            var textObject = menuItem.textObject;
 
-			textObject.setFontColor(textColor);
-		}
+            textObject.setFontColor(textColor);
+        }
 
-		MenuItem.prototype.getActionCode = function () {
-			return this.actionCode;
-		};
+        MenuItem.prototype.getActionCode = function () {
+            return this.actionCode;
+        };
 
-		MenuItem.prototype.getWidth = function (graphics) {
-			return this.textObject.getWidth(graphics);
-		};
+        MenuItem.prototype.getWidth = function (graphics) {
+            return this.textObject.getWidth(graphics);
+        };
 
-		MenuItem.prototype.draw = function (graphics) {
-			var width = this.getWidth(graphics);
-			this.setWidth(width);
+        MenuItem.prototype.draw = function (graphics) {
+            var width = this.getWidth(graphics);
+            this.setWidth(width);
 
-			this.textObject.setX(this.getX());
-			this.textObject.setY(this.getY());
+            this.textObject.setX(this.getX());
+            this.textObject.setY(this.getY());
 
-			this.textObject.draw(graphics);
-		};
+            this.textObject.draw(graphics);
+        };
 
-		MenuItem.prototype.focus = function () {
-			if (!this.focused) {
-				this.focused = true;
+        MenuItem.prototype.focus = function () {
+            if (!this.focused) {
+                this.focused = true;
 
-				var focusedColor = this.focusedColor;
+                var focusedColor = this.focusedColor;
 
-				setTextColor(this, focusedColor);
+                setTextColor(this, focusedColor);
 
-				var textObject = this.textObject;
+                var textObject = this.textObject;
 
-				textObject.setFontSize(this.defaultFontSize * this.selectedFontSizeMultiplier);
+                textObject.setFontSize(this.defaultFontSize * this.selectedFontSizeMultiplier);
 
-				updateHeight(this);
+                updateHeight(this);
 
-				this.textObject.updateHTMLStyle();
-			}
-		};
+                this.textObject.updateHTMLStyle();
+            }
+        };
 
-		MenuItem.prototype.unfocus = function () {
-			if (this.focused) {
-				this.focused = false;
+        MenuItem.prototype.unfocus = function () {
+            if (this.focused) {
+                this.focused = false;
 
-				var defaultColor = this.defaultColor;
+                var defaultColor = this.defaultColor;
 
-				setTextColor(this, defaultColor);
+                setTextColor(this, defaultColor);
 
-				var textObject = this.textObject;
+                var textObject = this.textObject;
 
-				textObject.setFontSize(this.defaultFontSize);
+                textObject.setFontSize(this.defaultFontSize);
 
-				updateHeight(this);
+                updateHeight(this);
 
-				this.textObject.updateHTMLStyle();
-			}
-		};
+                this.textObject.updateHTMLStyle();
+            }
+        };
 
-		MenuItem.prototype.updateHTMLStyle = function () {
-			var html = this.getHTML();
+        MenuItem.prototype.updateHTMLStyle = function () {
+            var html = this.getHTML();
 
-			html.style.display = 'block';
-		};
+            html.style.display = 'block';
+        };
 
-		MenuItem.prototype.getHTML = function () {
-			return this.textObject.getHTML();
-		};
+        MenuItem.prototype.getHTML = function () {
+            return this.textObject.getHTML();
+        };
 
-		return MenuItem;
-	});
+        return MenuItem;
+    });

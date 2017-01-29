@@ -2,8 +2,10 @@ define([
         "engine/utils/numberUtils",
         "engine/graphics/Color"
     ],
-    function (numberUtils,
-              Color) {
+    function (
+        numberUtils,
+        Color
+    ) {
         "use strict";
 
         /**

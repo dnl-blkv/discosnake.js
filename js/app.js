@@ -4,24 +4,24 @@
 // except for 'app' ones, which are in a sibling
 // directory.
 requirejs.config({
-	baseUrl: 'js/lib',
+    baseUrl: 'js/lib',
 
-	paths: {
-		app: '../app'
-	},
+    paths: {
+        app: '../app'
+    },
 
-	packages: [
-		{
-			name: 'game',
-			location: '../app/game',
-			main: 'Game'
-		},
-		{
-			name: 'engine',
-			location: '../app/engine',
-			main: 'main'
-		}
-	]
+    packages: [
+        {
+            name: 'game',
+            location: '../app/game',
+            main: 'Game'
+        },
+        {
+            name: 'engine',
+            location: '../app/engine',
+            main: 'main'
+        }
+    ]
 });
 
 // Start loading the main app file. Put all of

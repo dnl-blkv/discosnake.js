@@ -1,9 +1,9 @@
 define([],
-	function () {
-		'use strict';
+    function () {
+        'use strict';
 
-		return {
-			NO_SUBSTANCE: 'noSubstance',
-			ALCOHOL: 'alcohol'
-		}
-	});
+        return {
+            NO_SUBSTANCE: 'noSubstance',
+            ALCOHOL: 'alcohol'
+        }
+    });

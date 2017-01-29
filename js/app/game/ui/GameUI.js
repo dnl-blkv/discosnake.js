@@ -1,18 +1,18 @@
 define([
-		'./DiscoSnakeMenuItem',
-		'engine',
-		'./ScoreBoard'
-	],
-	function (
-		DiscoSnakeMenuItem,
-		engine,
-		ScoreBoard
-	) {
-		'use strict';
+        './DiscoSnakeMenuItem',
+        'engine',
+        './ScoreBoard'
+    ],
+    function (
+        DiscoSnakeMenuItem,
+        engine,
+        ScoreBoard
+    ) {
+        'use strict';
 
-		function GameUI () {
+        function GameUI () {
 
-		}
+        }
 
-		return GameUI;
-	});
+        return GameUI;
+    });
