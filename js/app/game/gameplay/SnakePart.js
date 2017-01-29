@@ -8,10 +8,10 @@ define([
 
         var Tile = engine.graphics.Tile;
         var Color = engine.graphics.Color;
-        var graphicUtils = engine.utils.graphicUtils;
+        var colorUtils = engine.utils.colorUtils;
 
         // Access the required methods
-        var getRandomPsychedelicColor = graphicUtils.getRandomPsychedelicColor;
+        var getRandomPsychedelicColor = colorUtils.pickRandomPsychedelicColor;
 
         function SnakePart (size, cellX, cellY) {
             // Convert the basic properties
@@ -19,7 +19,7 @@ define([
             this.previousPart = null;
             this.nextPart = null;
 
-            var fillStyle = this.color.getHexString();
+            var fillStyle = this.color.generateHexString();
             var lineStyle = '#ffffff';
 
             // Call the super constructor
@@ -73,7 +73,7 @@ define([
         SnakePart.prototype.updateColor = function () {
             var randomColor = getRandomPsychedelicColor();
 
-            this.setFillStyle(randomColor.getHexString());
+            this.setFillStyle(randomColor.generateHexString());
         };
 
         SnakePart.prototype.draw = function (gameGraphics) {
@@ -87,7 +87,7 @@ define([
 
             // Set the effect transparency
             var alpha = drunkness / 10;
-            var effectFillStyle = Color.fromHexString(this.getFillStyle()).toRGBAString(alpha);
+            var effectFillStyle = Color.createFromHexString(this.getFillStyle()).generateRGBAString(alpha);
 
             gameGraphics.drawRect(xPosition, yPosition, size, size, effectFillStyle, effectFillStyle);
         };

@@ -6,12 +6,12 @@ define([
 	) {
 		'use strict';
 		var MenuItem = engine.ui.MenuItem;
-		var graphicUtils = engine.utils.graphicUtils;
+		var colorUtils = engine.utils.colorUtils;
 
 		function DiscoSnakeMenuItem (actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
 
-			var randomPsychedelicColor = graphicUtils.getRandomPsychedelicColor();
-			var focusedColor = randomPsychedelicColor.getHexString();
+			var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
+			var focusedColor = randomPsychedelicColor.generateHexString();
 
 			MenuItem.call(this, actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth);
 		}
@@ -20,9 +20,9 @@ define([
 		DiscoSnakeMenuItem.prototype.constructor = DiscoSnakeMenuItem;
 
 		DiscoSnakeMenuItem.prototype.focus = function () {
-			var randomPsychedelicColor = graphicUtils.getRandomPsychedelicColor();
+			var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
 
-			this.focusedColor = randomPsychedelicColor.getHexString();
+			this.focusedColor = randomPsychedelicColor.generateHexString();
 
 			MenuItem.prototype.focus.call(this);
 		};
