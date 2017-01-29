@@ -70,7 +70,7 @@ define([
         };
 
         TextObject.prototype.getWidth = function(graphics) {
-            var width = graphics.getTextWidth(this.text, this.fontSize, this.fontFamily);
+            var width = graphics.determineTextWidth(this.text, this.fontSize, this.fontFamily);
 
             return width;
         };

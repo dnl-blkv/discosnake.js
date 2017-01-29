@@ -2,135 +2,181 @@ define([
         'engine/input/InputEvent',
         'engine/utils/HtmlUtils'
     ],
-    function(
+    function (
         InputEvent,
         htmlUtils
     ) {
         'use strict';
 
+        /**
+         * @type {function}
+         */
         var centreElement = htmlUtils.centreElement;
+
+        /**
+         * @type {function}
+         */
         var buildFontString = htmlUtils.buildFontString;
 
+        /**
+         * @type {string}
+         */
+        var TEXT_ALIGN_LEFT = 'left';
+
+        /**
+         * @type {string}
+         */
+        var TEXT_BASELINE_MIDDLE = 'middle';
+
+        /**
+         * @param {number} width
+         * @param {number} height
+         * @param {string} backgroundColor
+         *
+         * @constructor
+         */
         function Graphics(width, height, backgroundColor) {
+            /**
+             * @type {HTMLElement}
+             */
+            this.canvas = createCanvas(width, height, backgroundColor);
+            window.addEventListener(InputEvent.RESIZE, createOnResizeEventListener(this));
+        }
 
-            // Initialize the underlying canvas
+        /**
+         * @param {number} width
+         * @param {number} height
+         * @param {string} backgroundColor
+         *
+         * @returns {HTMLElement}
+         */
+        function createCanvas(width, height, backgroundColor) {
             var canvas = document.createElement('canvas');
-
-            // Set the canvas size
             canvas.width = width;
             canvas.style.width = width + "px";
             canvas.height = height;
             canvas.style.height = height + "px";
-
-            // Set up the default properties
             canvas.class = 'graphics';
             canvas.style.backgroundColor = backgroundColor;
-
-            // Make z-index variable
             canvas.style.zIndex = -1;
-
-            // Set up the context
-            var context = canvas.getContext('2d');
-            context.translate(0.5, 0.5);
-            context.lineWidth = 0.75;
-
-            // Append the canvas to body
-            // TODO: dirty way of appending graphics to body, centralize
-            var body = document.getElementsByTagName('body')[0];
-            body.appendChild(canvas);
-
-            // Centre the canvas
-            window.addEventListener(InputEvent.RESIZE, function() {
-                centreElement(canvas);
-            });
-
+            scaleContext(canvas.getContext('2d'));
+            appendToBody(canvas);
             centreElement(canvas);
 
-            // Save the canvas reference
-            this.canvas = canvas;
+            return canvas;
         }
 
-        Graphics.prototype.reset = function() {
+        /**
+         * @param {HTMLElement} canvas
+         */
+        function appendToBody(canvas) {
+            var body = document.getElementsByTagName('body')[0];
+            body.appendChild(canvas);
+        }
+
+        /**
+         * @param {CanvasRenderingContext2D} context
+         */
+        function scaleContext(context) {
+            context.translate(0.5, 0.5);
+            context.lineWidth = 0.75;
+        }
+
+        /**
+         * @param {Graphics} graphics
+         *
+         * @returns {function}
+         */
+        function createOnResizeEventListener(graphics) {
+            return function () {
+                centreElement(graphics);
+            };
+        }
+
+        /**
+         */
+        Graphics.prototype.reset = function () {
             var context = this.getContext();
-            // Clear the canvas content
-            // Store the current transformation matrix
             context.save();
-
-            // Use the identity matrix while clearing the canvas
             context.setTransform(1, 0, 0, 1, 0, 0);
-
-            var width = this.getWidth();
-            var height = this.getHeight();
-
-            context.clearRect(0, 0, width, height);
-
-            // Restore the transform
+            context.clearRect(0, 0, this.getWidth(), this.getHeight());
             context.restore();
-        }
+        };
 
-        Graphics.prototype.getWidth = function() {
+        /**
+         * @returns {number}
+         */
+        Graphics.prototype.getWidth = function () {
             return this.canvas.width;
-        }
+        };
 
-        Graphics.prototype.getHeight = function() {
+        /**
+         * @returns {number}
+         */
+        Graphics.prototype.getHeight = function () {
             return this.canvas.height;
-        }
+        };
 
-        Graphics.prototype.getContext = function() {
-            var context = this.canvas.getContext('2d');
+        /**
+         * @returns {CanvasRenderingContext2D}
+         */
+        Graphics.prototype.getContext = function () {
+            return this.canvas.getContext('2d');
+        };
 
-            return context;
-        }
-
-        Graphics.prototype.drawRect = function(x, y, width, height, fillStyle, lineStyle) {
-
+        /**
+         * @param {number} x
+         * @param {number} y
+         * @param {number} width
+         * @param {number} height
+         * @param {string} fillStyle
+         * @param {string} lineStyle
+         */
+        Graphics.prototype.drawRect = function (x, y, width, height, fillStyle, lineStyle) {
             var context = this.getContext();
-
             context.beginPath();
-
             context.rect(x, y, width, height);
-
             context.fillStyle = fillStyle;
-
             context.fill();
-
             context.strokeStyle = lineStyle;
-
             context.stroke();
-        }
+        };
 
-        Graphics.prototype.drawText = function(x, y, text, fontSize, fontName, fontColor, maxWidth) {
+        /**
+         * @param {number} x
+         * @param {number} y
+         * @param {string} text
+         * @param {number} fontSize
+         * @param {string} fontName
+         * @param {string} fontColor
+         * @param {number} maxWidth
+         */
+        Graphics.prototype.drawText = function (x, y, text, fontSize, fontName, fontColor, maxWidth) {
             var context = this.getContext();
-
             context.beginPath();
-
             context.font = buildFontString(fontSize, fontName);
-
-            context.textBaseline = 'middle';
-
-            // TODO: Dirty Magic String, generalize
-            context.textAlign = 'left';
-
+            context.textBaseline = TEXT_BASELINE_MIDDLE;
+            context.textAlign = TEXT_ALIGN_LEFT;
             context.fillStyle = fontColor;
-
             context.fillText(text, x, y, maxWidth);
-        }
+        };
 
-        // TODO: consider maxWidth1!1!!11
+        // TODO: consider using maxWidth.
         // TODO: deal with fontFamily / fontName naming convention
-        Graphics.prototype.getTextWidth = function(text, fontSize, fontName) {
+        /**
+         * @param {string} text
+         * @param {number} fontSize
+         * @param {string} fontName
+         *
+         * @returns {Number}
+         */
+        Graphics.prototype.determineTextWidth = function (text, fontSize, fontName) {
             var context = this.getContext();
-
-            var fontString = buildFontString(fontSize, fontName);
-
-            context.font = fontString;
-
+            context.font = buildFontString(fontSize, fontName);
             var textMetrics = context.measureText(text);
 
-            var width = textMetrics.width;
-
-            return width;
-        }
+            return textMetrics.width;
+        };
 
         return Graphics;
     });
