@@ -40,7 +40,7 @@ define([
              * @type {HTMLElement}
              */
             this.canvas = createCanvas(width, height, backgroundColor);
-            window.addEventListener(InputEvent.RESIZE, createOnResizeEventListener(this));
+            window.addEventListener(InputEvent.RESIZE, createResizeEventListener(this));
         }
 
         /**
@@ -87,7 +87,7 @@ define([
          *
          * @returns {function}
          */
-        function createOnResizeEventListener(graphics) {
+        function createResizeEventListener(graphics) {
             return function() {
                 centreElement(graphics);
             };

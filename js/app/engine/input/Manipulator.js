@@ -31,8 +31,8 @@ define([
             this.controls = new Controls();
             this.keyPressedToTimestampMap = {};
 
-            window.addEventListener(InputEvent.KEY_DOWN, createOnKeyDownEventListener(this), false);
-            window.addEventListener(InputEvent.KEY_UP, createOnKeyUpEventListener(this), false);
+            window.addEventListener(InputEvent.KEY_DOWN, createKeyDownEventListener(this), false);
+            window.addEventListener(InputEvent.KEY_UP, createKeyUpEventListener(this), false);
         }
 
         /**
@@ -40,7 +40,7 @@ define([
          *
          * @returns {function}
          */
-        function createOnKeyDownEventListener(manipulator) {
+        function createKeyDownEventListener(manipulator) {
             return function(event) {
                 manipulator.onKeyDown(event);
             };
@@ -51,7 +51,7 @@ define([
          *
          * @returns {function}
          */
-        function createOnKeyUpEventListener(manipulator) {
+        function createKeyUpEventListener(manipulator) {
             return function(event) {
                 manipulator.onKeyUp(event);
             };

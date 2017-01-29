@@ -1,29 +1,24 @@
 define([
-        'engine/graphics/DisplayObject'
+        'engine/graphics/DisplayObject',
+        './UiEventType'
     ],
     function(
-            DisplayObject
+            DisplayObject,
+            UiEventType
         ) {
         'use strict';
 
         function Menu() {
             DisplayObject.call(this, 0, 0, 0, 0);
-
             this.items = [];
             this.focusedItemId = 0;
             this.itemSelectedListener = null;
             this.itemSelectedListenerArguments = null;
             this.backgroundColor = '#000000';
             this.backgroundBorderColor = '#FFFFFF';
-
             this.html = document.createElement('div');
 
-            // TODO: Fix magic event
-            var menu = this;
-
-            this.html.addEventListener("DOMNodeInserted", function(event) {
-                calculateDimensions(menu);
-            }, false);
+            this.html.addEventListener(UiEventType.DOM_NODE_INSERTED, createDomNodeInsertedEventListener(this), false);
 
             this.updateHtmlStyle();
             this.hide();
@@ -31,6 +26,18 @@ define([
 
         Menu.prototype = Object.create(DisplayObject.prototype);
         Menu.prototype.constructor = Menu;
+
+        /**
+         * @param {Menu} menu
+         *
+         * @returns {function}
+         */
+        function createDomNodeInsertedEventListener(menu) {
+            return function() {
+                calculateDimensions(menu);
+            };
+        }
+
 
         function calculateDimensions(menu) {
 
