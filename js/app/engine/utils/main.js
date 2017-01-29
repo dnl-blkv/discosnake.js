@@ -13,8 +13,8 @@ define([
 
 	return {
 		graphicUtils: graphicUtils,
-		htmlUtils: htmlUtils,
+		HtmlUtils: htmlUtils,
 		numberUtils: numberUtils,
-		timeUtils: timeUtils
+		TimeUtils: timeUtils
 	}
 });

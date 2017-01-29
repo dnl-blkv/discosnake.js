@@ -1,6 +1,6 @@
 define([
 		'engine/input/InputEvent',
-		'engine/utils/htmlUtils'
+		'engine/utils/HtmlUtils'
 	],
 	function (
 		InputEvent,
