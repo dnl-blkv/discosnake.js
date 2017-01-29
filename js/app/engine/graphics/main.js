@@ -4,13 +4,13 @@ define([
     './Graphics',
     './TextObject',
     './Tile'
-], function(
+], function (
     Color,
     DisplayObject,
     Graphics,
     TextObject,
     Tile
-    ) {
+) {
     'use strict';
 
     return {
@@ -19,5 +19,5 @@ define([
         Graphics: Graphics,
         TextObject: TextObject,
         Tile: Tile
-    }
+    };
 });

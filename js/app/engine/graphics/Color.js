@@ -134,10 +134,7 @@ define([],
          * @returns {Color}
          */
         Color.prototype.blend = function(anotherColor, ratio) {
-            if (ratio === undefined) {
-                ratio = 0.5;
-            }
-
+            ratio = ratio || 0.5;
             var newColor = this.copy();
 
             newColor.setRed(Math.floor((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
