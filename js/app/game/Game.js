@@ -40,7 +40,7 @@ define([
         var getBody = HtmlUtils.getBody;
 
         var SNAKE_LENGTH_DEFAULT = 4;
-        var ANGRY_STACY_MODE = true;
+        var SILENT_MODE = true;
 
         function Game(cellSize, cellsWidth, cellsHeight) {
             this.cellSize = cellSize;
@@ -331,7 +331,7 @@ define([
 
             this.menu.hide();
 
-            if (!ANGRY_STACY_MODE) {
+            if (!SILENT_MODE) {
                 this.audio.play();
             }
 
