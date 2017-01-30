@@ -368,7 +368,7 @@ define([
 
         function requestNextFrame(game, runner) {
             game.lastRequestId = requestAnimationFrame(runner);
-            game.frameNumber++;
+            game.frameNumber += 1;
         }
 
         // Run the game repeatedly and continuously. NICE SHOT MAN.

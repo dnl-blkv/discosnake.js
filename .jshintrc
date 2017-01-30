@@ -54,7 +54,7 @@
   "indent": 4,
   "maxparams": 20,
   "maxdepth": 4,
-  "maxstatements": 33,
+  "maxstatements": 100,
   "maxcomplexity": 15,
   "nomen": false,
   "onevar": true,
