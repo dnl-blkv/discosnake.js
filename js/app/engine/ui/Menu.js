@@ -149,7 +149,7 @@ define([
             if (itemsCount !== 0) {
                 menu.focusedItemId = (itemId + itemsCount) % itemsCount;
             } else {
-                console.log('COULD NOT FOCUS A MENU ITEM: NO ITEMS ADDED');
+                throw 'Could not focus a menu item: no items added!';
             }
 
             var itemToFocus = getFocusedItem(menu);
