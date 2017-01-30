@@ -52,7 +52,7 @@
   "wsh": false,
   "maxlen": 120,
   "indent": 4,
-  "maxparams": 10,
+  "maxparams": 20,
   "maxdepth": 4,
   "maxstatements": 33,
   "maxcomplexity": 15,
