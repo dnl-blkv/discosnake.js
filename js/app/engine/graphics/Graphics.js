@@ -29,8 +29,8 @@ define([
         var TEXT_BASELINE_MIDDLE = 'middle';
 
         /**
-         * @param {number} width
-         * @param {number} height
+         * @param {Number} width
+         * @param {Number} height
          * @param {string} backgroundColor
          *
          * @constructor
@@ -44,8 +44,8 @@ define([
         }
 
         /**
-         * @param {number} width
-         * @param {number} height
+         * @param {Number} width
+         * @param {Number} height
          * @param {string} backgroundColor
          *
          * @returns {HTMLElement}
@@ -104,14 +104,14 @@ define([
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         Graphics.prototype.determineWidth = function() {
             return this.canvas.width;
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         Graphics.prototype.getHeight = function() {
             return this.canvas.height;
@@ -125,10 +125,10 @@ define([
         };
 
         /**
-         * @param {number} x
-         * @param {number} y
-         * @param {number} width
-         * @param {number} height
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} width
+         * @param {Number} height
          * @param {string} fillStyle
          * @param {string} lineStyle
          */
@@ -143,13 +143,13 @@ define([
         };
 
         /**
-         * @param {number} x
-         * @param {number} y
+         * @param {Number} x
+         * @param {Number} y
          * @param {string} text
-         * @param {number} fontSize
+         * @param {Number} fontSize
          * @param {string} fontName
          * @param {string} fontColor
-         * @param {number} maxWidth
+         * @param {Number} maxWidth
          */
         Graphics.prototype.drawText = function(x, y, text, fontSize, fontName, fontColor, maxWidth) {
             var context = this.getContext();
@@ -165,7 +165,7 @@ define([
         // TODO: deal with fontFamily / fontName naming convention
         /**
          * @param {string} text
-         * @param {number} fontSize
+         * @param {Number} fontSize
          * @param {string} fontName
          *
          * @returns {Number}

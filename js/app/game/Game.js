@@ -11,17 +11,19 @@ define([
         "./ui/ScoreBoard",
         "./gameplay/Snake"
     ],
-    function(Apple,
-              BonusApple,
-              CommandCode,
-              defaultGameControls,
-              Direction,
-              DiscoSnakeMenuItem,
-              engine,
-              invertedControls,
-              menuControls,
-              ScoreBoard,
-              Snake) {
+    function(
+        Apple,
+        BonusApple,
+        CommandCode,
+        defaultGameControls,
+        Direction,
+        DiscoSnakeMenuItem,
+        engine,
+        invertedControls,
+        menuControls,
+        ScoreBoard,
+        Snake
+    ) {
         "use strict";
 
         // Classes
@@ -38,6 +40,7 @@ define([
         var getBody = HtmlUtils.getBody;
 
         var SNAKE_LENGTH_DEFAULT = 4;
+        var ANGRY_STACY_MODE = true;
 
         function Game(cellSize, cellsWidth, cellsHeight) {
             this.cellSize = cellSize;
@@ -81,7 +84,7 @@ define([
 
             // TODO: Dirty way of appending of the score screen to canvas, centralize
             // TODO: Fix the positioning (dirty way)
-            var scoreScreenHTML = this.scoreBoard.getHTML();
+            var scoreScreenHTML = this.scoreBoard.getHtml();
             var body = getBody();
             body.appendChild(scoreScreenHTML);
 
@@ -89,7 +92,7 @@ define([
             this.menu = null;
             this.pausedGameMenu = null;
             buildMenus(this);
-            body.appendChild(this.menu.getHTML());
+            body.appendChild(this.menu.getHtml());
 
             // Center the menu
             this.menu.center();
@@ -108,8 +111,11 @@ define([
             game.then = timeNow();
         }
 
+        /**
+         * @param {Game} game
+         */
         function buildNewGameMenu(game) {
-            var newGameMenu = new Menu();
+            var newGameMenu = new Menu(game.graphics);
 
             // TODO: Centralize menu's style
             var menuFontSize = 48;
@@ -123,7 +129,7 @@ define([
             // Set menu to the new game menu by default since no game has been started
             game.menu = newGameMenu;
             var body = getBody();
-            body.appendChild(newGameMenu.getHTML());
+            body.appendChild(newGameMenu.getHtml());
 
             newGameMenu.reveal();
             newGameMenu.center();
@@ -131,7 +137,7 @@ define([
 
         // Build the paused game menu
         function buildPausedGameMenu(game) {
-            var pausedGameMenu = new Menu();
+            var pausedGameMenu = new Menu(game.graphics);
 
             // TODO: Centralize menu's style [2]
             var menuFontSize = 48;
@@ -148,7 +154,7 @@ define([
 
             var body = getBody();
 
-            body.appendChild(pausedGameMenu.getHTML());
+            body.appendChild(pausedGameMenu.getHtml());
 
             pausedGameMenu.center();
         }
@@ -325,7 +331,9 @@ define([
 
             this.menu.hide();
 
-            this.audio.play();
+            if (!ANGRY_STACY_MODE) {
+                this.audio.play();
+            }
 
             updateThen(this);
 

@@ -72,7 +72,7 @@ define([
         };
 
         /**
-         * @param {number} keyCode
+         * @param {Number} keyCode
          *
          * @returns {boolean}
          */
@@ -105,7 +105,7 @@ define([
         };
 
         /**
-         * @param {number} keyCode
+         * @param {Number} keyCode
          * @param {string} commandCode
          */
         Manipulator.prototype.bindKeyDown = function(keyCode, commandCode) {
@@ -113,14 +113,14 @@ define([
         };
 
         /**
-         * @param {number} keyCode
+         * @param {Number} keyCode
          */
         Manipulator.prototype.unbindKeyDown = function(keyCode) {
             this.controls.unbindKeyDown(keyCode);
         };
 
         /**
-         * @param {number} keyCode
+         * @param {Number} keyCode
          * @param {string} commandCode
          */
         Manipulator.prototype.bindKeyUp = function(keyCode, commandCode) {
@@ -128,7 +128,7 @@ define([
         };
 
         /**
-         * @param {number} keyCode
+         * @param {Number} keyCode
          */
         Manipulator.prototype.unbindKeyUp = function(keyCode) {
             this.controls.unbindKeyUp(keyCode);

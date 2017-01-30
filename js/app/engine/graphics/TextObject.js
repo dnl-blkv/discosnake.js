@@ -8,12 +8,13 @@ define([
 
         /**
          * @param {string} text
-         * @param {number} fontSize
+         * @param {Number} fontSize
          * @param {string} fontFamily
          * @param {string} fontColor
-         * @param {number} maxWidth
+         * @param {Number} maxWidth
          *
          * @constructor
+         * @extends DisplayObject
          */
         function DisplayObjectText(text, fontSize, fontFamily, fontColor, maxWidth) {
             DisplayObject.call(this, 0, 0, 0, 0);
@@ -51,7 +52,7 @@ define([
         };
 
         /**
-         * @param {number} fontSize
+         * @param {Number} fontSize
          */
         DisplayObjectText.prototype.setFontSize = function(fontSize) {
             this.setHeight(fontSize);
@@ -59,7 +60,7 @@ define([
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObjectText.prototype.getFontSize = function() {
             return this.fontSize;
@@ -101,7 +102,7 @@ define([
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObjectText.prototype.getMaxWidth = function() {
             return this.maxWidth;
@@ -131,7 +132,7 @@ define([
         /**
          * @returns {Element}
          */
-        DisplayObjectText.prototype.getHTML = function() {
+        DisplayObjectText.prototype.getHtml = function() {
             return this.html;
         };
 

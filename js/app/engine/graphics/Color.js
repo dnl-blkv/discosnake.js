@@ -3,45 +3,45 @@ define([],
         "use strict";
 
         /**
-         * @param {number} red
-         * @param {number} green
-         * @param {number} blue
+         * @param {Number} red
+         * @param {Number} green
+         * @param {Number} blue
          *
          * @constructor
          */
         function Color(red, green, blue) {
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.red = red;
 
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.green = green;
 
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.blue = blue;
         }
 
         /**
-         * @param {number} red
+         * @param {Number} red
          */
         Color.prototype.setRed = function(red) {
             this.red = red;
         };
 
         /**
-         * @param {number} green
+         * @param {Number} green
          */
         Color.prototype.setGreen = function(green) {
             this.green = green;
         };
 
         /**
-         * @param {number} blue
+         * @param {Number} blue
          */
         Color.prototype.setBlue = function(blue) {
             this.blue = blue;
@@ -67,7 +67,7 @@ define([],
         };
         
         /**
-         * @param {number} decChannel
+         * @param {Number} decChannel
          *
          * @returns {string}
          */
@@ -78,7 +78,7 @@ define([],
         }
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         Color.prototype.getRed = function() {
             return this.red;
@@ -92,7 +92,7 @@ define([],
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         Color.prototype.getGreen = function() {
             return this.green;
@@ -106,14 +106,14 @@ define([],
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         Color.prototype.getBlue = function() {
             return this.blue;
         };
 
         /**
-         * @param {number} alpha
+         * @param {Number} alpha
          * @returns {string}
          */
         Color.prototype.generateRGBAString = function(alpha) {
@@ -129,7 +129,7 @@ define([],
         /**
          *
          * @param {Color} anotherColor
-         * @param {number} ratio
+         * @param {Number} ratio
          *
          * @returns {Color}
          */
@@ -154,9 +154,9 @@ define([],
         /**
          * Builds a color object given HSV values in range [0..1].
          *
-         * @param {number} hue
-         * @param {number} saturation
-         * @param {number} value
+         * @param {Number} hue
+         * @param {Number} saturation
+         * @param {Number} value
          *
          * @returns {Color}
          */
@@ -175,11 +175,11 @@ define([],
         };
 
         /**
-         * @param {number} hueInterval
-         * @param {number} value
-         * @param {number} p
-         * @param {number} q
-         * @param {number} t
+         * @param {Number} hueInterval
+         * @param {Number} value
+         * @param {Number} p
+         * @param {Number} q
+         * @param {Number} t
          *
          * @returns {number[]}
          */

@@ -7,7 +7,7 @@ define([],
          *
          * @param from
          * @param to
-         * @returns {number}
+         * @returns {Number}
          */
         function getRandomInteger(from, to) {
 

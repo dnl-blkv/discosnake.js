@@ -3,86 +3,86 @@ define([],
         'use strict';
 
         /**
-         * @param {number} x
-         * @param {number} y
-         * @param {number} width
-         * @param {number} height
+         * @param {Number} x
+         * @param {Number} y
+         * @param {Number} width
+         * @param {Number} height
          *
          * @constructor
          */
         function DisplayObject(x, y, width, height) {
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.x = x;
 
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.y = y;
 
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.width = width;
 
             /**
-             * @type {number}
+             * @type {Number}
              */
             this.height = height;
         }
 
         /**
-         * @param {number} x
+         * @param {Number} x
          */
         DisplayObject.prototype.setX = function(x) {
             this.x = x;
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObject.prototype.getX = function() {
             return this.x;
         };
 
         /**
-         * @param {number} y
+         * @param {Number} y
          */
         DisplayObject.prototype.setY = function(y) {
             this.y = y;
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObject.prototype.getY = function() {
             return this.y;
         };
 
         /**
-         * @param {number} width
+         * @param {Number} width
          */
         DisplayObject.prototype.setWidth = function(width) {
             this.width = width;
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObject.prototype.determineWidth = function() {
             return this.width;
         };
 
         /**
-         * @param {number} height
+         * @param {Number} height
          */
         DisplayObject.prototype.setHeight = function(height) {
             this.height = height;
         };
 
         /**
-         * @returns {number}
+         * @returns {Number}
          */
         DisplayObject.prototype.getHeight = function() {
             return this.height;

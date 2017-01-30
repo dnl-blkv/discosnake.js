@@ -30,7 +30,7 @@ define([
         DiscoSnakeMenuItem.prototype.updateHtmlStyle = function() {
             MenuItem.prototype.updateHtmlStyle.call(this);
 
-            var html = this.getHTML();
+            var html = this.getHtml();
 
             html.style.lineHeight = '95%';
         };

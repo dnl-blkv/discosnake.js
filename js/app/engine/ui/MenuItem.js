@@ -98,13 +98,13 @@ define([
         };
 
         MenuItem.prototype.updateHtmlStyle = function() {
-            var html = this.getHTML();
+            var html = this.getHtml();
 
             html.style.display = 'block';
         };
 
-        MenuItem.prototype.getHTML = function() {
-            return this.textObject.getHTML();
+        MenuItem.prototype.getHtml = function() {
+            return this.textObject.getHtml();
         };
 
         return MenuItem;

@@ -59,12 +59,12 @@ define([
             this.scoreScreen.draw(gameGraphics);
         }
 
-        ScoreBoard.prototype.getHTML = function() {
-            return this.scoreScreen.getHTML();
+        ScoreBoard.prototype.getHtml = function() {
+            return this.scoreScreen.getHtml();
         }
 
         ScoreBoard.prototype.updateHtmlStyle = function() {
-            var html = this.getHTML();
+            var html = this.getHtml();
 
             html.style.left = '24px';
         }
