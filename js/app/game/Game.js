@@ -257,7 +257,7 @@ define([
         }
 
         function appleEatenListener(game) {
-            var drunkBonus = Math.ceil(game.snake.getDrunkness() / 5);
+            var drunkBonus = Math.ceil(Math.pow(game.snake.getDrunkness() / 80, 2));
             var scoreIncrease = 1 + drunkBonus;
             changeScore(game, scoreIncrease);
             dropApple(game);

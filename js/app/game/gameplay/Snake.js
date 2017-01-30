@@ -13,55 +13,43 @@ define([
         'use strict';
 
         function Snake(cellSize, defaultCellX, defaultCellY, defaultLength) {
-
             this.cellSize = cellSize;
-
             this.length = 1;
-
             this.head = new SnakePart(cellSize, defaultCellX, defaultCellY);
-
             this.addParts(defaultLength - 1);
-
             this.direction = Direction.RIGHT;
-
             this.appleEatenListener = null;
-
             this.bonusAppleEatenListener = null;
-
             this.drunkness = 0;
-
         }
 
         Snake.prototype.getDrunkness = function() {
             return this.drunkness;
-        }
+        };
 
         Snake.prototype.isAppleEaten = function(apple) {
-            var head = this.getHead();
-            var appleEaten = head.doesCollideWith(apple);
-
-            return appleEaten;
-        }
+            return this.getHead().doesCollideWith(apple);
+        };
 
         Snake.prototype.moveRight = function(game) {
             moveBody(this, game);
             this.head.moveRight(game);
-        }
+        };
 
         Snake.prototype.moveLeft = function(game) {
             moveBody(this, game);
             this.head.moveLeft(game);
-        }
+        };
 
         Snake.prototype.moveDown = function(game) {
             moveBody(this, game);
             this.head.moveDown(game);
-        }
+        };
 
         Snake.prototype.moveUp = function(game) {
             moveBody(this, game);
             this.head.moveUp(game);
-        }
+        };
 
         function moveBody(snake, game) {
             var currentPart = snake.getTail();
@@ -71,15 +59,12 @@ define([
             while (previousPart !== null) {
                 // Drug each part to the previous one
                 currentPart.dragTo(game, previousPart);
-
                 currentPart = previousPart;
-
                 previousPart = previousPart.getPreviousPart();
             }
         }
 
         Snake.prototype.draw = function(gameGraphics, drunkness) {
-
             // Update the snake parts' colors
             var currentPart = this.getHead();
 
@@ -105,11 +90,11 @@ define([
                 currentPart.draw(gameGraphics);
                 currentPart = currentPart.getNextPart();
             } while (currentPart !== null);
-        }
+        };
 
         Snake.prototype.getHead = function() {
             return this.head;
-        }
+        };
 
         Snake.prototype.getTail = function() {
             var tail = this.getHead();
@@ -117,52 +102,46 @@ define([
 
             while (nextPart !== null) {
                 tail = nextPart;
-
                 nextPart = tail.getNextPart();
             }
 
             return tail;
-        }
+        };
 
         Snake.prototype.getLength = function() {
             return this.length;
-        }
+        };
 
         Snake.prototype.setDirection = function(direction) {
             this.direction = direction;
-        }
+        };
 
         Snake.prototype.getDirection = function() {
             return this.direction;
-        }
+        };
 
         Snake.prototype.setAppleEatenListener = function(appleEatenListener) {
             this.appleEatenListener = appleEatenListener;
-        }
+        };
 
         Snake.prototype.setBonusAppleEatenListener = function(bonusAppleEatenListener) {
             this.bonusAppleEatenListener = bonusAppleEatenListener;
-        }
+        };
 
         // [Next][Current][Previous][Head] ->
         Snake.prototype.addPart = function() {
-
             var tail = this.getTail();
-
             var newSnakePart = new SnakePart(this.cellSize, tail.getCellX(), tail.getCellY());
-
             tail.setNextPart(newSnakePart);
-
             newSnakePart.setPreviousPart(tail);
-
-            this.length ++;
-        }
+            this.length += 1;
+        };
 
         Snake.prototype.addParts = function(partsCount) {
-            for (var i = 0; i < partsCount; i ++) {
+            for (var i = 0; i < partsCount; i += 1) {
                 this.addPart();
             }
-        }
+        };
 
         Snake.prototype.move = function(game) {
             var direction = this.getDirection();
@@ -199,17 +178,19 @@ define([
                     applyBonusAppleEffects(this, bonusApple);
                     bonusAppleEatenListener.call(bonusAppleEatenListener, game);
                 } else {
-                    // Decrease effects level
                     if (this.drunkness > 0) {
-                        this.drunkness --;
-                        console.log(this.drunkness);
+                        this.drunkness -= 5;
                     }
 
                     appleEatenListener.call(appleEatenListener, game);
                 }
             }
 
-        }
+            // Decrease effects level
+            if (this.drunkness > 0) {
+                this.drunkness -= 1;
+            }
+        };
 
         Snake.prototype.executeCommand = function(commandCode) {
             switch (commandCode) {
@@ -232,22 +213,13 @@ define([
                 default:
                     break;
             }
-        }
+        };
 
         function applyBonusAppleEffects(snake, bonusApple) {
             var substance = bonusApple.getSubstance();
 
-            switch (substance) {
-                case AppleSubstance.ALCOHOL:
-                    snake.drunkness += 4;
-
-                    if (snake.drunkness > 8) {
-                        snake.drunkness = 8;
-                    }
-                    break;
-
-                default:
-                    break;
+            if (substance === AppleSubstance.ALCOHOL) {
+                snake.drunkness = Math.min(snake.drunkness + 60, 240);
             }
         }
 
