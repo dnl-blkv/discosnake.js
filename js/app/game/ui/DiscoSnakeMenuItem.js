@@ -8,6 +8,16 @@ define([
         var MenuItem = engine.ui.MenuItem;
         var colorUtils = engine.utils.colorUtils;
 
+        /**
+         * @param actionCode
+         * @param text
+         * @param fontSize
+         * @param fontFamily
+         * @param defaultColor
+         * @param maxWidth
+         * @constructor
+         * @extends {MenuItem}
+         */
         function DiscoSnakeMenuItem(actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
 
             var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();

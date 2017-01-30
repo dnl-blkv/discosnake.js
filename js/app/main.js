@@ -15,6 +15,5 @@ define([
         var fieldWidth = 48;
         var fieldHeight = 30;
         var game = new Game(cellSize, fieldWidth, fieldHeight);
-        game.start();
     }
 });

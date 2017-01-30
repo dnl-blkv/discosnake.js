@@ -93,8 +93,6 @@ define([
             this.pausedGameMenu = null;
             buildMenus(this);
             body.appendChild(this.menu.getHtml());
-
-            // Center the menu
             this.menu.center();
 
             // Create the control module
@@ -115,12 +113,11 @@ define([
          * @param {Game} game
          */
         function buildNewGameMenu(game) {
-            var newGameMenu = new Menu(game.graphics);
-
             // TODO: Centralize menu's style
             var menuFontSize = 48;
             var menuFontFace = "Wendy";
             var menuDefaultFontColor = "#FFFFFF";
+            var newGameMenu = new Menu(game.graphics);
 
             newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
                 "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
@@ -131,18 +128,17 @@ define([
             var body = getBody();
             body.appendChild(newGameMenu.getHtml());
 
-            newGameMenu.reveal();
             newGameMenu.center();
+            newGameMenu.reveal();
         }
 
         // Build the paused game menu
         function buildPausedGameMenu(game) {
-            var pausedGameMenu = new Menu(game.graphics);
-
             // TODO: Centralize menu's style [2]
             var menuFontSize = 48;
             var menuFontFace = "Wendy";
             var menuDefaultFontColor = "#FFFFFF";
+            var pausedGameMenu = new Menu(game.graphics);
 
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
                 "CONTINUE", menuFontSize, menuFontFace, menuDefaultFontColor, 600));

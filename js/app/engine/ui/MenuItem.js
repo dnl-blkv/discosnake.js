@@ -1,28 +1,25 @@
 define([
         'engine/graphics/DisplayObject',
-        'engine/graphics/TextObject'
+        'engine/graphics/TextObject',
+        './MenuActionCode'
     ],
     function(
         DisplayObject,
-        TextObject
-        ) {
+        TextObject,
+        MenuActionCode
+    ) {
         'use strict';
 
         function MenuItem(actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
             DisplayObject.call(this, 0, 0, 0, 0);
-
-            this.actionCode = actionCode || 'nullActionCode';
+            this.actionCode = actionCode || MenuActionCode.NULL_ACTION;
             this.defaultFontSize = fontSize;
             this.defaultColor = defaultColor;
             this.focusedColor = focusedColor;
             this.focused = false;
             this.selectedFontSizeMultiplier = 1.5;
-
-            // Create the text object
             this.textObject = new TextObject(text, fontSize, fontFamily, defaultColor, maxWidth);
-
             this.updateHtmlStyle();
-
             updateHeight(this);
         }
 
@@ -31,7 +28,6 @@ define([
 
         function updateHeight(menuItem) {
             var textObject = menuItem.textObject;
-
             var height = textObject.getHeight();
 
             menuItem.setHeight(height);

@@ -89,7 +89,7 @@ define([
          */
         function createResizeEventListener(graphics) {
             return function() {
-                centreElement(graphics);
+                centreElement(graphics.canvas);
             };
         }
 

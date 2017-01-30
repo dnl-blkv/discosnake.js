@@ -69,17 +69,14 @@ define([
          * @param {Menu} menu
          */
         function rescale(menu) {
-            var width = determineMenuWidth(menu);
-            menu.setWidth(width);
-            var height = determineMenuHeight(menu);
-            menu.setHeight(height);
+            updateWidth(menu);
+            updateHeight(menu);
         }
 
         /**
          * @param {Menu} menu
-         * @returns {Number}
          */
-        function determineMenuWidth(menu) {
+        function updateWidth(menu) {
             var graphics = menu.graphics;
             var menuWidth = 0;
             var itemsCount = menu.getItemsCount();
@@ -95,7 +92,7 @@ define([
                 menu.focusNextItem();
             }
 
-            return Math.round(menuWidth) + MENU_PADDING_HORIZONTAL;
+            menu.setWidth(Math.round(menuWidth) + MENU_PADDING_HORIZONTAL);
         }
 
         /**
@@ -108,10 +105,8 @@ define([
 
         /**
          * @param {Menu} menu
-         *
-         * @returns {Number}
          */
-        function determineMenuHeight(menu) {
+        function updateHeight(menu) {
             var height = 0;
             var itemsCount = menu.getItemsCount();
 
@@ -122,7 +117,7 @@ define([
                 height += itemHTML.offsetHeight;
             }
 
-            return height;
+            menu.setHeight(height);
         }
 
         /**
