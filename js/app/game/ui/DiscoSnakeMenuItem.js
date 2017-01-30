@@ -29,12 +29,12 @@ define([
         DiscoSnakeMenuItem.prototype = Object.create(MenuItem.prototype);
         DiscoSnakeMenuItem.prototype.constructor = DiscoSnakeMenuItem;
 
-        DiscoSnakeMenuItem.prototype.focus = function() {
+        DiscoSnakeMenuItem.prototype.select = function() {
             var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
 
             this.focusedColor = randomPsychedelicColor.generateHexString();
 
-            MenuItem.prototype.focus.call(this);
+            MenuItem.prototype.select.call(this);
         };
 
         DiscoSnakeMenuItem.prototype.updateHtmlStyle = function() {

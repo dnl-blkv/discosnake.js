@@ -136,7 +136,7 @@ define([
             var focusedItem = getFocusedItem(menu);
 
             if (focusedItem) {
-                focusedItem.unfocus();
+                focusedItem.deselect();
             }
 
             var itemsCount = menu.getItemsCount();
@@ -144,13 +144,13 @@ define([
             if (itemsCount !== 0) {
                 menu.focusedItemId = (itemId + itemsCount) % itemsCount;
             } else {
-                throw 'Could not focus a menu item: no items added!';
+                throw 'Could not select a menu item: no items added!';
             }
 
             var itemToFocus = getFocusedItem(menu);
 
             if (itemToFocus) {
-                itemToFocus.focus();
+                itemToFocus.select();
             }
         }
 
@@ -203,7 +203,7 @@ define([
          */
         Menu.prototype.addItem = function(item) {
             if (this.getItemsCount() === 0) {
-                item.focus();
+                item.select();
             }
 
             this.items.push(item);
