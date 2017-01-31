@@ -6,11 +6,10 @@ define([],
          * @param {HTMLElement} element
          */
         function centreElement(element) {
-            var width = document.documentElement.clientWidth;
-            var height = document.documentElement.clientHeight;
-
             element.style.position = 'absolute';
+            var width = document.documentElement.clientWidth;
             element.style.left = (width - element.offsetWidth) / 2 + 'px';
+            var height = document.documentElement.clientHeight;
             element.style.top = (height - element.offsetHeight) / 2 + window.pageYOffset + 'px';
         }
 
@@ -34,34 +33,28 @@ define([],
         function determineRelativeCoordinates(element, absoluteX, absoluteY){
             var totalOffsetX = 0;
             var totalOffsetY = 0;
-            var currentElement = element;
+            var currentElement = element.offsetParent;
 
-            do {
+            while (currentElement) {
                 totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
                 totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+                currentElement = currentElement.offsetParent;
             }
-            while (currentElement === currentElement.offsetParent);
-
-            var xOnElement = absoluteX - totalOffsetX;
-            var yOnElement = absoluteY - totalOffsetY;
 
             return {
-                x: xOnElement,
-                y: yOnElement
+                x: absoluteX - totalOffsetX,
+                y: absoluteY - totalOffsetY
             };
         }
 
         /**
-         * @param {HTMLElement} element
+         * @param {HTMLElement} anchorElement
          * @param {Event} event
          *
          * @returns {{x: Number, y: Number}}
          */
-        function determineRelativeMouseCoordinates(element, event) {
-            var absoluteX = event.pageX;
-            var absoluteY = event.pageY;
-
-            return determineRelativeCoordinates(element, absoluteX, absoluteY);
+        function determineRelativeMouseCoordinates(anchorElement, event) {
+            return determineRelativeCoordinates(anchorElement, event.pageX, event.pageY);
         }
 
         // TODO: fix touch event!
