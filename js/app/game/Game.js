@@ -26,14 +26,12 @@ define([
     ) {
         "use strict";
 
-        // Classes
         var Graphics = engine.graphics.Graphics;
         var Manipulator = engine.input.Manipulator;
         var Menu = engine.ui.Menu;
         var TimeUtils = engine.utils.TimeUtils;
         var HtmlUtils = engine.utils.HtmlUtils;
 
-        // Methods
         var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
         var requestAnimationFrame = TimeUtils.requestAnimationFrame;
         var timeNow = TimeUtils.timeNow;
@@ -67,19 +65,12 @@ define([
                 game.audio.play();
             }, false);
 
-            // Initialize the game graphics
             var width = cellsWidth * cellSize + 1;
             var height = cellsHeight * cellSize + 1;
             var backgroundColor = "#000000";
             this.graphics = new Graphics(width, height, backgroundColor);
-
-            // Declare the snake
             this.snake = null;
-
-            // Declare an apple
             this.apple = null;
-
-            // Declare a bonus apple
             this.bonusApple = null;
 
             // TODO: Dirty way of appending of the score screen to canvas, centralize

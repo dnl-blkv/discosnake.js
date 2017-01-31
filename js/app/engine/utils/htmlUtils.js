@@ -2,22 +2,36 @@ define([],
     function() {
         'use strict';
 
+        /**
+         * @param {HTMLElement} element
+         */
         function centreElement(element) {
             var width = document.documentElement.clientWidth;
             var height = document.documentElement.clientHeight;
 
             element.style.position = 'absolute';
-            element.style.left = (width - element.offsetWidth)/2 + 'px';
-            element.style.top = (height - element.offsetHeight)/2 + window.pageYOffset + 'px';
+            element.style.left = (width - element.offsetWidth) / 2 + 'px';
+            element.style.top = (height - element.offsetHeight) / 2 + window.pageYOffset + 'px';
         }
 
+        /**
+         * @param {Number} fontSize
+         * @param {string} fontName
+         *
+         * @returns {string}
+         */
         function buildFontString(fontSize, fontName) {
-            var fontString = '' + fontSize + 'px ' + fontName;
-
-            return fontString;
+            return '' + fontSize + 'px ' + fontName;
         }
 
-        function relCoords(element, absoluteX, absoluteY){
+        /**
+         * @param {HTMLElement} element
+         * @param {Number} absoluteX
+         * @param {Number} absoluteY
+         *
+         * @returns {{x: Number, y: Number}}
+         */
+        function determineRelativeCoordinates(element, absoluteX, absoluteY){
             var totalOffsetX = 0;
             var totalOffsetY = 0;
             var currentElement = element;
@@ -26,7 +40,7 @@ define([],
                 totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
                 totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
             }
-            while (currentElement = currentElement.offsetParent);
+            while (currentElement === currentElement.offsetParent);
 
             var xOnElement = absoluteX - totalOffsetX;
             var yOnElement = absoluteY - totalOffsetY;
@@ -34,36 +48,62 @@ define([],
             return {
                 x: xOnElement,
                 y: yOnElement
-            }
+            };
         }
 
-        function relMouseCoords(element, event) {
+        /**
+         * @param {HTMLElement} element
+         * @param {Event} event
+         *
+         * @returns {{x: Number, y: Number}}
+         */
+        function determineRelativeMouseCoordinates(element, event) {
             var absoluteX = event.pageX;
             var absoluteY = event.pageY;
 
-            return relCoords(element, absoluteX, absoluteY);
+            return determineRelativeCoordinates(element, absoluteX, absoluteY);
         }
 
-        function relLastTouchCoords(element, touchEvent) {
+        // TODO: fix touch event!
+        /**
+         * @param {HTMLElement} element
+         * @param {UIEvent} touchEvent
+         *
+         * @returns {{x: Number, y: Number}}
+         */
+        function determineRelativeLastTouchCoordinates(element, touchEvent) {
             var lastTouchId = touchEvent.touches.length - 1;
 
-            return relTouchCoords(element, touchEvent.touches[lastTouchId]);
+            return determineRelativeTouchCoordinates(element, touchEvent.touches[lastTouchId]);
         }
 
-        function relTouchCoords(element, touch) {
+        // TODO: fix touch!
+        /**
+         * @param {HTMLElement} element
+         * @param {Touch} touch
+         *
+         * @returns {{x: Number, y: Number}}
+         */
+        function determineRelativeTouchCoordinates(element, touch) {
             var absoluteX = touch.clientX;
             var absoluteY = touch.clientY;
 
-            return relCoords(element, absoluteX, absoluteY);
+            return determineRelativeCoordinates(element, absoluteX, absoluteY);
         }
 
+        /**
+         * @returns {{width: (Number), height: (Number)}}
+         */
         function getWindowSize() {
             return {
                 width: window.innerWidth || document.body.clientWidth,
                 height: window.innerHeight || document.body.clientHeight
-            }
+            };
         }
 
+        /**
+         * @returns {HTMLElement}
+         */
         function getBody() {
             return document.getElementsByTagName('body')[0];
         }
@@ -71,10 +111,10 @@ define([],
         return {
             centreElement: centreElement,
             buildFontString: buildFontString,
-            relCoords: relCoords,
-            relLastTouchCoords: relLastTouchCoords,
-            relMouseCoords: relMouseCoords,
-            relTouchCoords: relTouchCoords,
+            relCoords: determineRelativeCoordinates,
+            relLastTouchCoords: determineRelativeLastTouchCoordinates,
+            relMouseCoords: determineRelativeMouseCoordinates,
+            relTouchCoords: determineRelativeTouchCoordinates,
             getWindowsSize: getWindowSize,
             getBody: getBody
         };
