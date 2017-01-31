@@ -3,7 +3,7 @@ define([
     ],
     function(
         engine
-        ) {
+    ) {
         'use strict';
 
         var Tile = engine.graphics.Tile;

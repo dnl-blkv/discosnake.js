@@ -46,17 +46,16 @@ define([],
 
             for (var i = 0; i < vendors.length && !window.requestAnimationFrame; i += 1) {
                 var vp = vendors[i];
-                window.requestAnimationFrame = window[vp+'RequestAnimationFrame'];
+                window.requestAnimationFrame = window[vp + 'RequestAnimationFrame'];
                 window.cancelAnimationFrame = (
-                    window[vp+'CancelAnimationFrame'] ||
-                    window[vp+'CancelRequestAnimationFrame']
+                    window[vp + 'CancelAnimationFrame'] ||
+                    window[vp + 'CancelRequestAnimationFrame']
                 );
             }
 
             if (
                 /iP(ad|hone|od).*OS 6/.test(window.navigator.userAgent) || // iOS6 is buggy
-                !window.requestAnimationFrame ||
-                !window.cancelAnimationFrame
+                !window.requestAnimationFrame || !window.cancelAnimationFrame
             ) {
                 var lastTime = 0;
 

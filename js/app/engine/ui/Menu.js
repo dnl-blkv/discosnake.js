@@ -3,9 +3,9 @@ define([
         './UiEventType'
     ],
     function(
-            DisplayObject,
-            UiEventType
-        ) {
+        DisplayObject,
+        UiEventType
+    ) {
         'use strict';
 
         /**
@@ -271,8 +271,7 @@ define([
 
         /**
          */
-        Menu.prototype.center = function()
-        {
+        Menu.prototype.center = function() {
             var html = this.html;
             html.style.marginTop = '-' + this.getHeight() / 2 + 'px';
             html.style.marginLeft = '-' + this.determineWidth() / 2 + 'px';

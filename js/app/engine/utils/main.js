@@ -8,7 +8,7 @@ define([
     htmlUtils,
     numberUtils,
     timeUtils
-    ) {
+) {
     'use strict';
 
     return {

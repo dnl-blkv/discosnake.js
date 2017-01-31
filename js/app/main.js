@@ -5,7 +5,7 @@ define([
 ], function(
     domReady,
     Game
-    ) {
+) {
     'use strict';
 
     domReady(runGame);

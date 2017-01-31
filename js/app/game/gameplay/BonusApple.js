@@ -32,7 +32,7 @@ define([
         BonusApple.prototype.constructor = BonusApple;
 
         BonusApple.prototype.update = function(game) {
-            this.framesLeft --;
+            this.framesLeft--;
 
             if (this.framesLeft <= 0) {
                 this.placeRandomly(game);

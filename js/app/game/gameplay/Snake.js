@@ -9,7 +9,7 @@ define([
         CommandCode,
         Direction,
         SnakePart
-        ) {
+    ) {
         'use strict';
 
         function Snake(cellSize, defaultCellX, defaultCellY, defaultLength) {
@@ -159,7 +159,8 @@ define([
                 case Direction.DOWN:
                     this.moveDown(game);
                     break;
-                default: break;
+                default:
+                    break;
             }
 
             var apple = game.getApple();

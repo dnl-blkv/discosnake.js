@@ -5,15 +5,13 @@ define([
     function(
         CommandCode,
         engine
-        ) {
+    ) {
 
         var Controls = engine.input.Controls;
         var KeyCode = engine.input.KeyCode;
 
         function createDefaultControls() {
             var defaultControls = new Controls();
-
-            // Set up the controls
             defaultControls.bindKeyDown(KeyCode.LEFT, CommandCode.DIRECT_SNAKE_LEFT);
             defaultControls.bindKeyDown(KeyCode.UP, CommandCode.DIRECT_SNAKE_UP);
             defaultControls.bindKeyDown(KeyCode.RIGHT, CommandCode.DIRECT_SNAKE_RIGHT);

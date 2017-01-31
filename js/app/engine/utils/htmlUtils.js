@@ -30,7 +30,7 @@ define([],
          *
          * @returns {{x: Number, y: Number}}
          */
-        function determineRelativeCoordinates(element, absoluteX, absoluteY){
+        function determineRelativeCoordinates(element, absoluteX, absoluteY) {
             var totalOffsetX = 0;
             var totalOffsetY = 0;
             var currentElement = element.offsetParent;

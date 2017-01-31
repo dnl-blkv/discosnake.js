@@ -147,7 +147,7 @@ define([
 
             if (eventType === InputEvent.KEY_DOWN) {
                 return controls.getKeyDownBinding(keyCode);
-            } else if(eventType === InputEvent.KEY_UP) {
+            } else if (eventType === InputEvent.KEY_UP) {
                 return controls.getKeyUpBinding(keyCode);
             } else {
                 return NULL_COMMAND;

@@ -65,7 +65,7 @@ define([],
         Color.prototype.getRedHex = function() {
             return decChannelToHex(this.getRed());
         };
-        
+
         /**
          * @param {Number} decChannel
          *

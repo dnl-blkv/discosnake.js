@@ -23,5 +23,5 @@ define([],
             // Menu actions commands
             CONTINUE_GAME: 'continueGame',
             NEW_GAME: 'newGame'
-        }
+        };
     });

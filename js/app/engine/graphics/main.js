@@ -4,7 +4,7 @@ define([
     './Graphics',
     './TextObject',
     './Tile'
-], function (
+], function(
     Color,
     DisplayObject,
     Graphics,

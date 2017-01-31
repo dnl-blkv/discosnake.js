@@ -3,7 +3,7 @@ define([
     ],
     function(
         engine
-        ) {
+    ) {
         'use strict';
         var TextObject = engine.graphics.TextObject;
 
