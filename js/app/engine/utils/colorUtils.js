@@ -43,10 +43,8 @@ define([
         function pickRandomColor(limits) {
             var hLimits = limits.h;
             var h = getRandomNumber(hLimits.from, hLimits.to);
-
             var sLimits = limits.s;
             var s = getRandomNumber(sLimits.from, sLimits.to);
-
             var vLimits = limits.v;
             var v = getRandomNumber(vLimits.from, vLimits.to);
 

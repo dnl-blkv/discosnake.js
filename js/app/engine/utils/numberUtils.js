@@ -3,59 +3,51 @@ define([],
         'use strict';
 
         /**
-         * Returns a random integer from 'from' to 'to' excluding the latter one.
+         * @param {Number} min
+         * @param {Number} max
          *
-         * @param from
-         * @param to
          * @returns {Number}
          */
-        function getRandomInteger(from, to) {
-
-            var range = to - from;
-
-            var randomPart = Math.floor(Math.random() * range);
-
-            var base = Math.floor(from);
-
-            var randomInteger = base + randomPart;
-
-            return randomInteger;
+        function getRandomInteger(min, max) {
+            return min + Math.floor(Math.random() * (max - min + 1));
         }
 
-        function getRandomNumber(from, to) {
-            var range = to - from;
-
-            var randomPart = Math.random() * range;
-
-            var base = from;
-
-            var randomNumber = base + randomPart;
-
-            return randomNumber;
+        /**
+         * @param {Number} min
+         * @param {Number} max
+         *
+         * @returns {Number}
+         */
+        function getRandomNumber(min, max) {
+            return min + Math.random() * (max - min);
         }
 
+        /**
+         * @param {Number} number
+         * @param {Number} divisor
+         *
+         * @returns {Number}
+         */
         function roundDownToMultiple(number, divisor) {
-            var roundedNumber = number;
-
-            if (number > 0) {
-                roundedNumber = Math.ceil(number / divisor) * divisor;
+            if (0 < number) {
+                return Math.ceil(number / divisor) * divisor;
             } else if (number < 0) {
-                roundedNumber = Math.floor(number / divisor) * divisor;
+                return Math.floor(number / divisor) * divisor;
             }
-
-            return roundedNumber;
         }
 
+        /**
+         * @param {Number} number
+         * @param {Number} divisor
+         *
+         * @returns {Number}
+         */
         function roundUpToMultiple(number, divisor) {
-            var roundedNumber = number;
-
-            if (number > 0) {
-                roundedNumber = Math.floor(number / divisor) * divisor;
+            if (0 < number) {
+                return Math.floor(number / divisor) * divisor;
             } else if (number < 0) {
-                roundedNumber = Math.ceil(number / divisor) * divisor;
+                return Math.ceil(number / divisor) * divisor;
             }
-
-            return roundedNumber;
         }
 
         return {

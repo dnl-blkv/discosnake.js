@@ -104,10 +104,10 @@ define([],
         return {
             centreElement: centreElement,
             buildFontString: buildFontString,
-            relCoords: determineRelativeCoordinates,
-            relLastTouchCoords: determineRelativeLastTouchCoordinates,
-            relMouseCoords: determineRelativeMouseCoordinates,
-            relTouchCoords: determineRelativeTouchCoordinates,
+            determineRelativeCoordinates: determineRelativeCoordinates,
+            determineRelativeLastTouchCoordinates: determineRelativeLastTouchCoordinates,
+            determineRelativeMouseCoordinates: determineRelativeMouseCoordinates,
+            determineRelativeTouchCoordinates: determineRelativeTouchCoordinates,
             getWindowsSize: getWindowSize,
             getBody: getBody
         };
