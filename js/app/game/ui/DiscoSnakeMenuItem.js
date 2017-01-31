@@ -9,17 +9,17 @@ define([
         var colorUtils = engine.utils.colorUtils;
 
         /**
-         * @param actionCode
-         * @param text
-         * @param fontSize
-         * @param fontFamily
-         * @param defaultColor
-         * @param maxWidth
+         * @param {string} actionCode
+         * @param {string} text
+         * @param {Number} fontSize
+         * @param {string} fontFamily
+         * @param {string} defaultColor
+         * @param {Number} maxWidth
+         *
          * @constructor
          * @extends {MenuItem}
          */
         function DiscoSnakeMenuItem(actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
-
             var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
             var focusedColor = randomPsychedelicColor.generateHexString();
 
@@ -29,19 +29,19 @@ define([
         DiscoSnakeMenuItem.prototype = Object.create(MenuItem.prototype);
         DiscoSnakeMenuItem.prototype.constructor = DiscoSnakeMenuItem;
 
+        /**
+         */
         DiscoSnakeMenuItem.prototype.select = function() {
             var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();
-
             this.focusedColor = randomPsychedelicColor.generateHexString();
-
             MenuItem.prototype.select.call(this);
         };
 
+        /**
+         */
         DiscoSnakeMenuItem.prototype.updateHtmlStyle = function() {
             MenuItem.prototype.updateHtmlStyle.call(this);
-
             var html = this.getHtml();
-
             html.style.lineHeight = '95%';
         };
 
