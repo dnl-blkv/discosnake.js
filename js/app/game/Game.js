@@ -31,7 +31,6 @@ define([
         var Menu = engine.ui.Menu;
         var TimeUtils = engine.utils.TimeUtils;
         var HtmlUtils = engine.utils.HtmlUtils;
-
         var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
         var requestAnimationFrame = TimeUtils.requestAnimationFrame;
         var timeNow = TimeUtils.timeNow;
@@ -52,12 +51,8 @@ define([
             this.fpsRate = 21;
             this.stopped = true;
             this.lastRequestId = 0;
-
-            // Initialize the scoreboard
             this.scoreBoard = new ScoreBoard();
 
-            // Initialize the audio player
-            // TODO: dirty way, refactor
             this.audio = new Audio("audio/scooter-last-minute.mp3");
             var game = this;
             this.audio.addEventListener("ended", function() {
@@ -79,17 +74,13 @@ define([
             var body = getBody();
             body.appendChild(scoreScreenHTML);
 
-            // Create and build the menus
             this.menu = null;
             this.pausedGameMenu = null;
             buildMenus(this);
             body.appendChild(this.menu.getHtml());
             this.menu.center();
 
-            // Create the control module
             this.manipulator = new Manipulator();
-
-            // Set the command listener
             this.manipulator.setCommandListener(executeCommand, this);
             this.manipulator.setControls(menuControls);
 
@@ -113,14 +104,10 @@ define([
             newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
                 "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             newGameMenu.setItemSelectedListener(executeCommand, game);
-
-            // Set menu to the new game menu by default since no game has been started
-            game.menu = newGameMenu;
-            var body = getBody();
-            body.appendChild(newGameMenu.getHtml());
-
+            getBody().appendChild(newGameMenu.getHtml());
             newGameMenu.center();
             newGameMenu.reveal();
+            game.menu = newGameMenu;
         }
 
         // Build the paused game menu
@@ -136,23 +123,13 @@ define([
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME,
                 "NEW GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             pausedGameMenu.setItemSelectedListener(executeCommand, game);
-
-            game.pausedGameMenu = pausedGameMenu;
-
-            var body = getBody();
-
-            body.appendChild(pausedGameMenu.getHtml());
-
+            getBody().appendChild(pausedGameMenu.getHtml());
             pausedGameMenu.center();
+            game.pausedGameMenu = pausedGameMenu;
         }
 
-        // Build all the menus
         function buildMenus(game) {
-
-            // Build the new game menu
             buildNewGameMenu(game);
-
-            // Build the paused game menu
             buildPausedGameMenu(game);
 
         }
@@ -197,7 +174,6 @@ define([
         }
 
         function executeCommand(game, commandCode) {
-
             var menu = game.menu;
 
             switch (commandCode) {
@@ -234,7 +210,6 @@ define([
             }
 
             var snake = game.snake;
-
             snake.executeCommand(commandCode);
         }
 
@@ -256,7 +231,6 @@ define([
         }
 
         function bonusAppleEatenListener(game) {
-
             incrementScore(game);
             dropBonusApple(game);
         }
@@ -271,7 +245,6 @@ define([
 
         function update(game) {
             moveSnake(game);
-
             updateBonusApple(game);
         }
 
@@ -280,18 +253,15 @@ define([
             var snake = game.snake;
 
             // TODO: Separate the implementation of effects of substances
-            // Act according to the substances
             var snakeDrunkness = snake.getDrunkness();
 
             graphics.reset();
 
-            // Draw the apples
             if (!game.isStopped()) {
                 game.apple.draw(graphics);
                 game.bonusApple.draw(graphics);
             }
 
-            // Draw the snake
             game.snake.draw(graphics, snakeDrunkness);
         }
 
@@ -329,15 +299,10 @@ define([
 
         // TODO: implement modes for switching the controls etc
         Game.prototype.pause = function() {
-
             cancelNextFrame(this);
-
             this.manipulator.setControls(menuControls);
-
             this.audio.pause();
-
             this.menu.reveal();
-
             this.stopped = true;
         };
 
@@ -346,10 +311,7 @@ define([
         };
 
         function cancelNextFrame(game) {
-            var lastRequestId = game.lastRequestId;
-
-            cancelAnimationFrame(lastRequestId);
-
+            cancelAnimationFrame(game.lastRequestId);
             game.lastRequestId = 0;
         }
 
@@ -360,11 +322,7 @@ define([
 
         // Run the game repeatedly and continuously. NICE SHOT MAN.
         Game.prototype.run = function() {
-
-            // Bind this
             var run = this.run.bind(this);
-
-            // Prepare the frame processing method
             var game = this;
 
             var processFrame = function() {
@@ -374,13 +332,10 @@ define([
                 render(game);
             };
 
-            // Calculate the delay for previous frame processing
             var delay = 0;
             var currentFrameDuration = (1000 / this.fpsRate);
 
-            // If the game is running, process frame
-            var gameStopped = this.isStopped();
-            if (!gameStopped) {
+            if (!this.isStopped()) {
                 delay = timeNow() - this.then;
                 currentFrameDuration -= delay;
                 setTimeout(processFrame, currentFrameDuration);
