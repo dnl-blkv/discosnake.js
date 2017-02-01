@@ -13,7 +13,6 @@ define([
             this.substance = AppleSubstance.ALCOHOL;
             this.fillStyle = '#2000ff';
             this.lineStyle = '#1d00e6';
-
             this.framesLeft = 0;
         }
 
@@ -38,12 +37,7 @@ define([
 
         BonusApple.prototype.placeRandomly = function(game) {
             this.framesLeft = calculateFramesLeft(game);
-
             Apple.prototype.placeRandomly.call(this, game);
-
-            if (game.isAppleMisplaced(this)) {
-                this.placeRandomly(game);
-            }
         };
 
         BonusApple.prototype.getSubstance = function() {
