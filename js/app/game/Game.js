@@ -36,9 +36,23 @@ define([
         var timeNow = TimeUtils.timeNow;
         var getBody = HtmlUtils.getBody;
 
+        /**
+         * @type {number}
+         */
         var SNAKE_LENGTH_DEFAULT = 4;
+
+        /**
+         * @type {boolean}
+         */
         var SILENT_MODE = true;
 
+        /**
+         * @param {Number} cellSize
+         * @param {Number} cellsWidth
+         * @param {Number} cellsHeight
+         *
+         * @constructor
+         */
         function Game(cellSize, cellsWidth, cellsHeight) {
             this.cellSize = cellSize;
             this.cellsWidth = cellsWidth;
@@ -110,6 +124,9 @@ define([
             game.menu = newGameMenu;
         }
 
+        /**
+         * @param {Game} game
+         */
         function buildPausedGameMenu(game) {
             // TODO: Centralize menu's style [2]
             var menuFontSize = 48;
@@ -127,28 +144,47 @@ define([
             game.pausedGameMenu = pausedGameMenu;
         }
 
+        /**
+         * @param {Game} game
+         */
         function buildMenus(game) {
             buildNewGameMenu(game);
             buildPausedGameMenu(game);
 
         }
 
+        /**
+         * @param {Game} game
+         */
         function incrementScore(game) {
             game.scoreBoard.incrementScore();
         }
 
+        /**
+         * @param {Game} game
+         * @param {Number} difference
+         */
         function changeScore(game, difference) {
             game.scoreBoard.changeScore(difference);
         }
 
+        /**
+         * @param {Game} game
+         */
         function resetScore(game) {
             game.scoreBoard.reset();
         }
 
+        /**
+         * @param {Game} game
+         */
         function updateThenTimestamp(game) {
             game.then = timeNow();
         }
 
+        /**
+         * @param {Game} game
+         */
         function resetSnake(game) {
             var midWidthPosition = Math.round(game.cellsWidth / 2);
             var midHeightPosition = Math.round(game.cellsHeight / 2);
@@ -163,6 +199,9 @@ define([
             game.audio.currentTime = 0;
         }
 
+        /**
+         * @param {Game} game
+         */
         function reset(game) {
             updateThenTimestamp(game);
             resetScore(game);
@@ -172,6 +211,10 @@ define([
             resetAudio(game);
         }
 
+        /**
+         * @param {Game} game
+         * @param {string} commandCode
+         */
         function executeCommand(game, commandCode) {
             var menu = game.menu;
 
@@ -212,11 +255,17 @@ define([
             snake.executeCommand(commandCode);
         }
 
+        /**
+         * @param {Game} game
+         */
         function dropApple(game) {
             game.apple = new Apple(game.cellSize, -1, -1);
             game.apple.placeRandomly(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function appleEatenListener(game) {
             var drunkBonus = Math.ceil(Math.pow(game.snake.getDrunkness() / 80, 2));
             var scoreIncrease = 1 + drunkBonus;
@@ -224,29 +273,47 @@ define([
             dropApple(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function dropBonusApple(game) {
             game.bonusApple = new BonusApple(game.cellSize, -1, -1);
             game.bonusApple.placeRandomly(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function bonusAppleEatenListener(game) {
             incrementScore(game);
             dropBonusApple(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function moveSnake(game) {
             game.snake.move(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function updateBonusApple(game) {
             game.bonusApple.update(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function update(game) {
             moveSnake(game);
             updateBonusApple(game);
         }
 
+        /**
+         * @param {Game} game
+         */
         function render(game) {
             var graphics = game.graphics;
             var snake = game.snake;
@@ -264,7 +331,9 @@ define([
             game.snake.draw(graphics, snakeDrunkness);
         }
 
-        // Toggle the pause state (pause / unpause)
+        /**
+         * @param {Game} game
+         */
         function togglePause(game) {
             if (game.isStopped()) {
                 game.start();
@@ -273,6 +342,8 @@ define([
             }
         }
 
+        /**
+         */
         Game.prototype.start = function() {
             this.stopped = false;
             this.manipulator.setControls(defaultGameControls);
@@ -284,7 +355,6 @@ define([
             }
 
             this.menu.focusFirstItem();
-
             this.menu.hide();
 
             if (!SILENT_MODE) {
@@ -292,11 +362,12 @@ define([
             }
 
             updateThen(this);
-
             this.run();
         };
 
         // TODO: implement modes for switching the controls etc
+        /**
+         */
         Game.prototype.pause = function() {
             cancelNextFrame(this);
             this.manipulator.setControls(menuControls);
@@ -305,21 +376,32 @@ define([
             this.stopped = true;
         };
 
+        /**
+         * @returns {boolean}
+         */
         Game.prototype.isStopped = function() {
             return this.stopped;
         };
 
+        /**
+         * @param {Game} game
+         */
         function cancelNextFrame(game) {
             cancelAnimationFrame(game.lastRequestId);
             game.lastRequestId = 0;
         }
 
+        /**
+         * @param {Game} game
+         * @param {Function} runner
+         */
         function requestNextFrame(game, runner) {
             game.lastRequestId = requestAnimationFrame(runner);
             game.frameNumber += 1;
         }
 
-        // Run the game repeatedly and continuously. NICE SHOT MAN.
+        /**
+         */
         Game.prototype.run = function() {
             var run = this.run.bind(this);
             var game = this;
@@ -341,28 +423,44 @@ define([
             }
         };
 
+        /**
+         * @returns {Number}
+         */
         Game.prototype.getCellsWidth = function() {
             return this.cellsWidth;
         };
 
+        /**
+         * @returns {Number}
+         */
         Game.prototype.getCellsHeight = function() {
             return this.cellsHeight;
         };
 
+        /**
+         * @returns {Number}
+         */
         Game.prototype.getFps = function() {
             return this.fpsRate;
         };
 
+        /**
+         * @returns {Apple}
+         */
         Game.prototype.getApple = function() {
             return this.apple;
         };
 
+        /**
+         * @returns {BonusApple}
+         */
         Game.prototype.getBonusApple = function() {
             return this.bonusApple;
         };
 
         /**
-         * @param newApple
+         * @param {Apple} newApple
+         *
          * @returns {boolean}
          */
         Game.prototype.isAppleMisplaced = function(newApple) {

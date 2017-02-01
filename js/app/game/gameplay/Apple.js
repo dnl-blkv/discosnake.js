@@ -12,6 +12,14 @@ define([
         var numberUtils = engine.utils.numberUtils;
         var getRandomInteger = numberUtils.getRandomInteger;
 
+        /**
+         *
+         * @param size
+         * @param cellX
+         * @param cellY
+         *
+         * @constructor
+         */
         function Apple(size, cellX, cellY) {
             var fillStyle = '#20ff00';
             var lineStyle = '#1de600';
