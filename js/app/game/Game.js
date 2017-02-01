@@ -110,7 +110,6 @@ define([
             game.menu = newGameMenu;
         }
 
-        // Build the paused game menu
         function buildPausedGameMenu(game) {
             // TODO: Centralize menu's style [2]
             var menuFontSize = 48;
@@ -362,7 +361,11 @@ define([
             return this.bonusApple;
         };
 
-        Game.prototype.appleMisplaced = function(newApple) {
+        /**
+         * @param newApple
+         * @returns {boolean}
+         */
+        Game.prototype.isAppleMisplaced = function(newApple) {
             return (newApple.doesCollideWith(this.apple) || newApple.doesCollideWith(this.bonusApple));
         };
 

@@ -1,30 +1,19 @@
 define([
         './Apple',
-        './AppleSubstance',
-        'engine'
+        './AppleSubstance'
     ],
     function(
         Apple,
-        AppleSubstance,
-        engine
+        AppleSubstance
     ) {
         'use strict';
 
-        var numberUtils = engine.utils.numberUtils;
-
-        var getRandomInteger = numberUtils.getRandomInteger;
-
         function BonusApple(size, cellX, cellY) {
-
-            // Call the super constructor
             Apple.call(this, size, cellX, cellY);
-
-            // Fill the apple with alcohol
             this.substance = AppleSubstance.ALCOHOL;
             this.fillStyle = '#2000ff';
             this.lineStyle = '#1d00e6';
 
-            // Declare the frames left counter
             this.framesLeft = 0;
         }
 
@@ -32,12 +21,12 @@ define([
         BonusApple.prototype.constructor = BonusApple;
 
         BonusApple.prototype.update = function(game) {
-            this.framesLeft--;
+            this.framesLeft -= 1;
 
             if (this.framesLeft <= 0) {
                 this.placeRandomly(game);
             }
-        }
+        };
 
         function calculateFramesLeft(game) {
             var gameCellsWidth = game.getCellsWidth();
@@ -52,14 +41,14 @@ define([
 
             Apple.prototype.placeRandomly.call(this, game);
 
-            if (game.appleMisplaced(this)) {
+            if (game.isAppleMisplaced(this)) {
                 this.placeRandomly(game);
             }
-        }
+        };
 
         BonusApple.prototype.getSubstance = function() {
             return this.substance;
-        }
+        };
 
         return BonusApple;
     });

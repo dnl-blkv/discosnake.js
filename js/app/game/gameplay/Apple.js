@@ -29,7 +29,7 @@ define([
             this.setCellX(getRandomInteger(0, cellsWidth), game.getCellsWidth());
             this.setCellY(getRandomInteger(0, cellsHeight), game.getCellsHeight());
 
-            if (game.appleMisplaced(this)) {
+            if (game.isAppleMisplaced(this)) {
                 this.placeRandomly(game);
             }
         };
