@@ -21,7 +21,10 @@ define([
         /**
          * @type {number}
          */
-        var MENU_PADDING_HORIZONTAL = 20;
+        var MENU_PADDING_TOP = 10;
+        var MENU_PADDING_RIGHT = 10;
+        var MENU_PADDING_BOTTOM = 15;
+        var MENU_PADDING_LEFT = 17;
 
         /**
          * @param {Graphics} graphics
@@ -92,14 +95,15 @@ define([
                 menu.focusNextItem();
             }
 
-            menu.setWidth(Math.round(menuWidth) + MENU_PADDING_HORIZONTAL);
+            menu.setWidth(Math.round(menuWidth));
         }
 
         /**
          * @param {number} width
          */
         Menu.prototype.setWidth = function(width) {
-            DisplayObject.prototype.setWidth.call(this, width);
+            console.log(width);
+            DisplayObject.prototype.setWidth.call(this, width + MENU_PADDING_LEFT + MENU_PADDING_RIGHT);
             this.html.style.width = width + 'px';
         };
 
@@ -124,7 +128,7 @@ define([
          * @param {number} height
          */
         Menu.prototype.setHeight = function(height) {
-            DisplayObject.prototype.setHeight.call(this, height);
+            DisplayObject.prototype.setHeight.call(this, height + MENU_PADDING_BOTTOM + MENU_PADDING_TOP);
             this.html.style.height = height + 'px';
         };
 
@@ -261,7 +265,7 @@ define([
             html.style.borderColor = this.backgroundBorderColor;
             html.style.borderStyle = 'solid';
             html.style.borderWidth = '1px';
-            html.style.padding = '10px 10px 15px 17px';
+            updatePadding(this, [MENU_PADDING_TOP, MENU_PADDING_RIGHT, MENU_PADDING_BOTTOM, MENU_PADDING_LEFT]);
             html.style.backgroundColor = this.backgroundColor;
             html.style.position = 'absolute';
             html.style.whiteSpace = 'nowrap';
@@ -269,12 +273,22 @@ define([
             html.style.top = '50%';
         };
 
+        function updatePadding(menu, paddings) {
+            menu.html.style.padding = generatePixelPaddingString(paddings);
+        }
+
+        function generatePixelPaddingString(paddings) {
+            paddings.push('');
+
+            return paddings.join('px ');
+        }
+
         /**
          */
         Menu.prototype.center = function() {
             var html = this.html;
             html.style.marginTop = '-' + this.getHeight() / 2 + 'px';
-            html.style.marginLeft = '-' + this.determineWidth() / 2 + 'px';
+            html.style.marginLeft = '-' + this.getWidth() / 2 + 'px';
         };
 
         return Menu;
