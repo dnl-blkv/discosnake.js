@@ -22,9 +22,9 @@ define([
          * @type {number}
          */
         var MENU_PADDING_TOP = 10;
-        var MENU_PADDING_RIGHT = 10;
+        var MENU_PADDING_RIGHT = 20;
         var MENU_PADDING_BOTTOM = 15;
-        var MENU_PADDING_LEFT = 17;
+        var MENU_PADDING_LEFT = 27;
 
         /**
          * @param {Graphics} graphics
