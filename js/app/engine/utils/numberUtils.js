@@ -3,30 +3,30 @@ define([],
         'use strict';
 
         /**
-         * @param {Number} min
-         * @param {Number} max
+         * @param {number} min
+         * @param {number} max
          *
-         * @returns {Number}
+         * @returns {number}
          */
         function getRandomInteger(min, max) {
             return min + Math.floor(Math.random() * (max - min + 1));
         }
 
         /**
-         * @param {Number} min
-         * @param {Number} max
+         * @param {number} min
+         * @param {number} max
          *
-         * @returns {Number}
+         * @returns {number}
          */
-        function getRandomNumber(min, max) {
+        function getRandomnumber(min, max) {
             return min + Math.random() * (max - min);
         }
 
         /**
-         * @param {Number} number
-         * @param {Number} divisor
+         * @param {number} number
+         * @param {number} divisor
          *
-         * @returns {Number}
+         * @returns {number}
          */
         function roundDownToMultiple(number, divisor) {
             if (0 < number) {
@@ -37,10 +37,10 @@ define([],
         }
 
         /**
-         * @param {Number} number
-         * @param {Number} divisor
+         * @param {number} number
+         * @param {number} divisor
          *
-         * @returns {Number}
+         * @returns {number}
          */
         function roundUpToMultiple(number, divisor) {
             if (0 < number) {
@@ -52,7 +52,7 @@ define([],
 
         return {
             getRandomInteger: getRandomInteger,
-            getRandomNumber: getRandomNumber,
+            getRandomnumber: getRandomnumber,
             roundDownToMultiple: roundDownToMultiple,
             roundUpToMultiple: roundUpToMultiple
         };

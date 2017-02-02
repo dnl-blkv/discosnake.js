@@ -19,6 +19,7 @@ define([
          * @param cellY
          *
          * @constructor
+         * @extends Tile
          */
         function Apple(size, cellX, cellY) {
             var fillStyle = '#20ff00';

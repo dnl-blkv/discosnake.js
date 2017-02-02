@@ -3,7 +3,7 @@ define([],
         'use strict';
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         function timeNow() {
             /**

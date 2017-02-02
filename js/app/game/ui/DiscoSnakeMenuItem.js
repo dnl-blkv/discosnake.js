@@ -11,13 +11,13 @@ define([
         /**
          * @param {string} actionCode
          * @param {string} text
-         * @param {Number} fontSize
+         * @param {number} fontSize
          * @param {string} fontFamily
          * @param {string} defaultColor
-         * @param {Number} maxWidth
+         * @param {number} maxWidth
          *
          * @constructor
-         * @extends {MenuItem}
+         * @extends MenuItem
          */
         function DiscoSnakeMenuItem(actionCode, text, fontSize, fontFamily, defaultColor, maxWidth) {
             var randomPsychedelicColor = colorUtils.pickRandomPsychedelicColor();

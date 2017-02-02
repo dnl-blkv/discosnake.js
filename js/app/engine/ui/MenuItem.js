@@ -20,7 +20,7 @@ define([
          * @param {number} maxWidth
          *
          * @constructor
-         * @extends {DisplayObject}
+         * @extends DisplayObject
          */
         function MenuItem(actionCode, text, fontSize, fontFamily, defaultColor, focusedColor, maxWidth) {
             DisplayObject.call(this, 0, 0, 0, 0);
@@ -67,7 +67,7 @@ define([
         /**
          * @param {Graphics} graphics
          *
-         * @returns {Number}
+         * @returns {number}
          */
         MenuItem.prototype.determineWidth = function(graphics) {
             return this.textObject.determineWidth(graphics);

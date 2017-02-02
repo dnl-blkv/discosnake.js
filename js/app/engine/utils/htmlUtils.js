@@ -14,7 +14,7 @@ define([],
         }
 
         /**
-         * @param {Number} fontSize
+         * @param {number} fontSize
          * @param {string} fontName
          *
          * @returns {string}
@@ -25,10 +25,10 @@ define([],
 
         /**
          * @param {HTMLElement} element
-         * @param {Number} absoluteX
-         * @param {Number} absoluteY
+         * @param {number} absoluteX
+         * @param {number} absoluteY
          *
-         * @returns {{x: Number, y: Number}}
+         * @returns {{x: number, y: number}}
          */
         function determineRelativeCoordinates(element, absoluteX, absoluteY) {
             var totalOffsetX = 0;
@@ -51,7 +51,7 @@ define([],
          * @param {HTMLElement} anchorElement
          * @param {Event} event
          *
-         * @returns {{x: Number, y: Number}}
+         * @returns {{x: number, y: number}}
          */
         function determineRelativeMouseCoordinates(anchorElement, event) {
             return determineRelativeCoordinates(anchorElement, event.pageX, event.pageY);
@@ -62,7 +62,7 @@ define([],
          * @param {HTMLElement} element
          * @param {UIEvent} touchEvent
          *
-         * @returns {{x: Number, y: Number}}
+         * @returns {{x: number, y: number}}
          */
         function determineRelativeLastTouchCoordinates(element, touchEvent) {
             var lastTouchId = touchEvent.touches.length - 1;
@@ -75,7 +75,7 @@ define([],
          * @param {HTMLElement} element
          * @param {Touch} touch
          *
-         * @returns {{x: Number, y: Number}}
+         * @returns {{x: number, y: number}}
          */
         function determineRelativeTouchCoordinates(element, touch) {
             var absoluteX = touch.clientX;
@@ -85,7 +85,7 @@ define([],
         }
 
         /**
-         * @returns {{width: (Number), height: (Number)}}
+         * @returns {{width: (number), height: (number)}}
          */
         function getWindowSize() {
             return {

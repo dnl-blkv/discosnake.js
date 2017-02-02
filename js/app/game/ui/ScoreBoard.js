@@ -52,14 +52,14 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         ScoreBoard.prototype.getScore = function() {
             return this.score;
         };
 
         /**
-         * @param {Number} difference
+         * @param {number} difference
          */
         ScoreBoard.prototype.changeScore = function(difference) {
             this.score += difference;

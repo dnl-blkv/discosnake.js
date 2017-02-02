@@ -7,9 +7,9 @@ define([
         'use strict';
 
         /**
-         * @param {Number} size
-         * @param {Number} cellX
-         * @param {Number} cellY
+         * @param {number} size
+         * @param {number} cellX
+         * @param {number} cellY
          * @param {string} fillStyle
          * @param {string} lineStyle
          *
@@ -41,7 +41,7 @@ define([
         };
 
         /**
-         * @param {Number} size
+         * @param {number} size
          */
         Tile.prototype.setSize = function(size) {
             this.size = size;
@@ -50,14 +50,14 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Tile.prototype.getSize = function() {
             return this.size;
         };
 
         /**
-         * @param {Number} cellX
+         * @param {number} cellX
          * @param {number=} gridWidth
          */
         Tile.prototype.setCellX = function(cellX, gridWidth) {
@@ -72,14 +72,14 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Tile.prototype.getCellX = function() {
             return this.cellX;
         };
 
         /**
-         * @param {Number} cellY
+         * @param {number} cellY
          * @param {number=} gridHeight
          */
         Tile.prototype.setCellY = function(cellY, gridHeight) {
@@ -94,7 +94,7 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Tile.prototype.getCellY = function() {
             return this.cellY;

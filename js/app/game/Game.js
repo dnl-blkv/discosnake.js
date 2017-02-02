@@ -47,9 +47,9 @@ define([
         var SILENT_MODE = true;
 
         /**
-         * @param {Number} cellSize
-         * @param {Number} cellsWidth
-         * @param {Number} cellsHeight
+         * @param {number} cellSize
+         * @param {number} cellsWidth
+         * @param {number} cellsHeight
          *
          * @constructor
          */
@@ -61,7 +61,7 @@ define([
             this.then = 0;
             updateThen(this);
 
-            this.frameNumber = 0;
+            this.framenumber = 0;
             this.fpsRate = 21;
             this.stopped = true;
             this.lastRequestId = 0;
@@ -162,7 +162,7 @@ define([
 
         /**
          * @param {Game} game
-         * @param {Number} difference
+         * @param {number} difference
          */
         function changeScore(game, difference) {
             game.scoreBoard.changeScore(difference);
@@ -397,7 +397,7 @@ define([
          */
         function requestNextFrame(game, runner) {
             game.lastRequestId = requestAnimationFrame(runner);
-            game.frameNumber += 1;
+            game.framenumber += 1;
         }
 
         /**
@@ -424,21 +424,21 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Game.prototype.getCellsWidth = function() {
             return this.cellsWidth;
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Game.prototype.getCellsHeight = function() {
             return this.cellsHeight;
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Game.prototype.getFps = function() {
             return this.fpsRate;

@@ -19,7 +19,7 @@ define([
         var BACKGROUND_BORDER_COLOR = '#FFFFFF';
 
         /**
-         * @type {Number}
+         * @type {number}
          */
         var MENU_PADDING_HORIZONTAL = 20;
 
@@ -96,7 +96,7 @@ define([
         }
 
         /**
-         * @param {Number} width
+         * @param {number} width
          */
         Menu.prototype.setWidth = function(width) {
             DisplayObject.prototype.setWidth.call(this, width);
@@ -121,7 +121,7 @@ define([
         }
 
         /**
-         * @param {Number} height
+         * @param {number} height
          */
         Menu.prototype.setHeight = function(height) {
             DisplayObject.prototype.setHeight.call(this, height);
@@ -130,7 +130,7 @@ define([
 
         /**
          * @param {Menu} menu
-         * @param {Number} itemId
+         * @param {number} itemId
          */
         function focusItemById(menu, itemId) {
             var focusedItem = getFocusedItem(menu);
@@ -212,14 +212,14 @@ define([
         };
 
         /**
-         * @returns {Number}
+         * @returns {number}
          */
         Menu.prototype.getItemsCount = function() {
             return this.items.length;
         };
 
         /**
-         * @param {Number} index
+         * @param {number} index
          *
          * @returns {MenuItem}
          */
