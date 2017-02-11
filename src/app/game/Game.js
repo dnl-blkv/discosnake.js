@@ -44,7 +44,7 @@ define([
         /**
          * @type {boolean}
          */
-        var SILENT_MODE = true;
+        var SILENT_MODE = false;
 
         /**
          * @param {number} cellSize
@@ -67,7 +67,7 @@ define([
             this.lastRequestId = 0;
             this.scoreBoard = new ScoreBoard();
 
-            this.audio = new Audio("audio/scooter-last-minute.mp3");
+            this.audio = new Audio("assets/audio/scooter-last-minute.mp3");
             var game = this;
             this.audio.addEventListener("ended", function() {
                 resetAudio(game);
