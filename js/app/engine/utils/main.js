@@ -1,20 +1,20 @@
 define([
-	'./graphicUtils',
-	'./htmlUtils',
-	'./numberUtils',
-	'./timeUtils'
-], function (
-	graphicUtils,
-	htmlUtils,
-	numberUtils,
-	timeUtils
-	) {
-	'use strict';
+    './colorUtils',
+    './htmlUtils',
+    './numberUtils',
+    './timeUtils'
+], function(
+    colorUtils,
+    htmlUtils,
+    numberUtils,
+    timeUtils
+) {
+    'use strict';
 
-	return {
-		graphicUtils: graphicUtils,
-		htmlUtils: htmlUtils,
-		numberUtils: numberUtils,
-		timeUtils: timeUtils
-	}
+    return {
+        colorUtils: colorUtils,
+        HtmlUtils: htmlUtils,
+        numberUtils: numberUtils,
+        TimeUtils: timeUtils
+    };
 });

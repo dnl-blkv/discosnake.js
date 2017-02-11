@@ -1,116 +1,160 @@
 define([
-		'engine/graphics/DisplayObject'
-	],
-	function (
-		DisplayObject
-		) {
-		'use strict';
+        'engine/graphics/DisplayObject'
+    ],
+    function(
+        DisplayObject
+    ) {
+        'use strict';
 
-		function TextObject(text, fontSize, fontFamily, fontColor, maxWidth) {
-			DisplayObject.call(this, 0, 0, 0, 0);
+        /**
+         * @param {string} text
+         * @param {number} fontSize
+         * @param {string} fontFamily
+         * @param {string} fontColor
+         * @param {number} maxWidth
+         *
+         * @constructor
+         * @extends DisplayObject
+         */
+        function DisplayObjectText(text, fontSize, fontFamily, fontColor, maxWidth) {
+            DisplayObject.call(this, 0, 0, 0, 0);
+            this.text = text;
+            this.setFontSize(fontSize || 12);
+            this.fontFamily = fontFamily || 'Arial';
+            this.fontColor = fontColor || 'black';
+            this.maxWidth = maxWidth || (5 * fontSize);
+            this.html = document.createElement('div');
+            this.updateHtml();
+        }
 
-			// TextObject Specifics
-			this.text = text;
+        DisplayObjectText.prototype = Object.create(DisplayObject.prototype);
+        DisplayObjectText.prototype.constructor = DisplayObjectText;
 
-			this.setFontSize(fontSize || 12);
+        /**
+         * @param {string} text
+         */
+        DisplayObjectText.prototype.setText = function(text) {
+            this.text = text;
+            this.updateHtmlText();
+        };
 
-			this.fontFamily = fontFamily || 'Arial';
-			this.fontColor = fontColor || 'black';
-			this.maxWidth = maxWidth || (5 * fontSize);
+        /**
+         */
+        DisplayObjectText.prototype.updateHtmlText = function() {
+            this.html.innerHTML = this.text;
+        };
 
-			this.html = document.createElement('div');
-			this.updateHTML();
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getText = function() {
+            return this.text;
+        };
 
-		}
+        /**
+         * @param {number} fontSize
+         */
+        DisplayObjectText.prototype.setFontSize = function(fontSize) {
+            this.setHeight(fontSize);
+            this.fontSize = fontSize;
+        };
 
-		TextObject.prototype = Object.create(DisplayObject.prototype);
-		TextObject.prototype.constructor = TextObject;
+        /**
+         * @returns {number}
+         */
+        DisplayObjectText.prototype.getFontSize = function() {
+            return this.fontSize;
+        };
 
-		TextObject.prototype.setText = function (text) {
-			this.text = text;
-			updateHTMLText(this);
-		}
+        /**
+         * @param {string} fontFamily
+         */
+        DisplayObjectText.prototype.setFontName = function(fontFamily) {
+            this.fontFamily = fontFamily;
+        };
 
-		TextObject.prototype.getText = function () {
-			return this.text;
-		}
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getFontName = function() {
+            return this.fontFamily;
+        };
 
-		TextObject.prototype.setFontSize = function (fontSize) {
-			this.fontSize = fontSize;
+        /**
+         * @param {string} fontColor
+         */
+        DisplayObjectText.prototype.setFontColor = function(fontColor) {
+            this.fontColor = fontColor;
+        };
 
-			this.setHeight(fontSize);
-		}
+        /**
+         * @returns {string}
+         */
+        DisplayObjectText.prototype.getFontColor = function() {
+            return this.fontColor;
+        };
 
-		TextObject.prototype.getFontSize = function () {
-			return this.fontSize;
-		}
+        /**
+         * @param {width} maxWidth
+         */
+        DisplayObjectText.prototype.setMaxWidth = function(maxWidth) {
+            this.maxWidth = maxWidth;
+        };
 
-		TextObject.prototype.setFontName = function (fontName) {
-			this.fontFamily = fontName;
-		}
+        /**
+         * @returns {number}
+         */
+        DisplayObjectText.prototype.getMaxWidth = function() {
+            return this.maxWidth;
+        };
 
-		TextObject.prototype.getFontName = function () {
-			return this.fontFamily;
-		}
+        /**
+         * @param {Graphics} graphics
+         *
+         * @returns {number}
+         */
+        DisplayObjectText.prototype.determineWidth = function(graphics) {
+            return graphics.determineTextWidth(this.text, this.fontSize, this.fontFamily);
+        };
 
-		TextObject.prototype.setFontColor = function (fontColor) {
-			this.fontColor = fontColor;
-		}
+        /**
+         * @param {Graphics} graphics
+         */
+        DisplayObjectText.prototype.draw = function(graphics) {
+            var width = this.determineWidth(graphics);
+            this.setWidth(width);
+            var textX = this.getX();
+            var textY = this.getY() + (this.fontSize / 2.0);
 
-		TextObject.prototype.getFontColor = function () {
-			return this.fontColor;
-		}
+            graphics.drawText(textX, textY, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
+        };
 
-		TextObject.prototype.setMaxWidth = function (maxWidth) {
-			this.maxWidth = maxWidth;
-		}
+        /**
+         * @returns {Element}
+         */
+        DisplayObjectText.prototype.getHtml = function() {
+            return this.html;
+        };
 
-		TextObject.prototype.getMaxWidth = function () {
-			return this.maxWidth;
-		}
+        /**
+         * @returns {Element}
+         */
+        DisplayObjectText.prototype.updateHtmlStyle = function() {
+            var html = this.html;
+            html.className = 'text-object unselectable default-cursor';
+            html.style.fontSize = this.fontSize + 'px';
+            html.style.color = this.fontColor;
+            html.style.fontFamily = this.fontFamily;
 
-		TextObject.prototype.getWidth = function (graphics) {
-			var width = graphics.getTextWidth(this.text, this.fontSize, this.fontFamily);
+            return html;
+        };
 
-			return width;
-		}
+        /**
+         */
+        DisplayObjectText.prototype.updateHtml = function() {
+            this.html.innerHTML = this.text;
+            this.updateHtmlStyle();
+        };
 
-		TextObject.prototype.draw = function (graphics) {
-			var width = this.getWidth(graphics);
-
-			this.setWidth(width);
-
-			var textX = this.getX();
-			var textY = this.getY() + (this.fontSize / 2.0);
-
-			graphics.drawText(textX, textY, this.text, this.fontSize, this.fontFamily, this.fontColor, this.maxWidth);
-		}
-
-		TextObject.prototype.getHTML = function () {
-			return this.html;
-		}
-
-		// TODO: re-consider methods' publicity
-		function updateHTMLText (textObject) {
-			textObject.html.innerHTML = textObject.text;
-		}
-
-		TextObject.prototype.updateHTMLStyle = function () {
-
-			var html = this.html;
-
-			html.className = 'text-object unselectable default-cursor';
-			html.style.fontSize = this.fontSize + 'px';
-			html.style.color = this.fontColor;
-			html.style.fontFamily = this.fontFamily;
-
-			return html;
-		}
-
-		TextObject.prototype.updateHTML = function () {
-			updateHTMLText(this);
-			this.updateHTMLStyle();
-		}
-
-		return TextObject;
-	});
+        return DisplayObjectText;
+    });

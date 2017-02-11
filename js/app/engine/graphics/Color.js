@@ -1,201 +1,221 @@
-define([
-		'engine/utils/numberUtils'
-	],
-	function (
-		numberUtils
-		) {
-		'use strict';
+define([],
+    function() {
+        "use strict";
 
-		var getRandomNumber = numberUtils.getRandomNumber;
+        /**
+         * @param {number} red
+         * @param {number} green
+         * @param {number} blue
+         *
+         * @constructor
+         */
+        function Color(red, green, blue) {
+            /**
+             * @type {number}
+             */
+            this.red = red;
 
-		function Color (red, green, blue) {
-			this.red = red;
-			this.green = green;
-			this.blue = blue;
-		}
+            /**
+             * @type {number}
+             */
+            this.green = green;
 
-		Color.prototype.getHexString = function () {
-			var hexString = '#';
-			hexString += this.getHexRed();
-			hexString += this.getHexGreen();
-			hexString += this.getHexBlue();
+            /**
+             * @type {number}
+             */
+            this.blue = blue;
+        }
 
-			return hexString;
-		}
+        /**
+         * @param {number} red
+         */
+        Color.prototype.setRed = function(red) {
+            this.red = red;
+        };
 
-		Color.prototype.toRGBAString = function (alpha) {
-			var rgbaString = 'rgba(';
-			rgbaString += this.getRed() + ', ';
-			rgbaString += this.getGreen() + ', ';
-			rgbaString += this.getBlue() + ', ';
-			rgbaString += alpha + ')'
+        /**
+         * @param {number} green
+         */
+        Color.prototype.setGreen = function(green) {
+            this.green = green;
+        };
 
-			return rgbaString;
-		}
+        /**
+         * @param {number} blue
+         */
+        Color.prototype.setBlue = function(blue) {
+            this.blue = blue;
+        };
 
-		Color.prototype.setRed = function (red) {
-			this.red = red;
-		}
+        /**
+         * @returns {string}
+         */
+        Color.prototype.generateHexString = function() {
+            var hexString = "#";
+            hexString += this.getRedHex();
+            hexString += this.getGreenHex();
+            hexString += this.getBlueHex();
 
-		Color.prototype.getRed = function () {
-			return this.red;
-		}
+            return hexString;
+        };
 
-		Color.prototype.getHexRed = function () {
-			var red = this.getRed();
+        /**
+         * @returns {string}
+         */
+        Color.prototype.getRedHex = function() {
+            return decChannelToHex(this.getRed());
+        };
 
-			return Color.toHexChannel(red);
-		}
+        /**
+         * @param {number} decChannel
+         *
+         * @returns {string}
+         */
+        function decChannelToHex(decChannel) {
+            var zeroPaddedHexChannel = "0" + decChannel.toString(16);
 
-		Color.prototype.setGreen = function (green) {
-			this.green = green;
-		}
+            return zeroPaddedHexChannel.substr(-2);
+        }
 
-		Color.prototype.getGreen = function () {
-			return this.green;
-		}
+        /**
+         * @returns {number}
+         */
+        Color.prototype.getRed = function() {
+            return this.red;
+        };
 
-		Color.prototype.getHexGreen = function () {
-			var green = this.getGreen();
+        /**
+         * @returns {string}
+         */
+        Color.prototype.getGreenHex = function() {
+            return decChannelToHex(this.getGreen());
+        };
 
-			return Color.toHexChannel(green);
-		}
+        /**
+         * @returns {number}
+         */
+        Color.prototype.getGreen = function() {
+            return this.green;
+        };
 
-		Color.prototype.setBlue = function (blue) {
-			this.blue = blue;
-		}
+        /**
+         * @returns {string}
+         */
+        Color.prototype.getBlueHex = function() {
+            return decChannelToHex(this.getBlue());
+        };
 
-		Color.prototype.getBlue = function () {
-			return this.blue;
-		}
+        /**
+         * @returns {number}
+         */
+        Color.prototype.getBlue = function() {
+            return this.blue;
+        };
 
-		Color.prototype.getHexBlue = function () {
-			var blue = this.getBlue();
+        /**
+         * @param {number} alpha
+         * @returns {string}
+         */
+        Color.prototype.generateRGBAString = function(alpha) {
+            var rgbaString = "rgba(";
+            rgbaString += this.getRed() + ", ";
+            rgbaString += this.getGreen() + ", ";
+            rgbaString += this.getBlue() + ", ";
+            rgbaString += alpha + ")";
 
-			return Color.toHexChannel(blue);
-		}
+            return rgbaString;
+        };
 
-		Color.prototype.copy = function () {
-			return (new Color(this.getRed(), this.getGreen(), this.getBlue()));
-		}
+        /**
+         *
+         * @param {Color} anotherColor
+         * @param {number} ratio
+         *
+         * @returns {Color}
+         */
+        Color.prototype.blend = function(anotherColor, ratio) {
+            ratio = ratio || 0.5;
+            var newColor = this.copy();
 
-		Color.prototype.blend = function (anotherColor, ratio) {
-			var newColor = this.copy();
+            newColor.setRed(Math.floor((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
+            newColor.setGreen(Math.floor((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
+            newColor.setBlue(Math.floor((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
 
-			if (ratio === undefined) {
-				ratio = 0.5;
-			}
+            return newColor;
+        };
 
-			newColor.setRed(Math.floor((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
-			newColor.setGreen(Math.floor((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
-			newColor.setBlue(Math.floor((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
+        /**
+         * @returns {Color}
+         */
+        Color.prototype.copy = function() {
+            return new Color(this.getRed(), this.getGreen(), this.getBlue());
+        };
 
-			console.log(ratio, newColor);
+        /**
+         * Builds a color object given HSV values in range [0..1].
+         *
+         * @param {number} hue
+         * @param {number} saturation
+         * @param {number} value
+         *
+         * @returns {Color}
+         */
+        Color.createFromHSV = function(hue, saturation, value) {
+            var hueInterval = Math.floor(hue * 6);
+            var f = hue * 6 - hueInterval;
+            var p = value * (1 - saturation);
+            var q = value * (1 - f * saturation);
+            var t = value * (1 - (1 - f) * saturation);
+            var coefficients = determineRgbCoefficients(hueInterval, value, p, q, t);
+            var red = Math.round(256 * coefficients[0]);
+            var green = Math.round(256 * coefficients[1]);
+            var blue = Math.round(256 * coefficients[2]);
 
-			return newColor;
-		}
+            return new Color(red, green, blue);
+        };
 
-		/**
-		 * HSV values in [0..1[
-		 * returns [r, g, b] values from 0 to 255
-		 */
-		Color.fromHSV = function (h, s, v) {
+        /**
+         * @param {number} hueInterval
+         * @param {number} value
+         * @param {number} p
+         * @param {number} q
+         * @param {number} t
+         *
+         * @returns {number[]}
+         */
+        function determineRgbCoefficients(hueInterval, value, p, q, t) {
+            switch (hueInterval) {
+                case 0:
+                    return [value, t, p];
+                case 1:
+                    return [q, value, p];
+                case 2:
+                    return [p, value, t];
+                case 3:
+                    return [p, q, value];
+                case 4:
+                    return [t, p, value];
+                case 5:
+                    return [value, p, q];
+                default:
+                    return [0, 0, 0];
+            }
+        }
 
-			var coefficients = [0, 0, 0];
+        /**
+         * @param {string} hexString
+         *
+         * @returns {Color}
+         */
+        Color.createFromHexString = function(hexString) {
+            var colornumberHex = hexString.substring(1);
+            var colorChannelsHex = colornumberHex.match(/.{2}/g);
+            var red = parseInt(colorChannelsHex[0], 16);
+            var green = parseInt(colorChannelsHex[1], 16);
+            var blue = parseInt(colorChannelsHex[2], 16);
 
-			var h_i = Math.floor(h * 6);
-			var f = h * 6 - h_i;
-			var p = v * (1 - s);
-			var q = v * (1 - f * s);
-			var t = v * (1 - (1 - f) * s);
+            return (new Color(red, green, blue));
+        };
 
-			switch (h_i) {
-				case 0:
-					coefficients = [v, t, p];
-					break;
-				case 1:
-					coefficients = [q, v, p];
-					break;
-				case 2:
-					coefficients = [p, v, t];
-					break;
-				case 3:
-					coefficients = [p, q, v];
-					break;
-				case 4:
-					coefficients = [t, p, v];
-					break;
-				case 5:
-					coefficients = [v, p, q];
-					break;
-				default:
-					break;
-			}
-
-
-			var r = Math.round(256 * coefficients[0]);
-			var g = Math.round(256 * coefficients[1]);
-			var b = Math.round(256 * coefficients[2]);
-
-			var newColor =  new Color(r, g ,b);
-
-			return newColor;
-		}
-
-		Color.fromHexString = function (hexString) {
-			var colorCode = hexString.substring(1);
-
-			var hexChannels = colorCode.match(/.{2}/g);
-
-			var red = parseInt(hexChannels[0], 16);
-			var green = parseInt(hexChannels[1], 16);
-			var blue = parseInt(hexChannels[2], 16);
-
-			return (new Color(red, green, blue));
-		}
-
-		Color.getRandomColor = function (limits) {
-			// Generate the random dimensions
-			var hLimits = limits.h;
-			var h = getRandomNumber(hLimits.from, hLimits.to);
-
-			var sLimits = limits.s;
-			var s = getRandomNumber(sLimits.from, sLimits.to);
-
-			var vLimits = limits.v;
-			var v = getRandomNumber(vLimits.from, vLimits.to);
-
-			// Create the new color from random dimensions
-			var randomColor = Color.fromHSV(h, s, v);
-
-			return randomColor;
-		}
-
-		Color.toHexChannel = function (decChannel) {
-			return (('0' + decChannel.toString(16)).substr(-2));
-		}
-
-		Color.getRandomPsychedelicColor = function () {
-
-			var dimensionLimits = {
-				'h': {
-					'from': 0,
-					'to': 0.99
-				},
-				's': {
-					'from': 0.85,
-					'to': 0.99
-				},
-				'v': {
-					'from': 0.99,
-					'to': 0.99
-				}
-			};
-
-			var color = Color.getRandomColor(dimensionLimits);
-
-			return color;
-		}
-
-		return Color;
-	});
+        return Color;
+    });

@@ -1,82 +1,115 @@
 define([],
-	function () {
-		'use strict';
+    function() {
+        'use strict';
 
-		function centreElement (element) {
-			var width = document.documentElement.clientWidth;
-			var height = document.documentElement.clientHeight;
+        /**
+         * @param {HTMLElement} element
+         */
+        function centreElement(element) {
+            element.style.position = 'absolute';
+            var width = document.documentElement.clientWidth;
+            element.style.left = (width - element.offsetWidth) / 2 + 'px';
+            var height = document.documentElement.clientHeight;
+            element.style.top = (height - element.offsetHeight) / 2 + window.pageYOffset + 'px';
+        }
 
-			element.style.position = 'absolute';
-			element.style.left = (width - element.offsetWidth)/2 + 'px';
-			element.style.top = (height - element.offsetHeight)/2 + window.pageYOffset + 'px';
-		}
+        /**
+         * @param {number} fontSize
+         * @param {string} fontName
+         *
+         * @returns {string}
+         */
+        function buildFontString(fontSize, fontName) {
+            return '' + fontSize + 'px ' + fontName;
+        }
 
-		function buildFontString (fontSize, fontName) {
-			var fontString = '' + fontSize + 'px ' + fontName;
+        /**
+         * @param {HTMLElement} element
+         * @param {number} absoluteX
+         * @param {number} absoluteY
+         *
+         * @returns {{x: number, y: number}}
+         */
+        function determineRelativeCoordinates(element, absoluteX, absoluteY) {
+            var totalOffsetX = 0;
+            var totalOffsetY = 0;
+            var currentElement = element.offsetParent;
 
-			return fontString;
-		}
+            while (currentElement) {
+                totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+                totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
+                currentElement = currentElement.offsetParent;
+            }
 
-		function relCoords(element, absoluteX, absoluteY){
-			var totalOffsetX = 0;
-			var totalOffsetY = 0;
-			var currentElement = element;
+            return {
+                x: absoluteX - totalOffsetX,
+                y: absoluteY - totalOffsetY
+            };
+        }
 
-			do {
-				totalOffsetX += currentElement.offsetLeft - currentElement.scrollLeft;
-				totalOffsetY += currentElement.offsetTop - currentElement.scrollTop;
-			}
-			while (currentElement = currentElement.offsetParent);
+        /**
+         * @param {HTMLElement} anchorElement
+         * @param {Event} event
+         *
+         * @returns {{x: number, y: number}}
+         */
+        function determineRelativeMouseCoordinates(anchorElement, event) {
+            return determineRelativeCoordinates(anchorElement, event.pageX, event.pageY);
+        }
 
-			var xOnElement = absoluteX - totalOffsetX;
-			var yOnElement = absoluteY - totalOffsetY;
+        // TODO: fix touch event!
+        /**
+         * @param {HTMLElement} element
+         * @param {UIEvent} touchEvent
+         *
+         * @returns {{x: number, y: number}}
+         */
+        function determineRelativeLastTouchCoordinates(element, touchEvent) {
+            var lastTouchId = touchEvent.touches.length - 1;
 
-			return {
-				x: xOnElement,
-				y: yOnElement
-			}
-		}
+            return determineRelativeTouchCoordinates(element, touchEvent.touches[lastTouchId]);
+        }
 
-		function relMouseCoords (element, event) {
-			var absoluteX = event.pageX;
-			var absoluteY = event.pageY;
+        // TODO: fix touch!
+        /**
+         * @param {HTMLElement} element
+         * @param {Touch} touch
+         *
+         * @returns {{x: number, y: number}}
+         */
+        function determineRelativeTouchCoordinates(element, touch) {
+            var absoluteX = touch.clientX;
+            var absoluteY = touch.clientY;
 
-			return relCoords(element, absoluteX, absoluteY);
-		}
+            return determineRelativeCoordinates(element, absoluteX, absoluteY);
+        }
 
-		function relLastTouchCoords (element, touchEvent) {
-			var lastTouchId = touchEvent.touches.length - 1;
+        /**
+         * @returns {{width: (number), height: (number)}}
+         */
+        function getWindowSize() {
+            return {
+                width: window.innerWidth || document.body.clientWidth,
+                height: window.innerHeight || document.body.clientHeight
+            };
+        }
 
-			return relTouchCoords(element, touchEvent.touches[lastTouchId]);
-		}
+        /**
+         * @returns {HTMLElement}
+         */
+        function getBody() {
+            return document.getElementsByTagName('body')[0];
+        }
 
-		function relTouchCoords (element, touch) {
-			var absoluteX = touch.clientX;
-			var absoluteY = touch.clientY;
-
-			return relCoords(element, absoluteX, absoluteY);
-		}
-
-		function getWindowSize () {
-			return {
-				width: window.innerWidth || document.body.clientWidth,
-				height: window.innerHeight || document.body.clientHeight
-			}
-		}
-
-		function getBody () {
-			return document.getElementsByTagName('body')[0];
-		}
-
-		return {
-			centreElement: centreElement,
-			buildFontString: buildFontString,
-			relCoords: relCoords,
-			relLastTouchCoords: relLastTouchCoords,
-			relMouseCoords: relMouseCoords,
-			relTouchCoords: relTouchCoords,
-			getWindowsSize: getWindowSize,
-			getBody: getBody
-		};
-	});
+        return {
+            centreElement: centreElement,
+            buildFontString: buildFontString,
+            determineRelativeCoordinates: determineRelativeCoordinates,
+            determineRelativeLastTouchCoordinates: determineRelativeLastTouchCoordinates,
+            determineRelativeMouseCoordinates: determineRelativeMouseCoordinates,
+            determineRelativeTouchCoordinates: determineRelativeTouchCoordinates,
+            getWindowsSize: getWindowSize,
+            getBody: getBody
+        };
+    });
 

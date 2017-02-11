@@ -1,124 +1,173 @@
 define([
-		'./InputEvent',
-		'./Controls',
-		'./KeyCode',
-		'engine/utils/timeUtils'
-	],
-	function (
-		InputEvent,
-		Controls,
-		KeyCode,
-		timeUtils
-		) {
-		'use strict';
+        './InputEventType',
+        './Controls',
+        './KeyCode',
+        'engine/utils/TimeUtils'
+    ],
+    function(
+        InputEvent,
+        Controls,
+        KeyCode,
+        timeUtils
+    ) {
+        'use strict';
 
-		var timeNow = timeUtils.timeNow;
+        /**
+         * @type {function}
+         */
+        var timeNow = timeUtils.timeNow;
 
-		function Manipulator() {
-			this.nullCommandCode = 'nullCommand';
-			this.commandListener = null;
-			this.commandListenerArguments = null;
-			this.controls = new Controls();
-			this.keysPressed = {};
+        /**
+         * @type {string}
+         */
+        var NULL_COMMAND = 'nullCommand';
 
-			var manipulator = this;
-			window.addEventListener(InputEvent.KEY_DOWN, function(event) { manipulator.onKeyDown(event); }, false);
-			window.addEventListener(InputEvent.KEY_UP, function(event) { manipulator.onKeyUp(event); }, false);
-		}
+        /**
+         * @constructor
+         */
+        function Manipulator() {
+            this.commandListener = null;
+            this.commandListenerArguments = null;
+            this.controls = new Controls();
+            this.keyPressedToTimestampMap = {};
 
-		/**
-		 * Check if a given key is down.
-		 * @param keyCode
-		 * @returns {*}
-		 */
-		Manipulator.prototype.setControls = function (controls) {
-			this.controls = controls;
-		}
+            window.addEventListener(InputEvent.KEY_DOWN, createKeyDownEventListener(this), false);
+            window.addEventListener(InputEvent.KEY_UP, createKeyUpEventListener(this), false);
+        }
 
-		Manipulator.prototype.getControls = function () {
-			return this.controls;
-		}
+        /**
+         * @param {Manipulator} manipulator
+         *
+         * @returns {function}
+         */
+        function createKeyDownEventListener(manipulator) {
+            return function(event) {
+                manipulator.onKeyDown(event);
+            };
+        }
 
-		Manipulator.prototype.isKeyDown = function (keyCode) {
-			return this.keysPressed[keyCode];
-		}
+        /**
+         * @param {Manipulator} manipulator
+         *
+         * @returns {function}
+         */
+        function createKeyUpEventListener(manipulator) {
+            return function(event) {
+                manipulator.onKeyUp(event);
+            };
+        }
 
-		Manipulator.prototype.setCommandListener = function () {
-			var args = Array.prototype.slice.call(arguments);
+        /**
+         * @param {Controls} controls
+         */
+        Manipulator.prototype.setControls = function(controls) {
+            this.controls = controls;
+        };
 
-			this.commandListener = args[0];
-			this.commandListenerArguments = args.slice(1, args.length);
-		}
+        /**
+         * @returns {Controls}
+         */
+        Manipulator.prototype.getControls = function() {
+            return this.controls;
+        };
 
-		Manipulator.prototype.onKeyDown = function (event) {
-			this.keysPressed[event.keyCode] = timeNow();
+        /**
+         * @param {number} keyCode
+         *
+         * @returns {boolean}
+         */
+        Manipulator.prototype.isKeyDown = function(keyCode) {
+            return this.keyPressedToTimestampMap[keyCode];
+        };
 
-			sendCommand(this, event);
-		}
+        /**
+         */
+        Manipulator.prototype.setCommandListener = function() {
+            var args = Array.prototype.slice.call(arguments);
+            this.commandListener = args[0];
+            this.commandListenerArguments = args.slice(1, args.length);
+        };
 
-		Manipulator.prototype.onKeyUp = function (event) {
-			this.keysPressed[event.keyCode] = 0;
+        /**
+         * @param {Event} event
+         */
+        Manipulator.prototype.onKeyDown = function(event) {
+            this.keyPressedToTimestampMap[event.keyCode] = timeNow();
+            sendCommand(this, event);
+        };
 
-			sendCommand(this, event);
-		}
+        /**
+         * @param {Event} event
+         */
+        Manipulator.prototype.onKeyUp = function(event) {
+            this.keyPressedToTimestampMap[event.keyCode] = 0;
+            sendCommand(this, event);
+        };
 
-		Manipulator.prototype.bindKeyDown = function (keyCode, commandCode) {
-			this.controls.bindKeyDown(keyCode, commandCode);
-		}
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
+        Manipulator.prototype.bindKeyDown = function(keyCode, commandCode) {
+            this.controls.bindKeyDown(keyCode, commandCode);
+        };
 
-		Manipulator.prototype.unbindKeyDown = function (keyCode) {
-			this.controls.unbindKeyDown(keyCode);
-		}
+        /**
+         * @param {number} keyCode
+         */
+        Manipulator.prototype.unbindKeyDown = function(keyCode) {
+            this.controls.unbindKeyDown(keyCode);
+        };
 
-		Manipulator.prototype.bindKeyUp = function (keyCode, commandCode) {
-			this.controls.bindKeyUp(keyCode, commandCode);
-		}
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
+        Manipulator.prototype.bindKeyUp = function(keyCode, commandCode) {
+            this.controls.bindKeyUp(keyCode, commandCode);
+        };
 
-		Manipulator.prototype.unbindKeyUp = function (keyCode) {
-			this.controls.unbindKeyUp(keyCode);
-		}
+        /**
+         * @param {number} keyCode
+         */
+        Manipulator.prototype.unbindKeyUp = function(keyCode) {
+            this.controls.unbindKeyUp(keyCode);
+        };
 
-		Manipulator.prototype.setNullCommandCode = function (nullCommandCode) {
-			this.nullCommandCode = nullCommandCode;
-		}
+        /**
+         * @param {Manipulator} manipulator
+         * @param {Event} event
+         *
+         * @returns {string}
+         */
+        function getCommandCode(manipulator, event) {
+            var controls = manipulator.controls;
+            var keyCode = event.keyCode;
+            var eventType = event.type;
 
-		function getCommandCode (manipulator, event) {
-			var keyCode = event.keyCode;
-			var type = event.type;
-			var commandCode = manipulator.nullCommandCode;
-			var controls = manipulator.controls;
+            if (eventType === InputEvent.KEY_DOWN) {
+                return controls.getKeyDownBinding(keyCode);
+            } else if (eventType === InputEvent.KEY_UP) {
+                return controls.getKeyUpBinding(keyCode);
+            } else {
+                return NULL_COMMAND;
+            }
+        }
 
-			switch(type) {
-				case InputEvent.KEY_DOWN:
-					commandCode = controls.getKeyDownBinding(keyCode);
-					break;
-				case InputEvent.KEY_UP:
-					commandCode = controls.getKeyUpBinding(keyCode);
-					break;
-				default:
-					break;
-			}
+        /**
+         * @param {Manipulator} manipulator
+         * @param {Event} event
+         */
+        function sendCommand(manipulator, event) {
+            var commandListener = manipulator.commandListener;
+            var commandCode = getCommandCode(manipulator, event);
 
-			if (!commandCode && (commandCode !== 0)) {
-				commandCode = manipulator.nullCommandCode;
-			}
+            if (commandCode !== NULL_COMMAND) {
+                var commandListenerArguments = Array.prototype.slice.call(manipulator.commandListenerArguments);
+                commandListenerArguments.push(commandCode);
+                commandListener.apply(commandListener, commandListenerArguments);
+            }
+        }
 
-			return commandCode;
-		}
-
-		function sendCommand (manipulator, event) {
-
-			var commandListener = manipulator.commandListener;
-
-			// Add the command code to the command listener arguments
-			var commandCode = getCommandCode(manipulator, event);
-
-			if (commandCode !== manipulator.nullCommandCode) {
-				var commandListenerArguments = Array.prototype.slice.call(manipulator.commandListenerArguments);
-				commandListenerArguments.push(commandCode);
-				commandListener.apply(commandListener, commandListenerArguments);
-			}
-		}
-
-		return Manipulator;
-	});
+        return Manipulator;
+    });

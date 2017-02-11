@@ -1,39 +1,73 @@
 define([
-		'./KeyCode'
-	],
-	function (
-		KeyCode
-		) {
-		'use strict';
+        './KeyCode'
+    ],
+    function(
+        KeyCode
+    ) {
+        'use strict';
 
-		function Controls () {
-			this.keyDownCommandMap = {};
-			this.keyUpCommandMap = {};
-		}
+        /**
+         * @constructor
+         */
+        function Controls() {
+            /**
+             * @type {Object}
+             */
+            this.keyDownCommandMap = {};
 
-		Controls.prototype.bindKeyDown = function (keyCode, commandCode) {
-			this.keyDownCommandMap[keyCode] = commandCode;
-		}
+            /**
+             * @type {Object}
+             */
+            this.keyUpCommandMap = {};
+        }
 
-		Controls.prototype.getKeyDownBinding = function (keyCode) {
-			return this.keyDownCommandMap[keyCode];
-		}
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
+        Controls.prototype.bindKeyDown = function(keyCode, commandCode) {
+            this.keyDownCommandMap[keyCode] = commandCode;
+        };
 
-		Controls.prototype.unbindKeyDown = function (keyCode) {
-			this.keyDownCommandMap[keyCode] = KeyCode.NULL_KEY;
-		}
+        /**
+         * @param {number} keyCode
+         *
+         * @returns {string}
+         */
+        Controls.prototype.getKeyDownBinding = function(keyCode) {
+            return this.keyDownCommandMap[keyCode];
+        };
 
-		Controls.prototype.bindKeyUp = function (keyCode, commandCode) {
-			this.keyUpCommandMap[keyCode] = commandCode;
-		}
+        /**
+         * @param {number} keyCode
+         */
+        Controls.prototype.unbindKeyDown = function(keyCode) {
+            this.keyDownCommandMap[keyCode] = KeyCode.NULL_KEY;
+        };
 
-		Controls.prototype.getKeyUpBinding = function (keyCode) {
-			return this.keyUpCommandMap[keyCode];
-		}
+        /**
+         * @param {number} keyCode
+         * @param {string} commandCode
+         */
+        Controls.prototype.bindKeyUp = function(keyCode, commandCode) {
+            this.keyUpCommandMap[keyCode] = commandCode;
+        };
 
-		Controls.prototype.unbindKeyUp = function (keyCode) {
-			this.keyUpCommandMap[keyCode] = KeyCode.NULL_KEY;
-		}
+        /**
+         * @param {number} keyCode
+         *
+         * @returns {string}
+         */
+        Controls.prototype.getKeyUpBinding = function(keyCode) {
+            return this.keyUpCommandMap[keyCode];
+        };
 
-		return Controls;
-	});
+        /**
+         * @param {number} keyCode
+         */
+        Controls.prototype.unbindKeyUp = function(keyCode) {
+            this.keyUpCommandMap[keyCode] = KeyCode.NULL_KEY;
+        };
+
+        return Controls;
+    });

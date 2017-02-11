@@ -1,65 +1,48 @@
 define([
-		'./Apple',
-		'./AppleSubstance',
-		'engine'
-	],
-	function (
-		Apple,
-		AppleSubstance,
-		engine
-	) {
-		'use strict';
+        './Apple',
+        './AppleSubstance'
+    ],
+    function(
+        Apple,
+        AppleSubstance
+    ) {
+        'use strict';
 
-		var numberUtils = engine.utils.numberUtils;
+        function BonusApple(size, cellX, cellY) {
+            Apple.call(this, size, cellX, cellY);
+            this.substance = AppleSubstance.ALCOHOL;
+            this.fillStyle = '#2000ff';
+            this.lineStyle = '#1d00e6';
+            this.framesLeft = 0;
+        }
 
-		var getRandomInteger = numberUtils.getRandomInteger;
+        BonusApple.prototype = Object.create(Apple.prototype);
+        BonusApple.prototype.constructor = BonusApple;
 
-		function BonusApple (size, cellX, cellY) {
+        BonusApple.prototype.update = function(game) {
+            this.framesLeft -= 1;
 
-			// Call the super constructor
-			Apple.call(this, size, cellX, cellY);
+            if (this.framesLeft <= 0) {
+                this.placeRandomly(game);
+            }
+        };
 
-			// Fill the apple with alcohol
-			this.substance = AppleSubstance.ALCOHOL;
-			this.fillStyle = '#2000ff';
-			this.lineStyle = '#1d00e6';
+        function calculateFramesLeft(game) {
+            var gameCellsWidth = game.getCellsWidth();
+            var gameCellsHeight = game.getCellsHeight();
+            var maxDimension = ((gameCellsWidth > gameCellsHeight) ? gameCellsWidth : gameCellsHeight);
 
-			// Declare the frames left counter
-			this.framesLeft = 0;
-		}
+            return 1.5 * maxDimension;
+        }
 
-		BonusApple.prototype = Object.create(Apple.prototype);
-		BonusApple.prototype.constructor = BonusApple;
+        BonusApple.prototype.placeRandomly = function(game) {
+            this.framesLeft = calculateFramesLeft(game);
+            Apple.prototype.placeRandomly.call(this, game);
+        };
 
-		BonusApple.prototype.update = function (game) {
-			this.framesLeft --;
+        BonusApple.prototype.getSubstance = function() {
+            return this.substance;
+        };
 
-			if (this.framesLeft <= 0) {
-				this.placeRandomly(game);
-			}
-		}
-
-		function calculateFramesLeft (game) {
-			var gameCellsWidth = game.getCellsWidth();
-			var gameCellsHeight = game.getCellsHeight();
-			var maxDimension = ((gameCellsWidth > gameCellsHeight) ? gameCellsWidth : gameCellsHeight);
-
-			return 1.5 * maxDimension;
-		}
-
-		BonusApple.prototype.placeRandomly = function (game) {
-			this.framesLeft = calculateFramesLeft(game);
-
-			Apple.prototype.placeRandomly.call(this, game);
-
-			if (game.appleMisplaced(this)) {
-				this.placeRandomly(game);
-			}
-		}
-		
-		BonusApple.prototype.getSubstance = function () {
-			return this.substance;
-		}
-
-		return BonusApple;
-	});
+        return BonusApple;
+    });

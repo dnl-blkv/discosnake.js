@@ -1,23 +1,19 @@
 define([
-	'domReady',
-	'game',
-	'font!custom,families:[Wendy],urls:[style/style.css]'
-], function (
-	domReady,
-	Game
-	) {
-	'use strict';
+    'domReady',
+    'game',
+    'font!custom,families:[Wendy],urls:[style/style.css]'
+], function(
+    domReady,
+    Game
+) {
+    'use strict';
 
-	domReady(runGame);
+    domReady(runGame);
 
-	function runGame () {
-
-		// Set the game parameters
-		var cellSize = 20;
-		var fieldWidth = 48;
-		var fieldHeight = 30;
-
-		// Create a new game instance
-		var game = new Game(cellSize, fieldWidth, fieldHeight);
-	}
+    function runGame() {
+        var cellSize = 20;
+        var fieldWidth = 48;
+        var fieldHeight = 30;
+        var game = new Game(cellSize, fieldWidth, fieldHeight);
+    }
 });

@@ -1,113 +1,152 @@
 define([
-		'engine/graphics/DisplayObject'
-	],
-	function (
-		DisplayObject
-		) {
-		'use strict';
+        'engine/graphics/DisplayObject'
+    ],
+    function(
+        DisplayObject
+    ) {
+        'use strict';
 
-		function Tile (size, cellX, cellY, fillStyle, lineStyle) {
-			DisplayObject.call(this, 0, 0, 0, 0);
+        /**
+         * @param {number} size
+         * @param {number} cellX
+         * @param {number} cellY
+         * @param {string} fillStyle
+         * @param {string} lineStyle
+         *
+         * @constructor
+         */
+        function Tile(size, cellX, cellY, fillStyle, lineStyle) {
+            DisplayObject.call(this, 0, 0, 0, 0);
+            this.setSize(size);
+            this.setCellX(cellX);
+            this.setCellY(cellY);
+            this.fillStyle = fillStyle;
+            this.lineStyle = lineStyle;
+        }
 
-			// Modify the input parameters
-			this.setSize(size);
-			this.setCellX(cellX);
-			this.setCellY(cellY);
-			this.fillStyle = fillStyle;
-			this.lineStyle = lineStyle;
-		}
+        Tile.prototype = Object.create(DisplayObject.prototype);
+        Tile.prototype.constructor = Tile;
 
-		// Derive from the DisplayObject
-		Tile.prototype = Object.create(DisplayObject.prototype);
-		Tile.prototype.constructor = Tile;
+        /**
+         * @param {Graphics} graphics
+         */
+        Tile.prototype.draw = function(graphics) {
+            var size = this.getSize();
+            var xPosition = this.getX();
+            var yPosition = this.getY();
+            var fillStyle = this.getFillStyle();
+            var lineStyle = this.getLineStyle();
 
-		/** Draw the a tile on a graphics */
-		Tile.prototype.draw = function (graphics) {
+            graphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
+        };
 
-			var xPosition = this.getX();
-			var yPosition = this.getY();
-			var size = this.getSize();
-			var fillStyle = this.getFillStyle();
-			var lineStyle = this.getLineStyle();
+        /**
+         * @param {number} size
+         */
+        Tile.prototype.setSize = function(size) {
+            this.size = size;
+            this.setWidth(size);
+            this.setHeight(size);
+        };
 
-			graphics.drawRect(xPosition, yPosition, size, size, fillStyle, lineStyle);
-		};
+        /**
+         * @returns {number}
+         */
+        Tile.prototype.getSize = function() {
+            return this.size;
+        };
 
-		/** Set tile's size */
-		Tile.prototype.setSize = function (size) {
-			this.size = size;
+        /**
+         * @param {number} cellX
+         * @param {number=} gridWidth
+         */
+        Tile.prototype.setCellX = function(cellX, gridWidth) {
+            // TODO: Tile should be assigned to a grid, or should be provided with a grid object
+            if (gridWidth !== undefined) {
+                this.cellX = (cellX + gridWidth) % gridWidth;
+            } else {
+                this.cellX = cellX;
+            }
 
-			// Set the basic parameters
-			this.setWidth(size);
-			this.setHeight(size);
-		};
+            this.setX(this.cellX * this.size);
+        };
 
-		Tile.prototype.getSize = function () {
-			return this.size;
-		};
+        /**
+         * @returns {number}
+         */
+        Tile.prototype.getCellX = function() {
+            return this.cellX;
+        };
 
-		Tile.prototype.setCellX = function (cellX, gridWidth) {
-			// If grid width is defined, control overflow
-			// Otherwise, assume the grid is unlimited
-			if (gridWidth !== undefined) {
-				this.cellX = (cellX + gridWidth) % gridWidth;
-			} else {
-				this.cellX = cellX;
-			}
+        /**
+         * @param {number} cellY
+         * @param {number=} gridHeight
+         */
+        Tile.prototype.setCellY = function(cellY, gridHeight) {
+            // TODO: Tile should be assigned to a grid, or should be provided with a grid object
+            if (gridHeight !== undefined) {
+                this.cellY = (cellY + gridHeight) % gridHeight;
+            } else {
+                this.cellY = cellY;
+            }
 
-			this.setX(this.cellX * this.size);
-		};
+            this.setY(this.cellY * this.size);
+        };
 
-		Tile.prototype.getCellX = function () {
-			return this.cellX;
-		};
+        /**
+         * @returns {number}
+         */
+        Tile.prototype.getCellY = function() {
+            return this.cellY;
+        };
 
-		Tile.prototype.setCellY = function (cellY, gridHeight) {
-			// If grid height is defined, control overflow
-			// Otherwise, assume the grid is unlimited
-			if (gridHeight !== undefined) {
-				this.cellY = (cellY + gridHeight) % gridHeight;
-			} else {
-				this.cellY = cellY;
-			}
+        /**
+         * @param {string} fillStyle
+         */
+        Tile.prototype.setFillStyle = function(fillStyle) {
+            this.fillStyle = fillStyle;
+        };
 
-			this.setY(this.cellY * this.size);
-		};
+        /**
+         * @returns {string}
+         */
+        Tile.prototype.getFillStyle = function() {
+            return this.fillStyle;
+        };
 
-		Tile.prototype.getCellY = function () {
-			return this.cellY;
-		};
+        /**
+         * @param {string} lineStyle
+         */
+        Tile.prototype.setLineStyle = function(lineStyle) {
+            this.lineStyle = lineStyle;
+        };
 
-		Tile.prototype.setFillStyle = function (fillStyle) {
-			this.fillStyle = fillStyle;
-		};
+        /**
+         * @returns {string}
+         */
+        Tile.prototype.getLineStyle = function() {
+            return this.lineStyle;
+        };
 
-		Tile.prototype.getFillStyle = function () {
-			return this.fillStyle;
-		};
+        /**
+         * @param {Tile} anotherTile
+         *
+         * @returns {boolean}
+         */
+        Tile.prototype.doesCollideWith = function(anotherTile) {
+            var anotherTilePassed = (this !== anotherTile);
+            var xPositionMatches = false;
+            var yPositionMatches = false;
 
-		Tile.prototype.setLineStyle = function (lineStyle) {
-			this.lineStyle = lineStyle;
-		};
+            try {
+                xPositionMatches = (this.cellX === anotherTile.cellX);
+                yPositionMatches = (this.cellY === anotherTile.cellY);
+            } catch (e) {
+                console.log('A null tile reference passed to doesCollideWith method.');
+            }
 
-		Tile.prototype.getLineStyle = function () {
-			return this.lineStyle;
-		};
+            return (anotherTilePassed && xPositionMatches && yPositionMatches);
+        };
 
-		Tile.prototype.doesCollideWith = function (anotherTile) {
-			var anotherTilePassed = (this !== anotherTile);
-			var xPositionMatches = false;
-			var yPositionMatches = false;
-
-			try {
-				xPositionMatches = (this.cellX === anotherTile.cellX);
-				yPositionMatches = (this.cellY === anotherTile.cellY);
-			} catch (e) {
-				console.log('A null tile reference passed to doesCollideWith method.');
-			}
-
-			return (anotherTilePassed && xPositionMatches && yPositionMatches);
-		};
-
-		return Tile;
-	});
+        return Tile;
+    });

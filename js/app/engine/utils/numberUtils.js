@@ -1,67 +1,59 @@
 define([],
-	function () {
-		'use strict';
+    function() {
+        'use strict';
 
-		/**
-		 * Returns a random integer from 'from' to 'to' excluding the latter one.
-		 *
-		 * @param from
-		 * @param to
-		 * @returns {number}
-		 */
-		function getRandomInteger (from, to) {
+        /**
+         * @param {number} min
+         * @param {number} max
+         *
+         * @returns {number}
+         */
+        function getRandomInteger(min, max) {
+            return min + Math.floor(Math.random() * (max - min + 1));
+        }
 
-			var range = to - from;
+        /**
+         * @param {number} min
+         * @param {number} max
+         *
+         * @returns {number}
+         */
+        function getRandomnumber(min, max) {
+            return min + Math.random() * (max - min);
+        }
 
-			var randomPart = Math.floor(Math.random() * range);
+        /**
+         * @param {number} number
+         * @param {number} divisor
+         *
+         * @returns {number}
+         */
+        function roundDownToMultiple(number, divisor) {
+            if (0 < number) {
+                return Math.ceil(number / divisor) * divisor;
+            } else if (number < 0) {
+                return Math.floor(number / divisor) * divisor;
+            }
+        }
 
-			var base = Math.floor(from);
+        /**
+         * @param {number} number
+         * @param {number} divisor
+         *
+         * @returns {number}
+         */
+        function roundUpToMultiple(number, divisor) {
+            if (0 < number) {
+                return Math.floor(number / divisor) * divisor;
+            } else if (number < 0) {
+                return Math.ceil(number / divisor) * divisor;
+            }
+        }
 
-			var randomInteger = base + randomPart;
-
-			return randomInteger;
-		}
-
-		function getRandomNumber (from, to) {
-			var range = to - from;
-
-			var randomPart = Math.random() * range;
-
-			var base = from;
-
-			var randomNumber = base + randomPart;
-
-			return randomNumber;
-		}
-
-		function roundDownToMultiple (number, divisor) {
-			var roundedNumber = number;
-
-			if (number > 0) {
-				roundedNumber = Math.ceil(number / divisor) * divisor;
-			} else if (number < 0) {
-				roundedNumber = Math.floor(number / divisor) * divisor;
-			}
-
-			return roundedNumber;
-		}
-
-		function roundUpToMultiple (number, divisor) {
-			var roundedNumber = number;
-
-			if (number > 0) {
-				roundedNumber = Math.floor(number / divisor) * divisor;
-			} else if (number < 0) {
-				roundedNumber = Math.ceil(number / divisor) * divisor;
-			}
-
-			return roundedNumber;
-		}
-
-		return {
-			getRandomInteger: getRandomInteger,
-			getRandomNumber: getRandomNumber,
-			roundDownToMultiple: roundDownToMultiple,
-			roundUpToMultiple: roundUpToMultiple
-		};
-	});
+        return {
+            getRandomInteger: getRandomInteger,
+            getRandomnumber: getRandomnumber,
+            roundDownToMultiple: roundDownToMultiple,
+            roundUpToMultiple: roundUpToMultiple
+        };
+    });

@@ -9,7 +9,7 @@
   self: false, setInterval: false */
 
 
-define(function () {
+define(function() {
     'use strict';
 
     var isTop, testDiv, scrollIntervalId,
@@ -69,7 +69,7 @@ define(function () {
             //Diego Perini: http://javascript.nwbox.com/IEContentLoaded/,
             //but modified by other contributors, including jdalton
             if (testDiv.doScroll && isTop && window.external) {
-                scrollIntervalId = setInterval(function () {
+                scrollIntervalId = setInterval(function() {
                     try {
                         testDiv.doScroll();
                         pageLoaded();
@@ -115,7 +115,7 @@ define(function () {
     /**
      * Loader Plugin API method
      */
-    domReady.load = function (name, req, onLoad, config) {
+    domReady.load = function(name, req, onLoad, config) {
         if (config.isBuild) {
             onLoad(null);
         } else {
