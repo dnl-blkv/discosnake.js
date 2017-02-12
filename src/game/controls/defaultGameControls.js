@@ -1,16 +1,14 @@
 define([
         '../commands/CommandCode',
-        'engine'
+        'engine/input/Controls',
+        'engine/input/KeyCode'
     ],
     function(
         CommandCode,
-        engine
+        Controls,
+        KeyCode
     ) {
-
-        var Controls = engine.input.Controls;
-        var KeyCode = engine.input.KeyCode;
-
-        function createDefaultControls() {
+        return (function () {
             var defaultControls = new Controls();
             defaultControls.bindKeyDown(KeyCode.LEFT, CommandCode.DIRECT_SNAKE_LEFT);
             defaultControls.bindKeyDown(KeyCode.UP, CommandCode.DIRECT_SNAKE_UP);
@@ -19,7 +17,5 @@ define([
             defaultControls.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
 
             return defaultControls;
-        }
-
-        return createDefaultControls();
+        })();
     });
