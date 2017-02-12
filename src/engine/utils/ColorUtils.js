@@ -11,7 +11,7 @@ define([
         /**
          * @type {function}
          */
-        var getRandomnumber = NumberUtils.getRandomnumber;
+        var getRandomNumber = NumberUtils.getRandomNumber;
 
         /**
          * @returns {Color}
@@ -42,11 +42,11 @@ define([
          */
         function pickRandomColor(limits) {
             var hLimits = limits.h;
-            var h = getRandomnumber(hLimits.from, hLimits.to);
+            var h = getRandomNumber(hLimits.from, hLimits.to);
             var sLimits = limits.s;
-            var s = getRandomnumber(sLimits.from, sLimits.to);
+            var s = getRandomNumber(sLimits.from, sLimits.to);
             var vLimits = limits.v;
-            var v = getRandomnumber(vLimits.from, vLimits.to);
+            var v = getRandomNumber(vLimits.from, vLimits.to);
 
             return Color.createFromHSV(h, s, v);
         }

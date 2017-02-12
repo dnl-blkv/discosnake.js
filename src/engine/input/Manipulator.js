@@ -13,11 +13,6 @@ define([
         'use strict';
 
         /**
-         * @type {function}
-         */
-        var timeNow = TimeUtils.timeNow;
-
-        /**
          * @type {string}
          */
         var NULL_COMMAND = 'nullCommand';
@@ -92,7 +87,7 @@ define([
          * @param {Event} event
          */
         Manipulator.prototype.onKeyDown = function(event) {
-            this.keyPressedToTimestampMap[event.keyCode] = timeNow();
+            this.keyPressedToTimestampMap[event.keyCode] = TimeUtils.timeNow();
             sendCommand(this, event);
         };
 
