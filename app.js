@@ -7,7 +7,7 @@ requirejs.config({
     baseUrl: './',
 
     paths: {
-        app: './src',
+        discosnake: './src',
         domReady: './lib/domReady',
         font: './lib/font',
         propertyParser: './lib/propertyParser'
@@ -30,4 +30,4 @@ requirejs.config({
 // Start loading the main app file. Put all of
 // your application logic in there.
 // Don't forget to load all the module configurations
-requirejs(['app/main']);
+requirejs(['discosnake/main']);
