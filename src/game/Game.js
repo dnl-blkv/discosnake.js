@@ -36,8 +36,6 @@ define([
 
         var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
         var requestAnimationFrame = TimeUtils.requestAnimationFrame;
-        var timeNow = TimeUtils.timeNow;
-        var getBody = HtmlUtils.getBody;
 
         /**
          * @type {number}
@@ -88,7 +86,7 @@ define([
             // TODO: Dirty way of appending of the score screen to canvas, centralize
             // TODO: Fix the positioning (dirty way)
             var scoreScreenHTML = this.scoreBoard.getHtml();
-            var body = getBody();
+            var body = HtmlUtils.getBody();
             body.appendChild(scoreScreenHTML);
 
             this.menu = null;
@@ -105,7 +103,7 @@ define([
         }
 
         function updateThen(game) {
-            game.then = timeNow();
+            game.then = TimeUtils.timeNow();
         }
 
         /**
@@ -121,7 +119,7 @@ define([
             newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
                 "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             newGameMenu.setItemSelectedListener(executeCommand, game);
-            getBody().appendChild(newGameMenu.getHtml());
+            HtmlUtils.getBody().appendChild(newGameMenu.getHtml());
             newGameMenu.center();
             newGameMenu.reveal();
             game.menu = newGameMenu;
@@ -142,7 +140,7 @@ define([
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME,
                 "NEW GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             pausedGameMenu.setItemSelectedListener(executeCommand, game);
-            getBody().appendChild(pausedGameMenu.getHtml());
+            HtmlUtils.getBody().appendChild(pausedGameMenu.getHtml());
             pausedGameMenu.center();
             game.pausedGameMenu = pausedGameMenu;
         }
@@ -182,7 +180,7 @@ define([
          * @param {Game} game
          */
         function updateThenTimestamp(game) {
-            game.then = timeNow();
+            game.then = TimeUtils.timeNow();
         }
 
         /**
@@ -420,7 +418,7 @@ define([
             var currentFrameDuration = (1000 / this.fpsRate);
 
             if (!this.isStopped()) {
-                delay = timeNow() - this.then;
+                delay = TimeUtils.timeNow() - this.then;
                 currentFrameDuration -= delay;
                 setTimeout(processFrame, currentFrameDuration);
             }
