@@ -4,19 +4,19 @@ define([
     ],
     function(
         InputEvent,
-        htmlUtils
+        HtmlUtils
     ) {
         'use strict';
 
         /**
          * @type {function}
          */
-        var centreElement = htmlUtils.centreElement;
+        var centreElement = HtmlUtils.centreElement;
 
         /**
          * @type {function}
          */
-        var buildFontString = htmlUtils.buildFontString;
+        var buildFontString = HtmlUtils.buildFontString;
 
         /**
          * @type {string}

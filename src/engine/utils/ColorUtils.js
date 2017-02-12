@@ -1,9 +1,9 @@
 define([
-        "engine/utils/numberUtils",
+        "engine/utils/NumberUtils",
         "engine/graphics/Color"
     ],
     function(
-        numberUtils,
+        NumberUtils,
         Color
     ) {
         "use strict";
@@ -11,7 +11,7 @@ define([
         /**
          * @type {function}
          */
-        var getRandomnumber = numberUtils.getRandomnumber;
+        var getRandomnumber = NumberUtils.getRandomnumber;
 
         /**
          * @returns {Color}

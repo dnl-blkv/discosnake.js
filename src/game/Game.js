@@ -45,7 +45,7 @@ define([
         /**
          * @type {boolean}
          */
-        var SILENT_MODE = false;
+        var SILENT_MODE = true;
 
         /**
          * @param {number} cellSize

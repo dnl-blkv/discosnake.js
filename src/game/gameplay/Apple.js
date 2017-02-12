@@ -9,8 +9,8 @@ define([
         'use strict';
 
         var Tile = engine.graphics.Tile;
-        var numberUtils = engine.utils.numberUtils;
-        var getRandomInteger = numberUtils.getRandomInteger;
+        var NumberUtils = engine.utils.NumberUtils;
+        var getRandomInteger = NumberUtils.getRandomInteger;
 
         /**
          *

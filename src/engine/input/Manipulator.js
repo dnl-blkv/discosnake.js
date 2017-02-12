@@ -8,14 +8,14 @@ define([
         InputEvent,
         Controls,
         KeyCode,
-        timeUtils
+        TimeUtils
     ) {
         'use strict';
 
         /**
          * @type {function}
          */
-        var timeNow = timeUtils.timeNow;
+        var timeNow = TimeUtils.timeNow;
 
         /**
          * @type {string}

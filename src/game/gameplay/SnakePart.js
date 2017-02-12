@@ -8,10 +8,10 @@ define([
 
         var Tile = engine.graphics.Tile;
         var Color = engine.graphics.Color;
-        var colorUtils = engine.utils.colorUtils;
+        var ColorUtils = engine.utils.ColorUtils;
 
         // Access the required methods
-        var getRandomPsychedelicColor = colorUtils.pickRandomPsychedelicColor;
+        var getRandomPsychedelicColor = ColorUtils.pickRandomPsychedelicColor;
 
         function SnakePart(size, cellX, cellY) {
             // Convert the basic properties
