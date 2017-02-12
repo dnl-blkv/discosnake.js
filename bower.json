@@ -22,5 +22,8 @@
     "lib",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "requirejs": "^2.3.2"
+  }
 }
