@@ -1,8 +1,9 @@
-// For any third party dependencies, like jQuery, place them in the lib folder.
-
-// Configure loading modules from the lib directory,
-// except for 'app' ones, which are in a sibling
-// directory.
+/**
+ * Dependency conventions:
+ *
+ * - External modules are loaded from "./lib".
+ * - Internal modules are loaded from "./src".
+ */
 requirejs.config({
     baseUrl: './',
 
@@ -26,7 +27,7 @@ requirejs.config({
     ]
 });
 
-// Start loading the main app file. Put all of
-// your application logic in there.
-// Don't forget to load all the module configurations
+/**
+ * Load the entry point.
+ */
 requirejs(['./src/main']);
