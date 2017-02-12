@@ -12,6 +12,7 @@ define([
         "engine/graphics/Graphics",
         "engine/input/Manipulator",
         "engine/ui/Menu",
+        "engine/utils/AnimationUtils",
         "engine/utils/TimeUtils",
         "engine/utils/HtmlUtils"
     ],
@@ -29,13 +30,14 @@ define([
         Graphics,
         Manipulator,
         Menu,
+        AnimationUtils,
         TimeUtils,
         HtmlUtils
     ) {
         "use strict";
 
-        var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
-        var requestAnimationFrame = TimeUtils.requestAnimationFrame;
+        var cancelAnimationFrame = AnimationUtils.cancelAnimationFrame;
+        var requestAnimationFrame = AnimationUtils.requestAnimationFrame;
 
         /**
          * @type {number}
