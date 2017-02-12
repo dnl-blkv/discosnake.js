@@ -17,7 +17,7 @@ requirejs.config({
         {
             name: 'game',
             location: './src/game',
-            main: 'Game'
+            main: 'main'
         },
         {
             name: 'engine',
