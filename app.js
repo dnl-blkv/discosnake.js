@@ -4,21 +4,24 @@
 // except for 'app' ones, which are in a sibling
 // directory.
 requirejs.config({
-    baseUrl: 'src/lib',
+    baseUrl: './',
 
     paths: {
-        app: '../app'
+        app: './src',
+        domReady: './lib/domReady',
+        font: './lib/font',
+        propertyParser: './lib/propertyParser'
     },
 
     packages: [
         {
             name: 'game',
-            location: '../app/game',
+            location: './src/game',
             main: 'Game'
         },
         {
             name: 'engine',
-            location: '../app/engine',
+            location: './src/engine',
             main: 'main'
         }
     ]

@@ -1,5 +1,5 @@
 define([
-        'game/commands/CommandCode',
+        '../commands/CommandCode',
         'engine'
     ],
     function(
