@@ -1,36 +1,39 @@
 define([
-        "./gameplay/Apple",
-        "./gameplay/BonusApple",
         "./commands/CommandCode",
         "./controls/defaultGameControls",
-        "./gameplay/Direction",
-        "./ui/DiscoSnakeMenuItem",
-        "engine",
         "./controls/invertedGameControls",
         "./controls/menuControls",
+        "./gameplay/Apple",
+        "./gameplay/BonusApple",
+        "./gameplay/Direction",
+        "./gameplay/Snake",
+        "./ui/DiscoSnakeMenuItem",
         "./ui/ScoreBoard",
-        "./gameplay/Snake"
+        "engine/graphics/Graphics",
+        "engine/input/Manipulator",
+        "engine/ui/Menu",
+        "engine/utils/TimeUtils",
+        "engine/utils/HtmlUtils"
     ],
     function(
-        Apple,
-        BonusApple,
         CommandCode,
-        defaultGameControls,
-        Direction,
-        DiscoSnakeMenuItem,
-        engine,
+        defaultControls,
         invertedControls,
         menuControls,
+        Apple,
+        BonusApple,
+        Direction,
+        Snake,
+        DiscoSnakeMenuItem,
         ScoreBoard,
-        Snake
+        Graphics,
+        Manipulator,
+        Menu,
+        TimeUtils,
+        HtmlUtils
     ) {
         "use strict";
 
-        var Graphics = engine.graphics.Graphics;
-        var Manipulator = engine.input.Manipulator;
-        var Menu = engine.ui.Menu;
-        var TimeUtils = engine.utils.TimeUtils;
-        var HtmlUtils = engine.utils.HtmlUtils;
         var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
         var requestAnimationFrame = TimeUtils.requestAnimationFrame;
         var timeNow = TimeUtils.timeNow;
@@ -346,7 +349,7 @@ define([
          */
         Game.prototype.start = function() {
             this.stopped = false;
-            this.manipulator.setControls(defaultGameControls);
+            this.manipulator.setControls(defaultControls);
 
             // Set up the menu
             if (this.menu !== this.pausedGameMenu) {
