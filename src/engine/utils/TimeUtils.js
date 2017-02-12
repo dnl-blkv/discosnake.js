@@ -11,21 +11,12 @@ define([],
              */
             if (performance.now) {
                 return performance.now() + performance.timing.navigationStart;
-            } else {
+            } else if (Date.now) {
                 return Date.now();
+            } else {
+                return (new Date()).getTime();
             }
         }
-
-        /**
-         * Redefine Date.now for our purposes.
-         */
-        (function() {
-            if (!Date.now) {
-                Date.now = function() {
-                    (new Date()).getTime();
-                };
-            }
-        })();
 
         /**
          * Define if needed requestAnimationFrame and cancelAnimationFrame.
