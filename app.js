@@ -8,9 +8,9 @@ requirejs.config({
     baseUrl: './',
 
     paths: {
-        domReady: './lib/domReady',
-        font: './lib/font',
-        propertyParser: './lib/propertyParser'
+        domReady: './lib/domReady/domReady',
+        font: './lib-local/font',
+        propertyParser: './lib/requirejs-plugins/src/propertyParser'
     },
 
     packages: [
