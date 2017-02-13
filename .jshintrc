@@ -10,7 +10,7 @@
   "noempty": true,
   "nonew": true,
   "plusplus": true,
-  "regexp": true,
+  "regex": true,
   "undef": true,
   "strict": false,
   "trailing": true,

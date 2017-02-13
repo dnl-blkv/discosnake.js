@@ -1,21 +1,18 @@
 define([
-        'engine'
+        'engine/graphics/Color',
+        'engine/graphics/Tile',
+        'engine/utils/ColorUtils'
     ],
     function(
-        engine
+        Color,
+        Tile,
+        ColorUtils
     ) {
         'use strict';
 
-        var Tile = engine.graphics.Tile;
-        var Color = engine.graphics.Color;
-        var colorUtils = engine.utils.colorUtils;
-
-        // Access the required methods
-        var getRandomPsychedelicColor = colorUtils.pickRandomPsychedelicColor;
-
         function SnakePart(size, cellX, cellY) {
             // Convert the basic properties
-            this.color = getRandomPsychedelicColor();
+            this.color = ColorUtils.pickRandomPsychedelicColor();
             this.previousPart = null;
             this.nextPart = null;
 
@@ -71,7 +68,7 @@ define([
         };
 
         SnakePart.prototype.updateColor = function() {
-            var randomColor = getRandomPsychedelicColor();
+            var randomColor = ColorUtils.pickRandomPsychedelicColor();
 
             this.setFillStyle(randomColor.generateHexString());
         };

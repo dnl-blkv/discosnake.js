@@ -18,7 +18,7 @@ define([],
          *
          * @returns {number}
          */
-        function getRandomnumber(min, max) {
+        function getRandomNumber(min, max) {
             return min + Math.random() * (max - min);
         }
 
@@ -52,7 +52,7 @@ define([],
 
         return {
             getRandomInteger: getRandomInteger,
-            getRandomnumber: getRandomnumber,
+            getRandomNumber: getRandomNumber,
             roundDownToMultiple: roundDownToMultiple,
             roundUpToMultiple: roundUpToMultiple
         };

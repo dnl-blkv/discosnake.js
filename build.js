@@ -1,6 +1,6 @@
 ({
-    baseUrl: "js/lib",
-    mainConfigFile: "js/app.js",
+    baseUrl: "lib",
+    mainConfigFile: "src/app.js",
     name: "app",
-    out: "release/js/discosnake.js"
+    out: "release/src/discosnake.js"
 })

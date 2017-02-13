@@ -1,11 +1,12 @@
 define([
     'domReady',
-    'game',
+    'game/Game',
     'font!custom,families:[Wendy],urls:[style/style.css]'
-], function(
-    domReady,
-    Game
-) {
+],
+    function(
+        domReady,
+        Game
+    ) {
     'use strict';
 
     domReady(runGame);

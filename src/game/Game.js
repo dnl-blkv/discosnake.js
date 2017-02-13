@@ -1,40 +1,43 @@
 define([
-        "./gameplay/Apple",
-        "./gameplay/BonusApple",
         "./commands/CommandCode",
         "./controls/defaultGameControls",
-        "./gameplay/Direction",
-        "./ui/DiscoSnakeMenuItem",
-        "engine",
         "./controls/invertedGameControls",
         "./controls/menuControls",
+        "./gameplay/Apple",
+        "./gameplay/BonusApple",
+        "./gameplay/Direction",
+        "./gameplay/Snake",
+        "./ui/DiscoSnakeMenuItem",
         "./ui/ScoreBoard",
-        "./gameplay/Snake"
+        "engine/graphics/Graphics",
+        "engine/input/Manipulator",
+        "engine/ui/Menu",
+        "engine/utils/AnimationUtils",
+        "engine/utils/TimeUtils",
+        "engine/utils/HtmlUtils"
     ],
     function(
-        Apple,
-        BonusApple,
         CommandCode,
-        defaultGameControls,
-        Direction,
-        DiscoSnakeMenuItem,
-        engine,
+        defaultControls,
         invertedControls,
         menuControls,
+        Apple,
+        BonusApple,
+        Direction,
+        Snake,
+        DiscoSnakeMenuItem,
         ScoreBoard,
-        Snake
+        Graphics,
+        Manipulator,
+        Menu,
+        AnimationUtils,
+        TimeUtils,
+        HtmlUtils
     ) {
         "use strict";
 
-        var Graphics = engine.graphics.Graphics;
-        var Manipulator = engine.input.Manipulator;
-        var Menu = engine.ui.Menu;
-        var TimeUtils = engine.utils.TimeUtils;
-        var HtmlUtils = engine.utils.HtmlUtils;
-        var cancelAnimationFrame = TimeUtils.cancelAnimationFrame;
-        var requestAnimationFrame = TimeUtils.requestAnimationFrame;
-        var timeNow = TimeUtils.timeNow;
-        var getBody = HtmlUtils.getBody;
+        var cancelAnimationFrame = AnimationUtils.cancelAnimationFrame;
+        var requestAnimationFrame = AnimationUtils.requestAnimationFrame;
 
         /**
          * @type {number}
@@ -67,7 +70,7 @@ define([
             this.lastRequestId = 0;
             this.scoreBoard = new ScoreBoard();
 
-            this.audio = new Audio("audio/scooter-last-minute.mp3");
+            this.audio = new Audio("assets/audio/scooter-last-minute.mp3");
             var game = this;
             this.audio.addEventListener("ended", function() {
                 resetAudio(game);
@@ -85,7 +88,7 @@ define([
             // TODO: Dirty way of appending of the score screen to canvas, centralize
             // TODO: Fix the positioning (dirty way)
             var scoreScreenHTML = this.scoreBoard.getHtml();
-            var body = getBody();
+            var body = HtmlUtils.getBody();
             body.appendChild(scoreScreenHTML);
 
             this.menu = null;
@@ -102,7 +105,7 @@ define([
         }
 
         function updateThen(game) {
-            game.then = timeNow();
+            game.then = TimeUtils.timeNow();
         }
 
         /**
@@ -118,7 +121,7 @@ define([
             newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
                 "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             newGameMenu.setItemSelectedListener(executeCommand, game);
-            getBody().appendChild(newGameMenu.getHtml());
+            HtmlUtils.getBody().appendChild(newGameMenu.getHtml());
             newGameMenu.center();
             newGameMenu.reveal();
             game.menu = newGameMenu;
@@ -139,7 +142,7 @@ define([
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME,
                 "NEW GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             pausedGameMenu.setItemSelectedListener(executeCommand, game);
-            getBody().appendChild(pausedGameMenu.getHtml());
+            HtmlUtils.getBody().appendChild(pausedGameMenu.getHtml());
             pausedGameMenu.center();
             game.pausedGameMenu = pausedGameMenu;
         }
@@ -179,7 +182,7 @@ define([
          * @param {Game} game
          */
         function updateThenTimestamp(game) {
-            game.then = timeNow();
+            game.then = TimeUtils.timeNow();
         }
 
         /**
@@ -346,7 +349,7 @@ define([
          */
         Game.prototype.start = function() {
             this.stopped = false;
-            this.manipulator.setControls(defaultGameControls);
+            this.manipulator.setControls(defaultControls);
 
             // Set up the menu
             if (this.menu !== this.pausedGameMenu) {
@@ -417,7 +420,7 @@ define([
             var currentFrameDuration = (1000 / this.fpsRate);
 
             if (!this.isStopped()) {
-                delay = timeNow() - this.then;
+                delay = TimeUtils.timeNow() - this.then;
                 currentFrameDuration -= delay;
                 setTimeout(processFrame, currentFrameDuration);
             }

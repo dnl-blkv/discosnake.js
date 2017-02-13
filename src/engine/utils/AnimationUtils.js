@@ -1,31 +1,10 @@
-define([],
-    function() {
+define([
+        './TimeUtils'
+    ],
+    function(
+        TimeUtils
+    ) {
         'use strict';
-
-        /**
-         * @returns {number}
-         */
-        function timeNow() {
-            /**
-             * @var {Performance} performance
-             */
-            if (performance.now) {
-                return performance.now() + performance.timing.navigationStart;
-            } else {
-                return Date.now();
-            }
-        }
-
-        /**
-         * Redefine Date.now for our purposes.
-         */
-        (function() {
-            if (!Date.now) {
-                Date.now = function() {
-                    (new Date()).getTime();
-                };
-            }
-        })();
 
         /**
          * Define if needed requestAnimationFrame and cancelAnimationFrame.
@@ -60,7 +39,7 @@ define([],
                 var lastTime = 0;
 
                 window.requestAnimationFrame = function(callback) {
-                    var now = timeNow();
+                    var now = TimeUtils.timeNow();
                     var nextTime = Math.max(lastTime + 16, now);
 
                     return setTimeout(
@@ -76,7 +55,6 @@ define([],
         }());
 
         return {
-            timeNow: timeNow,
             requestAnimationFrame: window.requestAnimationFrame,
             cancelAnimationFrame: window.cancelAnimationFrame
         };

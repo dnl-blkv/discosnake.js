@@ -4,19 +4,9 @@ define([
     ],
     function(
         InputEvent,
-        htmlUtils
+        HtmlUtils
     ) {
         'use strict';
-
-        /**
-         * @type {function}
-         */
-        var centreElement = htmlUtils.centreElement;
-
-        /**
-         * @type {function}
-         */
-        var buildFontString = htmlUtils.buildFontString;
 
         /**
          * @type {string}
@@ -61,7 +51,7 @@ define([
             canvas.style.zIndex = -1;
             scaleContext(canvas.getContext('2d'));
             appendToBody(canvas);
-            centreElement(canvas);
+            HtmlUtils.centreElement(canvas);
 
             return canvas;
         }
@@ -89,7 +79,7 @@ define([
          */
         function createResizeEventListener(graphics) {
             return function() {
-                centreElement(graphics.canvas);
+                HtmlUtils.centreElement(graphics.canvas);
             };
         }
 
@@ -154,7 +144,7 @@ define([
         Graphics.prototype.drawText = function(x, y, text, fontSize, fontName, fontColor, maxWidth) {
             var context = this.getContext();
             context.beginPath();
-            context.font = buildFontString(fontSize, fontName);
+            context.font = HtmlUtils.buildFontString(fontSize, fontName);
             context.textBaseline = TEXT_BASELINE_MIDDLE;
             context.textAlign = TEXT_ALIGN_LEFT;
             context.fillStyle = fontColor;
@@ -172,7 +162,7 @@ define([
          */
         Graphics.prototype.determineTextWidth = function(text, fontSize, fontName) {
             var context = this.getContext();
-            context.font = buildFontString(fontSize, fontName);
+            context.font = HtmlUtils.buildFontString(fontSize, fontName);
             var textMetrics = context.measureText(text);
 
             return textMetrics.width;

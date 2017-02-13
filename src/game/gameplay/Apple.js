@@ -1,16 +1,14 @@
 define([
         './AppleSubstance',
-        'engine'
+        'engine/graphics/Tile',
+        'engine/utils/NumberUtils'
     ],
     function(
         AppleSubstance,
-        engine
+        Tile,
+        NumberUtils
     ) {
         'use strict';
-
-        var Tile = engine.graphics.Tile;
-        var numberUtils = engine.utils.numberUtils;
-        var getRandomInteger = numberUtils.getRandomInteger;
 
         /**
          *
@@ -35,8 +33,8 @@ define([
             var cellsWidth = game.getCellsWidth();
             var cellsHeight = game.getCellsHeight();
 
-            this.setCellX(getRandomInteger(0, cellsWidth), game.getCellsWidth());
-            this.setCellY(getRandomInteger(0, cellsHeight), game.getCellsHeight());
+            this.setCellX(NumberUtils.getRandomInteger(0, cellsWidth), game.getCellsWidth());
+            this.setCellY(NumberUtils.getRandomInteger(0, cellsHeight), game.getCellsHeight());
 
             if (game.isAppleMisplaced(this)) {
                 this.placeRandomly(game);

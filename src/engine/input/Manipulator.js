@@ -8,14 +8,9 @@ define([
         InputEvent,
         Controls,
         KeyCode,
-        timeUtils
+        TimeUtils
     ) {
         'use strict';
-
-        /**
-         * @type {function}
-         */
-        var timeNow = timeUtils.timeNow;
 
         /**
          * @type {string}
@@ -92,7 +87,7 @@ define([
          * @param {Event} event
          */
         Manipulator.prototype.onKeyDown = function(event) {
-            this.keyPressedToTimestampMap[event.keyCode] = timeNow();
+            this.keyPressedToTimestampMap[event.keyCode] = TimeUtils.timeNow();
             sendCommand(this, event);
         };
 

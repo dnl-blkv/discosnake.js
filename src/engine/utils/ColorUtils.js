@@ -1,17 +1,12 @@
 define([
-        "engine/utils/numberUtils",
+        "engine/utils/NumberUtils",
         "engine/graphics/Color"
     ],
     function(
-        numberUtils,
+        NumberUtils,
         Color
     ) {
         "use strict";
-
-        /**
-         * @type {function}
-         */
-        var getRandomnumber = numberUtils.getRandomnumber;
 
         /**
          * @returns {Color}
@@ -42,11 +37,11 @@ define([
          */
         function pickRandomColor(limits) {
             var hLimits = limits.h;
-            var h = getRandomnumber(hLimits.from, hLimits.to);
+            var h = NumberUtils.getRandomNumber(hLimits.from, hLimits.to);
             var sLimits = limits.s;
-            var s = getRandomnumber(sLimits.from, sLimits.to);
+            var s = NumberUtils.getRandomNumber(sLimits.from, sLimits.to);
             var vLimits = limits.v;
-            var v = getRandomnumber(vLimits.from, vLimits.to);
+            var v = NumberUtils.getRandomNumber(vLimits.from, vLimits.to);
 
             return Color.createFromHSV(h, s, v);
         }

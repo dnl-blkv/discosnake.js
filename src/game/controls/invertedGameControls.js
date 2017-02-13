@@ -1,16 +1,14 @@
 define([
-        'game/commands/CommandCode',
-        'engine'
+        '../commands/CommandCode',
+        'engine/input/Controls',
+        'engine/input/KeyCode'
     ],
     function(
         CommandCode,
-        engine
+        Controls,
+        KeyCode
     ) {
-
-        var Controls = engine.input.Controls;
-        var KeyCode = engine.input.KeyCode;
-
-        function createInvertedControls() {
+        return (function () {
             var invertedControls = new Controls();
             invertedControls.bindKeyDown(KeyCode.LEFT, CommandCode.DIRECT_SNAKE_RIGHT);
             invertedControls.bindKeyDown(KeyCode.UP, CommandCode.DIRECT_SNAKE_DOWN);
@@ -19,7 +17,5 @@ define([
             invertedControls.bindKeyDown(KeyCode.SPACE, CommandCode.TOGGLE_PAUSE);
 
             return invertedControls;
-        }
-
-        return createInvertedControls();
+        })();
     });
