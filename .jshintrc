@@ -10,7 +10,6 @@
   "noempty": true,
   "nonew": true,
   "plusplus": true,
-  "regex": true,
   "undef": true,
   "strict": false,
   "trailing": true,
@@ -30,9 +29,7 @@
   "laxcomma": false,
   "loopfunc": false,
   "multistr": false,
-  "onecase": false,
   "proto": false,
-  "regexdash": false,
   "scripturl": true,
   "smarttabs": false,
   "shadow": false,
@@ -69,6 +66,7 @@
     "before": false,
     "beforeEach": false,
     "after": false,
-    "afterEach": false
+    "afterEach": false,
+    "expect": false
   }
 }

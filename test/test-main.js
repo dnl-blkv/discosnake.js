@@ -11,7 +11,7 @@ Object.keys(window.__karma__.files).forEach(function (file) {
     allTestFiles.push(normalizedTestModule);
   }
 });
-
+console.log(allTestFiles);
 require.config({
   // Karma serves files under /base, which is the basePath from your config file
   baseUrl: '/base',
