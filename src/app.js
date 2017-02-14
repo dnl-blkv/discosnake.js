@@ -1,8 +1,8 @@
 /**
  * Dependency conventions:
  *
- * - External modules are loaded from "lib".
- * - Internal modules are loaded from "src".
+ * - External modules are loaded from 'lib'.
+ * - Internal modules are loaded from 'src'.
  */
 requirejs.config({
     baseUrl: '',

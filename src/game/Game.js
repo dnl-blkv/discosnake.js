@@ -1,20 +1,20 @@
 define([
-        "./commands/CommandCode",
-        "./controls/defaultGameControls",
-        "./controls/invertedGameControls",
-        "./controls/menuControls",
-        "./gameplay/Apple",
-        "./gameplay/BonusApple",
-        "./gameplay/Direction",
-        "./gameplay/Snake",
-        "./ui/DiscoSnakeMenuItem",
-        "./ui/ScoreBoard",
-        "engine/graphics/Graphics",
-        "engine/input/Manipulator",
-        "engine/ui/Menu",
-        "engine/utils/AnimationUtils",
-        "engine/utils/TimeUtils",
-        "engine/utils/HtmlUtils"
+        './commands/CommandCode',
+        './controls/defaultGameControls',
+        './controls/invertedGameControls',
+        './controls/menuControls',
+        './gameplay/Apple',
+        './gameplay/BonusApple',
+        './gameplay/Direction',
+        './gameplay/Snake',
+        './ui/DiscoSnakeMenuItem',
+        './ui/ScoreBoard',
+        'engine/graphics/Graphics',
+        'engine/input/Manipulator',
+        'engine/ui/Menu',
+        'engine/utils/AnimationUtils',
+        'engine/utils/TimeUtils',
+        'engine/utils/HtmlUtils'
     ],
     function(
         CommandCode,
@@ -34,7 +34,7 @@ define([
         TimeUtils,
         HtmlUtils
     ) {
-        "use strict";
+        'use strict';
 
         var cancelAnimationFrame = AnimationUtils.cancelAnimationFrame;
         var requestAnimationFrame = AnimationUtils.requestAnimationFrame;
@@ -70,16 +70,16 @@ define([
             this.lastRequestId = 0;
             this.scoreBoard = new ScoreBoard();
 
-            this.audio = new Audio("assets/audio/scooter-last-minute.mp3");
+            this.audio = new Audio('assets/audio/scooter-last-minute.mp3');
             var game = this;
-            this.audio.addEventListener("ended", function() {
+            this.audio.addEventListener('ended', function() {
                 resetAudio(game);
                 game.audio.play();
             }, false);
 
             var width = cellsWidth * cellSize + 1;
             var height = cellsHeight * cellSize + 1;
-            var backgroundColor = "#000000";
+            var backgroundColor = '#000000';
             this.graphics = new Graphics(width, height, backgroundColor);
             this.snake = null;
             this.apple = null;
@@ -114,12 +114,12 @@ define([
         function buildNewGameMenu(game) {
             // TODO: Centralize menu's style
             var menuFontSize = 48;
-            var menuFontFace = "Wendy";
-            var menuDefaultFontColor = "#FFFFFF";
+            var menuFontFace = 'Wendy';
+            var menuDefaultFontColor = '#FFFFFF';
             var newGameMenu = new Menu(game.graphics);
 
             newGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
-                "START GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+                'START GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             newGameMenu.setItemSelectedListener(executeCommand, game);
             HtmlUtils.getBody().appendChild(newGameMenu.getHtml());
             newGameMenu.center();
@@ -133,14 +133,14 @@ define([
         function buildPausedGameMenu(game) {
             // TODO: Centralize menu's style [2]
             var menuFontSize = 48;
-            var menuFontFace = "Wendy";
-            var menuDefaultFontColor = "#FFFFFF";
+            var menuFontFace = 'Wendy';
+            var menuDefaultFontColor = '#FFFFFF';
             var pausedGameMenu = new Menu(game.graphics);
 
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.CONTINUE_GAME,
-                "CONTINUE", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+                'CONTINUE', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             pausedGameMenu.addItem(new DiscoSnakeMenuItem(CommandCode.NEW_GAME,
-                "NEW GAME", menuFontSize, menuFontFace, menuDefaultFontColor, 600));
+                'NEW GAME', menuFontSize, menuFontFace, menuDefaultFontColor, 600));
             pausedGameMenu.setItemSelectedListener(executeCommand, game);
             HtmlUtils.getBody().appendChild(pausedGameMenu.getHtml());
             pausedGameMenu.center();

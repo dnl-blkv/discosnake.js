@@ -1,7 +1,10 @@
 define(['engine/graphics/Color'], function(Color) {
-    describe('just checking', function() {
-        it('works', function() {
-            expect(1).toEqual(1);
+    'use strict';
+
+    describe('Color', function() {
+        it('can be instantiated from R, G, B channels in range [0, 255)', function() {
+
+
         });
     });
 });

@@ -43,9 +43,9 @@ define([
         function createCanvas(width, height, backgroundColor) {
             var canvas = document.createElement('canvas');
             canvas.width = width;
-            canvas.style.width = width + "px";
+            canvas.style.width = width + 'px';
             canvas.height = height;
-            canvas.style.height = height + "px";
+            canvas.style.height = height + 'px';
             canvas.class = 'graphics';
             canvas.style.backgroundColor = backgroundColor;
             canvas.style.zIndex = -1;

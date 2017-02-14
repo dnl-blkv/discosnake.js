@@ -1,11 +1,11 @@
 define([],
     function() {
-        "use strict";
+        'use strict';
 
         /**
-         * @param {number} red
-         * @param {number} green
-         * @param {number} blue
+         * @param {number} red      Channel value in range [0, 256)
+         * @param {number} green    Channel value in range [0, 256)
+         * @param {number} blue     Channel value in range [0, 256)
          *
          * @constructor
          */
@@ -27,21 +27,21 @@ define([],
         }
 
         /**
-         * @param {number} red
+         * @param {number} red      Channel value in range [0, 256)
          */
         Color.prototype.setRed = function(red) {
             this.red = red;
         };
 
         /**
-         * @param {number} green
+         * @param {number} green    Channel value in range [0, 256)
          */
         Color.prototype.setGreen = function(green) {
             this.green = green;
         };
 
         /**
-         * @param {number} blue
+         * @param {number} blue     Channel value in range [0, 256)
          */
         Color.prototype.setBlue = function(blue) {
             this.blue = blue;
@@ -51,7 +51,7 @@ define([],
          * @returns {string}
          */
         Color.prototype.generateHexString = function() {
-            var hexString = "#";
+            var hexString = '#';
             hexString += this.getRedHex();
             hexString += this.getGreenHex();
             hexString += this.getBlueHex();
@@ -72,7 +72,7 @@ define([],
          * @returns {string}
          */
         function decChannelToHex(decChannel) {
-            var zeroPaddedHexChannel = "0" + decChannel.toString(16);
+            var zeroPaddedHexChannel = '0' + decChannel.toString(16);
 
             return zeroPaddedHexChannel.substr(-2);
         }
@@ -117,11 +117,11 @@ define([],
          * @returns {string}
          */
         Color.prototype.generateRGBAString = function(alpha) {
-            var rgbaString = "rgba(";
-            rgbaString += this.getRed() + ", ";
-            rgbaString += this.getGreen() + ", ";
-            rgbaString += this.getBlue() + ", ";
-            rgbaString += alpha + ")";
+            var rgbaString = 'rgba(';
+            rgbaString += this.getRed() + ', ';
+            rgbaString += this.getGreen() + ', ';
+            rgbaString += this.getBlue() + ', ';
+            rgbaString += alpha + ')';
 
             return rgbaString;
         };

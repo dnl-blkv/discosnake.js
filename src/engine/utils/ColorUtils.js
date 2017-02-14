@@ -1,29 +1,29 @@
 define([
-        "engine/utils/NumberUtils",
-        "engine/graphics/Color"
+        'engine/utils/NumberUtils',
+        'engine/graphics/Color'
     ],
     function(
         NumberUtils,
         Color
     ) {
-        "use strict";
+        'use strict';
 
         /**
          * @returns {Color}
          */
         function pickRandomPsychedelicColor() {
             var dimensionLimits = {
-                "h": {
-                    "from": 0,
-                    "to": 0.99
+                'h': {
+                    'from': 0,
+                    'to': 0.99
                 },
-                "s": {
-                    "from": 0.85,
-                    "to": 0.99
+                's': {
+                    'from': 0.85,
+                    'to': 0.99
                 },
-                "v": {
-                    "from": 0.99,
-                    "to": 0.99
+                'v': {
+                    'from': 0.99,
+                    'to': 0.99
                 }
             };
 
