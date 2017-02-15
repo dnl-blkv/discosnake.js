@@ -84,9 +84,7 @@ define([],
          * @returns {string}
          */
         function decChannelToHex(decChannel) {
-            var zeroPaddedHexChannel = '0' + decChannel.toString(16).toUpperCase();
-
-            return zeroPaddedHexChannel.substr(-2);
+            return ('0' + decChannel.toString(16).toUpperCase()).substr(-2);
         }
 
         /**
@@ -158,9 +156,9 @@ define([],
             ratio = ratio || 0.5;
             var newColor = this.copy();
 
-            newColor.setRed(Math.floor((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
-            newColor.setGreen(Math.floor((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
-            newColor.setBlue(Math.floor((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
+            newColor.setRed(Math.round((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
+            newColor.setGreen(Math.round((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
+            newColor.setBlue(Math.round((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
 
             return newColor;
         };
