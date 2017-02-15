@@ -25,5 +25,9 @@ define(['engine/graphics/Color'], function(Color) {
             color.setAlpha(0.4);
             expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.4)');
         });
+
+        it('blends', function() {
+            expect(color.blend(new Color(192, 1, 1), 0.5).generateHexString()).toEqual('#604080');
+        });
     });
 });

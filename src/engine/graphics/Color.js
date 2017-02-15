@@ -147,21 +147,31 @@ define([],
 
         /**
          *
-         * @param {Color} anotherColor
-         * @param {number} ratio
+         * @param {Color} mixinColor
+         * @param {number} baseToResultRatio    [0, 1]
          *
          * @returns {Color}
          */
-        Color.prototype.blend = function(anotherColor, ratio) {
-            ratio = ratio || 0.5;
-            var newColor = this.copy();
+        Color.prototype.blend = function(mixinColor, baseToResultRatio) {
+            baseToResultRatio = baseToResultRatio || 0.5;
 
-            newColor.setRed(Math.round((newColor.getRed() * ratio + anotherColor.getRed() * (1 - ratio))));
-            newColor.setGreen(Math.round((newColor.getGreen() * ratio + anotherColor.getGreen() * (1 - ratio))));
-            newColor.setBlue(Math.round((newColor.getBlue() * ratio + anotherColor.getBlue() * (1 - ratio))));
+            var newRed = blendChannels(this.getRed(), mixinColor.getRed(), baseToResultRatio);
+            var newGreen = blendChannels(this.getGreen(), mixinColor.getGreen(), baseToResultRatio);
+            var newBlue = blendChannels(this.getBlue(), mixinColor.getBlue(), baseToResultRatio);
 
-            return newColor;
+            return new Color(newRed, newGreen, newBlue);
         };
+
+        /**
+         * @param {number} baseChannel          [0, 255]
+         * @param {number} mixinChannel         [0, 255]
+         * @param {number} baseToResultRatio    [0, 1]
+         *
+         * @returns {number}    [0, 255]
+         */
+        function blendChannels(baseChannel, mixinChannel, baseToResultRatio) {
+            return Math.round(baseChannel * baseToResultRatio + mixinChannel * (1 - baseToResultRatio));
+        }
 
         /**
          * @returns {Color}
