@@ -22,7 +22,8 @@ define(['engine/graphics/Color'], function(Color) {
         });
 
         it('generates RGBA string', function() {
-            expect(color.generateRgbaString(0.5)).toEqual('rgba(0, 127, 255, 0.5)');
+            color.setAlpha(0.4);
+            expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.4)');
         });
     });
 });

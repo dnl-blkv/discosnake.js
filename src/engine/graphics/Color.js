@@ -3,9 +3,9 @@ define([],
         'use strict';
 
         /**
-         * @param {number} red      Channel value in range [0, 256)
-         * @param {number} green    Channel value in range [0, 256)
-         * @param {number} blue     Channel value in range [0, 256)
+         * @param {number} red      Channel value in range [0, 255]
+         * @param {number} green    Channel value in range [0, 255]
+         * @param {number} blue     Channel value in range [0, 255]
          *
          * @constructor
          */
@@ -24,6 +24,11 @@ define([],
              * @type {number}
              */
             this.blue = blue;
+
+            /**
+             * @type {number}   Alpha value in range [0, 1]
+             */
+            this.alpha = 1;
         }
 
         /**
@@ -45,6 +50,13 @@ define([],
          */
         Color.prototype.setBlue = function(blue) {
             this.blue = blue;
+        };
+
+        /**
+         * @type {number}   Alpha value in range [0, 1]
+         */
+        Color.prototype.setAlpha = function(alpha) {
+            this.alpha = alpha;
         };
 
         /**
@@ -113,18 +125,26 @@ define([],
         };
 
         /**
-         * @param {number} alpha    Alpha value in range [0, 1]
-         *
          * @returns {string}
          */
-        Color.prototype.generateRgbaString = function(alpha) {
-            var rgbaString = 'rgba(';
-            rgbaString += this.getRed() + ', ';
-            rgbaString += this.getGreen() + ', ';
-            rgbaString += this.getBlue() + ', ';
-            rgbaString += alpha + ')';
+        Color.prototype.generateRgbaString = function() {
+            return 'rgba(' + toRgbaArrayWithAlpha(this).join(', ') + ')';
+        };
 
-            return rgbaString;
+        /**
+         * @param {Color} color
+         *
+         * @returns {[number, number, number, number]}
+         */
+        function toRgbaArrayWithAlpha(color) {
+            return [color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()];
+        }
+
+        /**
+         * @returns {number}
+         */
+        Color.prototype.getAlpha = function() {
+            return this.alpha;
         };
 
         /**

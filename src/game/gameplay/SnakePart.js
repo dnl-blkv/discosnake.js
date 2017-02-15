@@ -81,11 +81,9 @@ define([
             var xPosition = this.getX() - this.getSize();
             var yPosition = this.getY() - this.getSize();
             var size = this.getSize() * 3;
-
-            // Set the effect transparency
-            var alpha = drunkness / 300;
-            var effectFillStyle = Color.createFromHexString(this.getFillStyle()).generateRgbaString(alpha);
-
+            var color = Color.createFromHexString(this.getFillStyle());
+            color.setAlpha(drunkness / 300);
+            var effectFillStyle = color.generateRgbaString();
             gameGraphics.drawRect(xPosition, yPosition, size, size, effectFillStyle, effectFillStyle);
         };
 
