@@ -72,7 +72,7 @@ define([],
          * @returns {string}
          */
         function decChannelToHex(decChannel) {
-            var zeroPaddedHexChannel = '0' + decChannel.toString(16);
+            var zeroPaddedHexChannel = '0' + decChannel.toString(16).toUpperCase();
 
             return zeroPaddedHexChannel.substr(-2);
         }
@@ -113,10 +113,11 @@ define([],
         };
 
         /**
-         * @param {number} alpha
+         * @param {number} alpha    Alpha value in range [0, 1]
+         *
          * @returns {string}
          */
-        Color.prototype.generateRGBAString = function(alpha) {
+        Color.prototype.generateRgbaString = function(alpha) {
             var rgbaString = 'rgba(';
             rgbaString += this.getRed() + ', ';
             rgbaString += this.getGreen() + ', ';
