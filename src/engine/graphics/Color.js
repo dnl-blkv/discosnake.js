@@ -38,13 +38,21 @@ define([],
          */
         Color.createFromHexString = function(hexString) {
             var hexColorValue = hexString.substring(1);
-            var hexChannelValues = hexColorValue.match(/.{2}/g);
-            var red = parseInt(hexChannelValues[0], 16);
-            var green = parseInt(hexChannelValues[1], 16);
-            var blue = parseInt(hexChannelValues[2], 16);
+            var hexChannelRegex = /[0-9a-fA-F]{2}/g;
+            var rgbValues = hexColorValue.match(hexChannelRegex);
+            rgbValues = rgbValues.map(hexToDec);
 
-            return new Color(red, green, blue);
+            return new Color(rgbValues[0], rgbValues[1], rgbValues[2]);
         };
+
+        /**
+         * @param {string} hex
+         *
+         * @returns {Number}
+         */
+        function hexToDec(hex) {
+            return parseInt(hex, 16);
+        }
 
         /**
          * @returns {Color}
@@ -68,9 +76,9 @@ define([],
             var reducedHue = hue / 60;
             var z = (M - m) * (1 - Math.abs(reducedHue % 2  - 1));
             var hueInterval = Math.floor(reducedHue);
-            var channelValues = getRgbChannelValues(hueInterval, m, M, z).map(Math.round);
+            var rgbValues = getRgbChannels(hueInterval, m, M, z).map(Math.round);
 
-            return new Color(channelValues[0], channelValues[1], channelValues[2]);
+            return new Color(rgbValues[0], rgbValues[1], rgbValues[2]);
         };
 
         /**
@@ -81,7 +89,7 @@ define([],
          *
          * @returns {number[]}
          */
-        function getRgbChannelValues(hueInterval, m, M, z) {
+        function getRgbChannels(hueInterval, m, M, z) {
             var mz = m + z;
 
             switch (hueInterval) {
@@ -241,5 +249,8 @@ define([],
             return Math.round(baseChannel * baseToResultRatio + mixinChannel * (1 - baseToResultRatio));
         }
 
+        /**
+         * @type {Color}
+         */
         return Color;
     });
