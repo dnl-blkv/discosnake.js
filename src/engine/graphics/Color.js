@@ -37,13 +37,13 @@ define([],
          * @returns {Color}
          */
         Color.createFromHexString = function(hexString) {
-            var colorNumberHex = hexString.substring(1);
-            var colorChannelsHex = colorNumberHex.match(/.{2}/g);
-            var red = parseInt(colorChannelsHex[0], 16);
-            var green = parseInt(colorChannelsHex[1], 16);
-            var blue = parseInt(colorChannelsHex[2], 16);
+            var hexColorValue = hexString.substring(1);
+            var hexChannelValues = hexColorValue.match(/.{2}/g);
+            var red = parseInt(hexChannelValues[0], 16);
+            var green = parseInt(hexChannelValues[1], 16);
+            var blue = parseInt(hexChannelValues[2], 16);
 
-            return (new Color(red, green, blue));
+            return new Color(red, green, blue);
         };
 
         /**
@@ -67,9 +67,10 @@ define([],
             var m = M * (1 - saturation);
             var reducedHue = hue / 60;
             var z = (M - m) * (1 - Math.abs(reducedHue % 2  - 1));
-            var channelValues = getRgbChannelValues(Math.floor(reducedHue), m, M, z);
+            var hueInterval = Math.floor(reducedHue);
+            var channelValues = getRgbChannelValues(hueInterval, m, M, z).map(Math.round);
 
-            return new Color(Math.round(channelValues[0]), Math.round(channelValues[1]), Math.round(channelValues[2]));
+            return new Color(channelValues[0], channelValues[1], channelValues[2]);
         };
 
         /**
@@ -84,20 +85,13 @@ define([],
             var mz = m + z;
 
             switch (hueInterval) {
-                case 0:
-                    return [M, mz, m];
-                case 1:
-                    return [mz, M, m];
-                case 2:
-                    return [m, M, mz];
-                case 3:
-                    return [m, mz, M];
-                case 4:
-                    return [mz, m, M];
-                case 5:
-                    return [M, m, mz];
-                default:
-                    return [0, 0, 0];
+                case 0: return [M, mz, m];
+                case 1: return [mz, M, m];
+                case 2: return [m, M, mz];
+                case 3: return [m, mz, M];
+                case 4: return [mz, m, M];
+                case 5: return [M, m, mz];
+                default: return [0, 0, 0];
             }
         }
 
