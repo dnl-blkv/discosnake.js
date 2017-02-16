@@ -224,7 +224,7 @@ define([],
          * @returns {boolean}
          */
         Color.prototype.equals = function(otherColor) {
-            return this.generateHexString() === otherColor.generateHexString();
+            return this.generateRgbaString() === otherColor.generateRgbaString();
         };
 
         /**

@@ -9,6 +9,7 @@ define(['engine/graphics/Color'], function(Color) {
     describe('Color', function() {
         beforeEach(function() {
             color = new Color(0, 127, 255);
+            color.setAlpha(1);
         });
 
         it('generates HEX string', function() {
@@ -16,8 +17,14 @@ define(['engine/graphics/Color'], function(Color) {
         });
 
         it('compares to other Color', function() {
-            expect(color.equals(new Color(0, 127, 255))).toEqual(true);
+            expect(color.equals(color.copy())).toEqual(true);
             expect(color.equals(new Color(0, 128, 255))).toEqual(false);
+        });
+
+        it('is not equal to same color with different Alpha', function() {
+            var colorWithDifferentAlpha = color.copy();
+            colorWithDifferentAlpha.setAlpha(0.5);
+            expect(color.equals(colorWithDifferentAlpha)).toEqual(false);
         });
 
         it('instantiates from HEX string', function() {
