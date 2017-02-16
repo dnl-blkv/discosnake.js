@@ -62,43 +62,40 @@ define([],
          *
          * @returns {Color}
          */
-        Color.createFromHSV = function(hue, saturation, value) {
-            var hueInterval = Math.floor(hue * 6);
-            var f = hue * 6 - hueInterval;
-            var p = value * (1 - saturation);
-            var q = value * (1 - f * saturation);
-            var t = value * (1 - (1 - f) * saturation);
-            var coefficients = determineRgbCoefficients(hueInterval, value, p, q, t);
-            var red = Math.round(256 * coefficients[0]);
-            var green = Math.round(256 * coefficients[1]);
-            var blue = Math.round(256 * coefficients[2]);
+        Color.createFromHsv = function(hue, saturation, value) {
+            var M = 255 * value;
+            var m = M * (1 - saturation);
+            var reducedHue = hue / 60;
+            var z = (M - m) * (1 - Math.abs(reducedHue % 2  - 1));
+            var channelValues = getRgbChannelValues(Math.floor(reducedHue), m, M, z);
 
-            return new Color(red, green, blue);
+            return new Color(Math.round(channelValues[0]), Math.round(channelValues[1]), Math.round(channelValues[2]));
         };
 
         /**
          * @param {number} hueInterval
-         * @param {number} value
-         * @param {number} p
-         * @param {number} q
-         * @param {number} t
+         * @param {number} m
+         * @param {number} M
+         * @param {number} z
          *
          * @returns {number[]}
          */
-        function determineRgbCoefficients(hueInterval, value, p, q, t) {
+        function getRgbChannelValues(hueInterval, m, M, z) {
+            var mz = m + z;
+
             switch (hueInterval) {
                 case 0:
-                    return [value, t, p];
+                    return [M, mz, m];
                 case 1:
-                    return [q, value, p];
+                    return [mz, M, m];
                 case 2:
-                    return [p, value, t];
+                    return [m, M, mz];
                 case 3:
-                    return [p, q, value];
+                    return [m, mz, M];
                 case 4:
-                    return [t, p, value];
+                    return [mz, m, M];
                 case 5:
-                    return [value, p, q];
+                    return [M, m, mz];
                 default:
                     return [0, 0, 0];
             }

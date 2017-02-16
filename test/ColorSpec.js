@@ -12,8 +12,19 @@ define(['engine/graphics/Color'], function(Color) {
             color.setAlpha(1);
         });
 
+        it('gets HEX values of channels', function() {
+            expect(color.getRedHex()).toEqual('00');
+            expect(color.getGreenHex()).toEqual('7F');
+            expect(color.getBlueHex()).toEqual('FF');
+        });
+
         it('generates HEX string', function() {
             expect(color.generateHexString()).toEqual('#007FFF');
+        });
+
+        it('generates RGBA string', function() {
+            color.setAlpha(0.4);
+            expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.4)');
         });
 
         it('compares to other Color', function() {
@@ -31,15 +42,13 @@ define(['engine/graphics/Color'], function(Color) {
             expect(color.equals(Color.createFromHexString('#007FFF'))).toEqual(true);
         });
 
-        it('gets HEX values of channels', function() {
-            expect(color.getRedHex()).toEqual('00');
-            expect(color.getGreenHex()).toEqual('7F');
-            expect(color.getBlueHex()).toEqual('FF');
-        });
-
-        it('generates RGBA string', function() {
-            color.setAlpha(0.4);
-            expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.4)');
+        it('instantiates from HSV', function() {
+            expect(Color.createFromHsv(30, 0.8, 1).generateHexString()).toEqual('#FF9933');
+            expect(Color.createFromHsv(90, 0.7, 0.9).generateHexString()).toEqual('#95E645');
+            expect(Color.createFromHsv(150, 0.6, 0.6).generateHexString()).toEqual('#3D996B');
+            expect(Color.createFromHsv(210.1, 1, 1).generateHexString()).toEqual('#007FFF');
+            expect(Color.createFromHsv(270, 0.2, 0.9).generateHexString()).toEqual('#CFB8E6');
+            expect(Color.createFromHsv(330, 0, 0.1).generateHexString()).toEqual('#1A1A1A');
         });
 
         it('blends', function() {

@@ -13,15 +13,15 @@ define([
          */
         function pickRandomPsychedelicColor() {
             var dimensionLimits = {
-                'h': {
+                'hue': {
                     'from': 0,
-                    'to': 0.99
+                    'to': 357
                 },
-                's': {
+                'saturation': {
                     'from': 0.85,
                     'to': 0.99
                 },
-                'v': {
+                'value': {
                     'from': 0.99,
                     'to': 0.99
                 }
@@ -36,14 +36,16 @@ define([
          * @returns {Color}
          */
         function pickRandomColor(limits) {
-            var hLimits = limits.h;
-            var h = NumberUtils.getRandomNumber(hLimits.from, hLimits.to);
-            var sLimits = limits.s;
-            var s = NumberUtils.getRandomNumber(sLimits.from, sLimits.to);
-            var vLimits = limits.v;
-            var v = NumberUtils.getRandomNumber(vLimits.from, vLimits.to);
+            var hueRange = limits.hue;
+            var hue = NumberUtils.getRandomNumber(hueRange.from, hueRange.to);
 
-            return Color.createFromHSV(h, s, v);
+            var saturationRange = limits.saturation;
+            var saturation = NumberUtils.getRandomNumber(saturationRange.from, saturationRange.to);
+
+            var valueRange = limits.value;
+            var value = NumberUtils.getRandomNumber(valueRange.from, valueRange.to);
+
+            return Color.createFromHsv(hue, saturation, value);
         }
 
         return {
