@@ -1,5 +1,9 @@
-define([],
-    function() {
+define([
+        'engine/utils/NumberUtils'
+    ],
+    function(
+        NumberUtils
+    ) {
         'use strict';
 
         /**
@@ -39,20 +43,10 @@ define([],
         Color.createFromHexString = function(hexString) {
             var hexColorValue = hexString.substring(1);
             var hexChannelRegex = /[0-9a-fA-F]{2}/g;
-            var rgbValues = hexColorValue.match(hexChannelRegex);
-            rgbValues = rgbValues.map(hexToDec);
+            var rgbValues = hexColorValue.match(hexChannelRegex).map(NumberUtils.hexToDec);
 
             return new Color(rgbValues[0], rgbValues[1], rgbValues[2]);
         };
-
-        /**
-         * @param {string} hex
-         *
-         * @returns {Number}
-         */
-        function hexToDec(hex) {
-            return parseInt(hex, 16);
-        }
 
         /**
          * @returns {Color}

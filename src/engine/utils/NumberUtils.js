@@ -50,10 +50,20 @@ define([],
             }
         }
 
+        /**
+         * @param {string} hex
+         *
+         * @returns {Number}
+         */
+        function hexToDec(hex) {
+            return parseInt(hex, 16);
+        }
+
         return {
             getRandomInteger: getRandomInteger,
             getRandomNumber: getRandomNumber,
             roundDownToMultiple: roundDownToMultiple,
-            roundUpToMultiple: roundUpToMultiple
+            roundUpToMultiple: roundUpToMultiple,
+            hexToDec: hexToDec
         };
     });
