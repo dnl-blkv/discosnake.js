@@ -42,8 +42,7 @@ define([
          */
         Color.createFromHexString = function(hexString) {
             var hexColorValue = hexString.substring(1);
-            var hexChannelRegex = /[0-9a-fA-F]{2}/g;
-            var hexRgbValues = hexColorValue.match(hexChannelRegex);
+            var hexRgbValues = hexColorValue.match(/[0-9a-fA-F]{2}/g);
             var decRgbValues = hexRgbValues.map(NumberUtils.hexToDec);
 
             return new Color(decRgbValues[0], decRgbValues[1], decRgbValues[2]);
