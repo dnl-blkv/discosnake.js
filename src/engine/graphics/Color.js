@@ -133,12 +133,7 @@ define([],
          * @returns {string}
          */
         Color.prototype.generateHexString = function() {
-            var hexString = '#';
-            hexString += this.getRedHex();
-            hexString += this.getGreenHex();
-            hexString += this.getBlueHex();
-
-            return hexString;
+            return '#' + this.getRedHex() + this.getGreenHex() + this.getBlueHex();
         };
 
         /**
