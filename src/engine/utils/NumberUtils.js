@@ -53,10 +53,19 @@ define([],
         /**
          * @param {string} hex
          *
-         * @returns {Number}
+         * @returns {number}
          */
         function hexToDec(hex) {
             return parseInt(hex, 16);
+        }
+
+        /**
+         * @param {number} dec
+         *
+         * @returns {string}
+         */
+        function decToHex(dec) {
+            return dec.toString(16).toUpperCase();
         }
 
         return {
@@ -64,6 +73,7 @@ define([],
             getRandomNumber: getRandomNumber,
             roundDownToMultiple: roundDownToMultiple,
             roundUpToMultiple: roundUpToMultiple,
-            hexToDec: hexToDec
+            hexToDec: hexToDec,
+            decToHex: decToHex
         };
     });

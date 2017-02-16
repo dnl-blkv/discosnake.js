@@ -145,7 +145,7 @@ define([
          * @returns {string}
          */
         function decChannelToHex(decChannel) {
-            return ('0' + decChannel.toString(16).toUpperCase()).substr(-2);
+            return ('0' + NumberUtils.decToHex(decChannel)).substr(-2);
         }
 
         /**
@@ -240,7 +240,10 @@ define([
          * @returns {number}    [0, 255]
          */
         function blendChannels(baseChannel, mixinChannel, baseToResultRatio) {
-            return Math.round(baseChannel * baseToResultRatio + mixinChannel * (1 - baseToResultRatio));
+            var baseComponent = baseChannel * baseToResultRatio;
+            var mixinComponent = mixinChannel * (1 - baseToResultRatio);
+
+            return Math.round(baseComponent + mixinComponent);
         }
 
         /**
