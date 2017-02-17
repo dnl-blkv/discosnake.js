@@ -8,9 +8,15 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
 
     describe('Color', function() {
         beforeEach(function() {
-            color = new Color(0, 127, 255);
-            color.setAlpha(0.8);
+            color = createTestColor();
         });
+
+        function createTestColor() {
+            var testColor = new Color(0, 127, 255);
+            testColor.setAlpha(0.8);
+
+            return testColor;
+        }
 
         it('gets HEX values of channels', function() {
             expect(color.getRedHex()).toEqual('00');
@@ -27,9 +33,7 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
         });
 
         it('is equal to a similar Color', function() {
-            var sameColor = new Color(0, 127, 255);
-            sameColor.setAlpha(0.8);
-            expect(color.equals(sameColor)).toEqual(true);
+            expect(color.equals(createTestColor())).toEqual(true);
         });
 
         it('is not equal to a Color with a different color channel value', function() {
