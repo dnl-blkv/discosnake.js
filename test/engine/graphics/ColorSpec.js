@@ -11,6 +11,9 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
             color = createTestColor();
         });
 
+        /**
+         * @returns {Color}
+         */
         function createTestColor() {
             var testColor = new Color(0, 127, 255);
             testColor.setAlpha(0.8);
@@ -41,21 +44,37 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
         });
 
         it('is not equal to a Color with different Alpha value', function() {
-            var colorWithDifferentAlpha = color.copy();
-            colorWithDifferentAlpha.setAlpha(0.5);
-            expect(color.equals(colorWithDifferentAlpha)).toEqual(false);
+            expect(color.equals(copyColorWithDifferentAlpha())).toEqual(false);
         });
+
+        /**
+         * @returns {Color}
+         */
+        function copyColorWithDifferentAlpha() {
+            var newColor = color.copy();
+            var newAlpha = (newColor.getAlpha() + 0.9) % 1;
+            newColor.setAlpha(newAlpha);
+
+            return newColor;
+        }
 
         it('can be copied', function() {
             expect(color.equals(color.copy())).toEqual(true);
         });
 
         it('instantiates from HEX string', function() {
-            var sameColor = Color.createFromHexString('#007FFF');
-            sameColor.setAlpha(0.8);
-
-            expect(color.equals(sameColor)).toEqual(true);
+            expect(color.equals(createTestColorFromHexString())).toEqual(true);
         });
+
+        /**
+         * @returns {Color}
+         */
+        function createTestColorFromHexString() {
+            var testColor = Color.createFromHexString('#007FFF');
+            testColor.setAlpha(0.8);
+
+            return testColor;
+        }
 
         it('instantiates from HSV', function() {
             expect(Color.createFromHsv(30, 0.8, 1).generateHexString()).toEqual('#FF9933');
