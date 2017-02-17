@@ -26,15 +26,17 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
             expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.8)');
         });
 
-        it('compares to other Color', function() {
+        it('is equal to a similar Color', function() {
             var sameColor = new Color(0, 127, 255);
             sameColor.setAlpha(0.8);
-            
             expect(color.equals(sameColor)).toEqual(true);
+        });
+
+        it('is not equal to a Color with a different color channel value', function() {
             expect(color.equals(new Color(0, 128, 255))).toEqual(false);
         });
 
-        it('is not equal to same color with different Alpha', function() {
+        it('is not equal to a Color with different Alpha value', function() {
             var colorWithDifferentAlpha = color.copy();
             colorWithDifferentAlpha.setAlpha(0.5);
             expect(color.equals(colorWithDifferentAlpha)).toEqual(false);
