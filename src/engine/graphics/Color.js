@@ -55,10 +55,7 @@ define([
          * @returns {Color}
          */
         Color.prototype.copy = function() {
-            var copy = new Color(this.getRed(), this.getGreen(), this.getBlue());
-            copy.setAlpha(this.getAlpha());
-
-            return copy;
+            return new Color(this.getRed(), this.getGreen(), this.getBlue(), this.getAlpha());
         };
 
         /**
