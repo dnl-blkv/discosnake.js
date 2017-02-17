@@ -9,7 +9,7 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
     describe('Color', function() {
         beforeEach(function() {
             color = new Color(0, 127, 255);
-            color.setAlpha(1);
+            color.setAlpha(0.8);
         });
 
         it('gets HEX values of channels', function() {
@@ -23,13 +23,15 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
         });
 
         it('generates RGBA string', function() {
-            color.setAlpha(0.4);
-            expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.4)');
+            expect(color.generateRgbaString()).toEqual('rgba(0, 127, 255, 0.8)');
         });
 
         it('compares to other Color', function() {
-            expect(color.equals(color.copy())).toEqual(true);
             expect(color.equals(new Color(0, 128, 255))).toEqual(false);
+        });
+
+        it('can be copied', function() {
+            expect(color.equals(color.copy())).toEqual(true);
         });
 
         it('is not equal to same color with different Alpha', function() {
@@ -39,7 +41,10 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
         });
 
         it('instantiates from HEX string', function() {
-            expect(color.equals(Color.createFromHexString('#007FFF'))).toEqual(true);
+            var sameColor = Color.createFromHexString('#007FFF');
+            sameColor.setAlpha(0.8);
+
+            expect(color.equals(sameColor)).toEqual(true);
         });
 
         it('instantiates from HSV', function() {

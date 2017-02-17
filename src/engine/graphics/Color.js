@@ -52,7 +52,10 @@ define([
          * @returns {Color}
          */
         Color.prototype.copy = function() {
-            return new Color(this.getRed(), this.getGreen(), this.getBlue());
+            var copy = new Color(this.getRed(), this.getGreen(), this.getBlue());
+            copy.setAlpha(this.getAlpha());
+
+            return copy;
         };
 
         /**
