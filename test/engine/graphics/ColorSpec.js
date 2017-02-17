@@ -34,15 +34,14 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
             expect(color.equals(new Color(0, 128, 255))).toEqual(false);
         });
 
-        it('can be copied', function() {
-
-            expect(color.equals(color.copy())).toEqual(true);
-        });
-
         it('is not equal to same color with different Alpha', function() {
             var colorWithDifferentAlpha = color.copy();
             colorWithDifferentAlpha.setAlpha(0.5);
             expect(color.equals(colorWithDifferentAlpha)).toEqual(false);
+        });
+
+        it('can be copied', function() {
+            expect(color.equals(color.copy())).toEqual(true);
         });
 
         it('instantiates from HEX string', function() {
