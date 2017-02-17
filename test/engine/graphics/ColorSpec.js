@@ -1,4 +1,4 @@
-define(['../../../src/engine/graphics/Color'], function(Color) {
+define(['engine/graphics/Color'], function(Color) {
     'use strict';
 
     /**
