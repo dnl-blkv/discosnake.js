@@ -27,10 +27,15 @@ define(['../../../src/engine/graphics/Color'], function(Color) {
         });
 
         it('compares to other Color', function() {
+            var sameColor = new Color(0, 127, 255);
+            sameColor.setAlpha(0.8);
+            
+            expect(color.equals(sameColor)).toEqual(true);
             expect(color.equals(new Color(0, 128, 255))).toEqual(false);
         });
 
         it('can be copied', function() {
+
             expect(color.equals(color.copy())).toEqual(true);
         });
 
