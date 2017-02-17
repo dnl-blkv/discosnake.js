@@ -7,13 +7,16 @@ define([
         'use strict';
 
         /**
-         * @param {number} red      Channel value in range [0, 255]
-         * @param {number} green    Channel value in range [0, 255]
-         * @param {number} blue     Channel value in range [0, 255]
+         * @param {number} red          Channel value in range [0, 255]
+         * @param {number} green        Channel value in range [0, 255]
+         * @param {number} blue         Channel value in range [0, 255]
+         * @param {number} [alpha=1]    Alpha value in range   [0, 1]
          *
          * @constructor
          */
-        function Color(red, green, blue) {
+        function Color(red, green, blue, alpha) {
+            alpha = alpha || 1;
+
             /**
              * @type {number}
              */
@@ -32,7 +35,7 @@ define([
             /**
              * @type {number}   Alpha value in range [0, 1]
              */
-            this.alpha = 1;
+            this.alpha = alpha;
         }
 
         /**
@@ -221,7 +224,7 @@ define([
         /**
          *
          * @param {Color} mixinColor
-         * @param {number} baseToResultRatio    [0, 1]
+         * @param {number} [baseToResultRatio=0.5]    [0, 1]
          *
          * @returns {Color}
          */

@@ -15,10 +15,7 @@ define(['engine/graphics/Color'], function(Color) {
          * @returns {Color}
          */
         function createTestColor() {
-            var testColor = new Color(0, 127, 255);
-            testColor.setAlpha(0.8);
-
-            return testColor;
+            return new Color(0, 127, 255, 0.8);
         }
 
         it('Can get HEX values of channels', function() {
