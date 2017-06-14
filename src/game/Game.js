@@ -36,18 +36,29 @@ define([
     ) {
         'use strict';
 
+        /**
+         * Animation methods.
+         */
         var cancelAnimationFrame = AnimationUtils.cancelAnimationFrame;
         var requestAnimationFrame = AnimationUtils.requestAnimationFrame;
 
         /**
+         * @const SNAKE_LENGTH_DEFAULT
          * @type {number}
          */
         var SNAKE_LENGTH_DEFAULT = 4;
 
         /**
+         * @const SILENT_MODE
          * @type {boolean}
          */
-        var SILENT_MODE = true;
+        var SILENT_MODE = false;
+
+        /**
+         * @const AUDIO_SOURCE
+         * @type {string}
+         */
+        var AUDIO_SOURCE = 'assets/audio/scooter-last-minute.mp3';
 
         /**
          * @param {number} cellSize
@@ -70,12 +81,7 @@ define([
             this.lastRequestId = 0;
             this.scoreBoard = new ScoreBoard();
 
-            this.audio = new Audio('assets/audio/scooter-last-minute.mp3');
-            var game = this;
-            this.audio.addEventListener('ended', function() {
-                resetAudio(game);
-                game.audio.play();
-            }, false);
+            this.audio = createAudio(this);
 
             var width = cellsWidth * cellSize + 1;
             var height = cellsHeight * cellSize + 1;
@@ -102,6 +108,20 @@ define([
             this.manipulator.setControls(menuControls);
 
             reset(this);
+        }
+
+        /**
+         * @param {Game} game
+         * @returns {Audio}
+         */
+        function createAudio(game) {
+            var audio = new Audio(AUDIO_SOURCE);
+            audio.addEventListener('ended', function() {
+                resetAudio(game);
+                game.audio.play();
+            }, false);
+
+            return audio;
         }
 
         function updateThen(game) {
